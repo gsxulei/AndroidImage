@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity
 
 		javaCompressToJEPG(path,f1.getAbsolutePath());
 		javaCompressToWEBP(path,f2.getAbsolutePath());
-		jniCompressToJEPG(path,f3.getAbsolutePath());
+		//jniCompressToJEPG(path,f3.getAbsolutePath());
 		System.out.println(file.getAbsolutePath());
 		System.out.println("原始文件大小->"+Formatter.formatFileSize(this,file.length()));
 		System.out.println("纯Java压缩JPG->"+Formatter.formatFileSize(this,f1.length()));
 		System.out.println("纯Java压缩WEBP->"+Formatter.formatFileSize(this,f2.length()));
-		System.out.println("jni压缩JPG->"+Formatter.formatFileSize(this,f3.length()));
+		//System.out.println("jni压缩JPG->"+Formatter.formatFileSize(this,f3.length()));
 	}
 
 	public void javaCompressToJEPG(String path,String to)
