@@ -7,6 +7,9 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.x62.utils.CrashHandler;
+import com.x62.utils.PathUtils;
+
 /**
  * Created by GSXL on 2018-05-05.
  */
@@ -17,6 +20,10 @@ public class AndroidApplication extends Application
 	public void onCreate()
 	{
 		super.onCreate();
+
+		//崩溃处理初始化
+		CrashHandler.getInstance().init(this,PathUtils.getCrashPath());
+
 		setDpi(this);
 	}
 
