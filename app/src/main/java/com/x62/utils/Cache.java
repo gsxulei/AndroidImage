@@ -40,19 +40,19 @@ public class Cache
 		}
 		else if(value.getClass()==int.class)
 		{
-			editor.putInt(key,(int)value);
+			editor.putInt(key,(Integer)value);
 		}
 		else if(value.getClass()==long.class)
 		{
-			editor.putLong(key,(long)value);
+			editor.putLong(key,(Long)value);
 		}
 		else if(value.getClass()==float.class)
 		{
-			editor.putFloat(key,(float)value);
+			editor.putFloat(key,(Float)value);
 		}
 		else if(value.getClass()==boolean.class)
 		{
-			editor.putBoolean(key,(boolean)value);
+			editor.putBoolean(key,(Boolean)value);
 		}
 		editor.commit();
 	}

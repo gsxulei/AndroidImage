@@ -1,4 +1,4 @@
-package com.x62.bean;
+package com.x62.base;
 
 public class BaseBean
 {

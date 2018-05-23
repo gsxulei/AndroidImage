@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.x62.commons.ImageCompressor;
+import com.x62.pick.PhotoPickActivity;
 
 import net.bither.util.NativeUtil;
 
@@ -34,28 +35,28 @@ public class MainActivity extends AppCompatActivity
 		etQuality=(EditText)findViewById(R.id.etQuality);
 	}
 
-//	public void compressImage(View view)
-//	{
-//		Intent intent=new Intent(Intent.ACTION_PICK,null);
-//		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
-//		startActivityForResult(intent,ALBUM_OK);
-//	}
+	//	public void compressImage(View view)
+	//	{
+	//		Intent intent=new Intent(Intent.ACTION_PICK,null);
+	//		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+	//		startActivityForResult(intent,ALBUM_OK);
+	//	}
 
-//	@Override
-//	protected void onActivityResult(int requestCode,int resultCode,Intent data)
-//	{
-//		super.onActivityResult(requestCode,resultCode,data);
-//		if(requestCode==ALBUM_OK&&resultCode==Activity.RESULT_OK)
-//		{
-//			String[] filePathColumn={MediaStore.Images.Media.DATA};
-//			Cursor cursor=getContentResolver().query(data.getData(),filePathColumn,null,null,null);
-//			//MediaStore.Images.Media.getBitmap(getContentResolver(),data.getData());
-//			cursor.moveToFirst();
-//			int columnIndex=cursor.getColumnIndex(filePathColumn[0]);
-//			String picturePath=cursor.getString(columnIndex);
-//			cursor.close();
-//		}
-//	}
+	//	@Override
+	//	protected void onActivityResult(int requestCode,int resultCode,Intent data)
+	//	{
+	//		super.onActivityResult(requestCode,resultCode,data);
+	//		if(requestCode==ALBUM_OK&&resultCode==Activity.RESULT_OK)
+	//		{
+	//			String[] filePathColumn={MediaStore.Images.Media.DATA};
+	//			Cursor cursor=getContentResolver().query(data.getData(),filePathColumn,null,null,null);
+	//			//MediaStore.Images.Media.getBitmap(getContentResolver(),data.getData());
+	//			cursor.moveToFirst();
+	//			int columnIndex=cursor.getColumnIndex(filePathColumn[0]);
+	//			String picturePath=cursor.getString(columnIndex);
+	//			cursor.close();
+	//		}
+	//	}
 
 	@Override
 	protected void onActivityResult(int requestCode,int resultCode,Intent data)
@@ -63,8 +64,7 @@ public class MainActivity extends AppCompatActivity
 		super.onActivityResult(requestCode,resultCode,data);
 		if(requestCode==ALBUM_OK&&resultCode==Activity.RESULT_OK)
 		{
-			String[] filePathColumn=
-					{MediaStore.Images.Media.DATA};
+			String[] filePathColumn={MediaStore.Images.Media.DATA};
 			Cursor cursor=getContentResolver().query(data.getData(),filePathColumn,null,null,null);
 			// MediaStore.Images.Media.getBitmap(getContentResolver(),data.getData());
 			cursor.moveToFirst();
@@ -82,8 +82,11 @@ public class MainActivity extends AppCompatActivity
 		{
 			quality=Integer.parseInt(value);
 		}
-		Intent intent=new Intent(Intent.ACTION_PICK,null);
-		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+		//		Intent intent=new Intent(Intent.ACTION_PICK,null);
+		//		intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+		//		startActivityForResult(intent,ALBUM_OK);
+
+		Intent intent=new Intent(this,PhotoPickActivity.class);
 		startActivityForResult(intent,ALBUM_OK);
 	}
 

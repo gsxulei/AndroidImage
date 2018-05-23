@@ -1,4 +1,4 @@
-package com.x62.image;
+package com.x62.pick;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.widget.GridView;
 
+import com.x62.app.base.ResUtils;
 import com.x62.bean.PhotoAlbumBean;
+import com.x62.image.R;
+import com.x62.utils.ViewBind;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,12 +27,26 @@ public class PhotoPickActivity extends AppCompatActivity
 {
 	private List<PhotoAlbumBean> list=new ArrayList<>();
 
+	//	@ViewBind.Bind(id=R.id.rvPhoto)
+	//	private RecyclerView rvPhoto;
+
+	@ViewBind.Bind(id=R.id.gvPhoto)
+	private GridView gvPhoto;
+
+	private PhotoListAdapter photoListAdapter;
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_photo_pick);
+		ViewBind.bind(this);
 
 		initData();
+
+		photoListAdapter=new PhotoListAdapter(this);
+		photoListAdapter.setData(list.get(0).photos);
+		gvPhoto.setAdapter(photoListAdapter);
 	}
 
 	private void initData()
@@ -46,9 +65,9 @@ public class PhotoPickActivity extends AppCompatActivity
 		}
 
 		PhotoAlbumBean all=new PhotoAlbumBean();
-		all.name="";
-
+		all.name=ResUtils.getString(R.string.all_photo);
 		list.add(all);
+		list.contains(all);
 
 		Map<String,PhotoAlbumBean> map=new HashMap<>();
 		while(mCursor.moveToNext())
@@ -59,23 +78,9 @@ public class PhotoPickActivity extends AppCompatActivity
 			//获取该图片的父路径名
 			//String parentName=new File(path).getParentFile().getName();
 			File parent=new File(path).getParentFile();
-			String parentPath=parent.getName();
+			String parentPath=parent.getAbsolutePath();
 
 			all.photos.add(path);
-
-
-			//根据父路径名将图片放入到mGruopMap中
-			//			if(!map.containsKey(parentPath))
-			//			{
-			//				PhotoAlbumBean bean=new PhotoAlbumBean();
-			//				bean.name=parent.getName();
-			//				bean.photos.add(parent.getAbsolutePath());
-			//				list.add(bean);
-			//			}
-			//			else
-			//			{
-			//				map.get(parentPath).photos.add(parent.getAbsolutePath());
-			//			}
 
 			PhotoAlbumBean bean=map.get(parentPath);
 			if(bean==null)
