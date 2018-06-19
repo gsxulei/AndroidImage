@@ -1,6 +1,7 @@
 package com.x62.pick;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,10 +9,13 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.x62.app.base.ResUtils;
 import com.x62.bean.PhotoAlbumBean;
+import com.x62.image.ImagePreviewActivity;
 import com.x62.image.R;
 import com.x62.utils.ViewBind;
 
@@ -47,6 +51,19 @@ public class PhotoPickActivity extends AppCompatActivity
 		photoListAdapter=new PhotoListAdapter(this);
 		photoListAdapter.setData(list.get(0).photos);
 		gvPhoto.setAdapter(photoListAdapter);
+
+		gvPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent,View view,int position,long id)
+			{
+				String path=photoListAdapter.getItem(position);
+
+				Intent intent=new Intent(getApplication(),ImagePreviewActivity.class);
+				intent.putExtra("path",path);
+				startActivity(intent);
+			}
+		});
 	}
 
 	private void initData()

@@ -18,10 +18,12 @@ public abstract class BaseListAdapter<T> extends BaseAdapter
 {
 	protected ArrayList<T> data=new ArrayList<>();
 	protected Context context;
+	private LayoutInflater mLayoutInflater;
 
 	public BaseListAdapter(Context context)
 	{
 		this.context=context;
+		mLayoutInflater=LayoutInflater.from(context);
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter
 	{
 		if(convertView==null)
 		{
-			convertView=LayoutInflater.from(context).inflate(getLayout(),parent,false);
+			convertView=mLayoutInflater.inflate(getLayout(),parent,false);
 		}
 		onBindView(convertView,position);
 		return convertView;
@@ -42,9 +44,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter
 	}
 
 	@Override
-	public Object getItem(int position)
+	public T getItem(int position)
 	{
-		return null;
+		return data.get(position);
 	}
 
 	@Override

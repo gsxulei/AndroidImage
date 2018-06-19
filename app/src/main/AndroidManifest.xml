@@ -25,6 +25,10 @@
 		<activity
 			android:name="com.x62.pick.PhotoPickActivity"
 			android:screenOrientation="portrait"/>
+
+		<activity
+			android:name="com.x62.image.ImagePreviewActivity"
+			android:screenOrientation="portrait"/>
 	</application>
 
 </manifest>
