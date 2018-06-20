@@ -6,7 +6,6 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.x62.image.R;
@@ -80,11 +79,8 @@ public class ImageLoaderWrapper
 		}
 		reqOptions.error(options.error);
 
-		RequestBuilder builder=manager.load(options.file);
-		builder.apply(reqOptions);
-		builder.into(options.iv);
+		manager.load(options.file).apply(reqOptions).into(options.iv);
 
-		//manager.load(options.file).placeholder(options.placeholder).centerCrop().error(options.error).into(options
-		// .iv);
+		//manager.load(options.file).placeholder(options.placeholder).centerCrop().error(options.error).into(options.iv);
 	}
 }

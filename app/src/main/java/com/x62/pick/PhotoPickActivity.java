@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import com.x62.app.base.ResUtils;
+import com.x62.base.BaseRecyclerViewAdapter;
 import com.x62.bean.PhotoAlbumBean;
 import com.x62.image.ImagePreviewActivity;
 import com.x62.image.R;
@@ -31,11 +31,11 @@ public class PhotoPickActivity extends AppCompatActivity
 {
 	private List<PhotoAlbumBean> list=new ArrayList<>();
 
-	//	@ViewBind.Bind(id=R.id.rvPhoto)
-	//	private RecyclerView rvPhoto;
+	@ViewBind.Bind(id=R.id.rvPhoto)
+	private RecyclerView rvPhoto;
 
-	@ViewBind.Bind(id=R.id.gvPhoto)
-	private GridView gvPhoto;
+	//	@ViewBind.Bind(id=R.id.gvPhoto)
+	//	private GridView gvPhoto;
 
 	private PhotoListAdapter photoListAdapter;
 
@@ -50,20 +50,36 @@ public class PhotoPickActivity extends AppCompatActivity
 
 		photoListAdapter=new PhotoListAdapter(this);
 		photoListAdapter.setData(list.get(0).photos);
-		gvPhoto.setAdapter(photoListAdapter);
 
-		gvPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		GridLayoutManager manager=new GridLayoutManager(this,4);
+		rvPhoto.setLayoutManager(manager);
+		rvPhoto.setAdapter(photoListAdapter);
+		photoListAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<String>()
 		{
 			@Override
-			public void onItemClick(AdapterView<?> parent,View view,int position,long id)
+			public void onItemClick(View view,int position,String path)
 			{
-				String path=photoListAdapter.getItem(position);
-
 				Intent intent=new Intent(getApplication(),ImagePreviewActivity.class);
 				intent.putExtra("path",path);
 				startActivity(intent);
 			}
 		});
+
+		//rvPhoto.setAdapter();
+		//		gvPhoto.setAdapter(photoListAdapter);
+		//
+		//		gvPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		//		{
+		//			@Override
+		//			public void onItemClick(AdapterView<?> parent,View view,int position,long id)
+		//			{
+		//				String path=photoListAdapter.getItem(position);
+		//
+		//				Intent intent=new Intent(getApplication(),ImagePreviewActivity.class);
+		//				intent.putExtra("path",path);
+		//				startActivity(intent);
+		//			}
+		//		});
 	}
 
 	private void initData()
@@ -84,13 +100,18 @@ public class PhotoPickActivity extends AppCompatActivity
 		PhotoAlbumBean all=new PhotoAlbumBean();
 		all.name=ResUtils.getString(R.string.all_photo);
 		list.add(all);
-		list.contains(all);
+		//list.contains(all);
 
 		Map<String,PhotoAlbumBean> map=new HashMap<>();
 		while(mCursor.moveToNext())
 		{
 			//获取图片的路径
 			String path=mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATA));
+
+			if(!new File(path).exists())
+			{
+				continue;
+			}
 
 			//获取该图片的父路径名
 			//String parentName=new File(path).getParentFile().getName();
@@ -109,6 +130,7 @@ public class PhotoPickActivity extends AppCompatActivity
 			}
 			bean.photos.add(parent.getAbsolutePath());
 		}
+		mCursor.close();
 
 		Collections.sort(list,new Comparator<PhotoAlbumBean>()
 		{

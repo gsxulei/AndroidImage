@@ -11,18 +11,18 @@
 
 	</LinearLayout>
 
-	<!--<android.support.v7.widget.RecyclerView
+	<android.support.v7.widget.RecyclerView
 		android:id="@+id/rvPhoto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_weight="2"/>-->
+		android:layout_weight="2"/>
 
-	<GridView
+	<!--<GridView
 		android:id="@+id/gvPhoto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_weight="2"
-		android:numColumns="4"/>
+		android:numColumns="4"/>-->
 
 	<LinearLayout
 		android:layout_width="match_parent"

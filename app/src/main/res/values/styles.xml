@@ -9,4 +9,9 @@
 		<item name="colorAccent">@color/colorAccent</item>
 	</style>
 
+	<style name="FullScreen" parent="AppTheme">
+		<!--这两句要一起用,不然会报错-->
+		<item name="windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
+	</style>
 </resources>

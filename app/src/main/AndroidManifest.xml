@@ -28,7 +28,8 @@
 
 		<activity
 			android:name="com.x62.image.ImagePreviewActivity"
-			android:screenOrientation="portrait"/>
+			android:screenOrientation="portrait"
+			android:theme="@style/FullScreen"/>
 	</application>
 
 </manifest>
