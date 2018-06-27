@@ -6,11 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 
 import com.x62.app.base.ResUtils;
-import com.x62.base.BaseListAdapter;
 import com.x62.base.BaseRecyclerViewAdapter;
 import com.x62.base.ImageLoaderWrapper;
 import com.x62.image.R;
@@ -45,8 +43,8 @@ public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAd
 		super.onBindViewHolder(holder,position);
 
 		holder.itemView.setLayoutParams(new FrameLayout.LayoutParams(width,width));
-		ImageLoaderWrapper.Options options=new ImageLoaderWrapper.Options();
-		options.activity=(Activity)context;
+		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options();
+		options.obj=(Activity)context;
 		options.file=new File(data.get(position));
 		options.iv=holder.ivPhotoItem;
 		ImageLoaderWrapper.load(options);

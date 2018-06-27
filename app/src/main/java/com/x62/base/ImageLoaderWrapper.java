@@ -20,12 +20,9 @@ public class ImageLoaderWrapper
 	/**
 	 * 参数选项
 	 */
-	public static class Options
+	public static class Options<T>
 	{
-		public Activity activity;
-		public Fragment fragment;
-		public android.support.v4.app.Fragment v4Fragment;
-		public Context context;
+		public T obj;
 		public File file;
 		public ImageView iv;
 		public int placeholder=R.mipmap.ic_launcher;
@@ -46,21 +43,21 @@ public class ImageLoaderWrapper
 	private static void glideLoad(Options options)
 	{
 		RequestManager manager=null;
-		if(options.activity!=null)
+		if(options.obj instanceof Activity)
 		{
-			manager=Glide.with(options.activity);
+			manager=Glide.with((Activity)options.obj);
 		}
-		else if(options.fragment!=null)
+		else if(options.obj instanceof Fragment)
 		{
-			manager=Glide.with(options.fragment);
+			manager=Glide.with((Fragment)options.obj);
 		}
-		else if(options.v4Fragment!=null)
+		else if(options.obj instanceof android.support.v4.app.Fragment)
 		{
-			manager=Glide.with(options.v4Fragment);
+			manager=Glide.with((android.support.v4.app.Fragment)options.obj);
 		}
-		else if(options.context!=null)
+		else if(options.obj instanceof Context)
 		{
-			manager=Glide.with(options.context);
+			manager=Glide.with((Context)options.obj);
 		}
 
 		if(manager==null)

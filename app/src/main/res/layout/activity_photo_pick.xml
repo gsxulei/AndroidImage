@@ -11,11 +11,19 @@
 
 	</LinearLayout>
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/rvPhoto"
+	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_weight="2"/>
+		android:layout_weight="2">
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/rvPhoto"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			/>
+
+	</FrameLayout>
+
 
 	<!--<GridView
 		android:id="@+id/gvPhoto"
@@ -27,6 +35,16 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="48dp">
+
+		<TextView
+			android:id="@+id/tvAllPhoto"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:text="@string/all_photo"
+			android:textSize="15sp"/>
 
 	</LinearLayout>
 </LinearLayout>

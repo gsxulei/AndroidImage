@@ -4,9 +4,11 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +36,7 @@ public class PhotoPickActivity extends AppCompatActivity
 	@ViewBind.Bind(id=R.id.rvPhoto)
 	private RecyclerView rvPhoto;
 
+	//GridView会多次调用getView[position==0]方法,导致glide加载有问题
 	//	@ViewBind.Bind(id=R.id.gvPhoto)
 	//	private GridView gvPhoto;
 
@@ -61,7 +64,24 @@ public class PhotoPickActivity extends AppCompatActivity
 			{
 				Intent intent=new Intent(getApplication(),ImagePreviewActivity.class);
 				intent.putExtra("path",path);
+				intent.putExtra("width",view.getWidth());
+				intent.putExtra("height",view.getHeight());
+				int[] location=new int[2];
+				//view.getLocationOnScreen(location);
+				view.getLocationInWindow(location);
+				intent.putExtra("x",location[0]);
+				intent.putExtra("y",location[1]);
+
+				//				if(Build.VERSION.SDK_INT>21)
+				//				{
+				//					ActivityOptionsCompat options=ActivityOptionsCompat.makeScaleUpAnimation(view,
+				// location[0],
+				//							location[1],view.getWidth(),view.getHeight());
+				//					startActivity(intent,options.toBundle());
+				//					return;
+				//				}
 				startActivity(intent);
+				overridePendingTransition(0, 0);
 			}
 		});
 

@@ -21,12 +21,6 @@ public abstract class BaseRecyclerViewAdapter<T,HV extends RecyclerView.ViewHold
 		mLayoutInflater=LayoutInflater.from(context);
 	}
 
-	@Override
-	public long getItemId(int position)
-	{
-		return 0;
-	}
-
 	public void clear()
 	{
 		data.clear();

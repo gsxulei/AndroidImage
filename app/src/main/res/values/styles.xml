@@ -7,11 +7,49 @@
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
+
+		<!--<item name="android:windowAnimationStyle">@style/Animation</item>-->
 	</style>
 
 	<style name="FullScreen" parent="AppTheme">
 		<!--这两句要一起用,不然会报错-->
 		<item name="windowNoTitle">true</item>
 		<item name="windowActionBar">false</item>
+
+		<!-- 隐藏状态栏 -->
+		<!--<item name="android:windowFullscreen">true</item>-->
+	</style>
+
+	<style name="PreviewFullScreen" parent="FullScreen">
+		<item name="android:windowBackground">@android:color/transparent</item>
+		<item name="android:windowIsTranslucent">true</item>
+
+		<item name="android:activityOpenEnterAnimation">@null</item>
+		<item name="android:activityOpenExitAnimation">@null</item>
+		<item name="android:activityCloseEnterAnimation">@null</item>
+		<item name="android:activityCloseExitAnimation">@null</item>
+		<item name="android:taskOpenEnterAnimation">@null</item>
+		<item name="android:taskOpenExitAnimation">@null</item>
+		<item name="android:taskCloseEnterAnimation">@null</item>
+		<item name="android:taskCloseExitAnimation">@null</item>
+		<item name="android:taskToFrontEnterAnimation">@null</item>
+		<item name="android:taskToFrontExitAnimation">@null</item>
+		<item name="android:taskToBackEnterAnimation">@null</item>
+		<item name="android:taskToBackExitAnimation">@null</item>
+	</style>
+
+	<style name="Animation">
+		<item name="android:activityOpenEnterAnimation">@null</item>
+		<item name="android:activityOpenExitAnimation">@null</item>
+		<item name="android:activityCloseEnterAnimation">@null</item>
+		<item name="android:activityCloseExitAnimation">@null</item>
+		<item name="android:taskOpenEnterAnimation">@null</item>
+		<item name="android:taskOpenExitAnimation">@null</item>
+		<item name="android:taskCloseEnterAnimation">@null</item>
+		<item name="android:taskCloseExitAnimation">@null</item>
+		<item name="android:taskToFrontEnterAnimation">@null</item>
+		<item name="android:taskToFrontExitAnimation">@null</item>
+		<item name="android:taskToBackEnterAnimation">@null</item>
+		<item name="android:taskToBackExitAnimation">@null</item>
 	</style>
 </resources>
