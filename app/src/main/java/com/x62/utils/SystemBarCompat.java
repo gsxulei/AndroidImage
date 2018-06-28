@@ -111,6 +111,8 @@ public class SystemBarCompat
 		int flags=WindowManager.LayoutParams.FLAG_FULLSCREEN;
 		int mask=flags;
 		window.setFlags(flags,mask);//设置全屏
+		//window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+		//window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 	}
 
 	/**
