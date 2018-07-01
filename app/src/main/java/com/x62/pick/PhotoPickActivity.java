@@ -17,6 +17,7 @@ import com.x62.base.BaseRecyclerViewAdapter;
 import com.x62.bean.PhotoAlbumBean;
 import com.x62.image.ImagePreviewActivity;
 import com.x62.image.R;
+import com.x62.utils.SystemBarCompat;
 import com.x62.utils.ViewBind;
 
 import java.io.File;
@@ -47,6 +48,7 @@ public class PhotoPickActivity extends AppCompatActivity
 		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 		setContentView(R.layout.activity_photo_pick);
+		SystemBarCompat.tint(this,ResUtils.getColor(R.color.colorPrimaryDark));
 		ViewBind.bind(this);
 
 		initData();

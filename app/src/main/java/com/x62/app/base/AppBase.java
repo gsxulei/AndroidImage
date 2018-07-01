@@ -3,17 +3,21 @@ package com.x62.app.base;
 import android.app.Application;
 import android.content.Context;
 
+import java.lang.reflect.Method;
+
 /**
- * 主要用于提供与具体APP无关的全局的Application、Context
- * 
+ * 主要用于提供无入侵的全局的Application、Context
+ *
  * @author 徐雷
- * 
  */
 public class AppBase
 {
 	private Context mCtx;
-	public Application app;
+	private Application app;
 
+	/**
+	 * 单例加载器
+	 */
 	private static class Loader
 	{
 		private static final AppBase INSTANCE=new AppBase();
@@ -40,8 +44,9 @@ public class AppBase
 			 * 可以直接使用ActivityThread.currentApplication()
 			 * 需要导包${sdk.dir}/platforms/android-xx/data/layoutlib.jar
 			 */
-			app=(Application)Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null,
-					(Object[])null);
+			Class clazz=Class.forName("android.app.ActivityThread");
+			Method currentApplication=clazz.getMethod("currentApplication");
+			app=(Application)currentApplication.invoke(null,(Object[])null);
 			mCtx=app;
 		}
 		catch(Exception e)
@@ -85,6 +90,11 @@ public class AppBase
 		{
 			return mCtx;
 		}
+		return app;
+	}
+
+	public Application getApplication()
+	{
 		return app;
 	}
 }
