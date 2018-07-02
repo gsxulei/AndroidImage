@@ -242,6 +242,8 @@ public class ImagePreviewActivity extends AppCompatActivity
 	@Override
 	public void finish()
 	{
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,WindowManager.LayoutParams
+				.FLAG_FORCE_NOT_FULLSCREEN);
 		flImage.setBackgroundColor(Color.TRANSPARENT);
 		ScaleAnimation scaleAnimation=new ScaleAnimation(1.0f,fromX,1.0f,fromY);
 		TranslateAnimation translateAnimation=new TranslateAnimation(0,x,0,y);
@@ -260,9 +262,6 @@ public class ImagePreviewActivity extends AppCompatActivity
 			@Override
 			public void onAnimationEnd(Animation animation)
 			{
-				getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,WindowManager.LayoutParams
-						.FLAG_FORCE_NOT_FULLSCREEN);
-
 				ImagePreviewActivity.super.finish();
 				overridePendingTransition(0,0);
 			}

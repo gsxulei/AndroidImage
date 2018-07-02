@@ -20,11 +20,22 @@ public class ResUtils
 		return res.getString(id);
 	}
 
+	/**
+	 * 获取屏幕宽度
+	 *
+	 * @return 屏幕宽度
+	 */
 	public static int getWidth()
 	{
 		return res.getDisplayMetrics().widthPixels;
 	}
 
+	/**
+	 * 根据ID获取颜色
+	 *
+	 * @param id 颜色ID
+	 * @return 颜色值
+	 */
 	public static int getColor(int id)
 	{
 		return res.getColor(id);
