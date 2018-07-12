@@ -12,7 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.x62.app.base.ResUtils;
+import com.x62.utils.ResUtils;
 import com.x62.base.BaseRecyclerViewAdapter;
 import com.x62.bean.PhotoAlbumBean;
 import com.x62.image.ImagePreviewActivity;

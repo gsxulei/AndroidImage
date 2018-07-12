@@ -131,7 +131,6 @@ public class SystemBarCompat
 	//			//           tintManager.setNavigationBarTintColor(color);
 	//		}
 	//	}
-
 	public static void fullscreen(Activity context)
 	{
 		Window window=context.getWindow();
@@ -212,4 +211,11 @@ public class SystemBarCompat
 			window.setNavigationBarColor(Color.TRANSPARENT);
 		}
 	}
+
+	//	public static void hideStatusBar(Activity activity)
+	//	{
+	//		Window window=activity.getWindow();
+	//		int visibility=View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+	//		window.getDecorView().setSystemUiVisibility(visibility);
+	//	}
 }

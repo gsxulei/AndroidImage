@@ -1,9 +1,12 @@
 package com.x62.utils;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -184,5 +187,37 @@ public class ScreenUtils
 			default:
 				return spValue*fontScale;
 		}
+	}
+
+	public void setDpi()
+	{
+		setDpi(360);
+	}
+
+	public void setDpi(float wDpi)
+	{
+		//float wDpi=360;
+		//Resources res=context.getResources();
+		//Resources res=Resources.getSystem();
+		Resources res=app.getContext().getResources();
+		DisplayMetrics dm=res.getDisplayMetrics();
+		Configuration conf=res.getConfiguration();
+		Log.e("xulei","初始densityDpi->"+conf.densityDpi);
+		Log.e("xulei","初始density->"+dm.density);
+		Log.e("xulei","初始widthPixels->"+dm.widthPixels);
+		Log.e("xulei","初始heightPixels->"+dm.heightPixels);
+		Log.e("xulei","初始screenWidthDp->"+conf.screenWidthDp);
+		Log.e("xulei","初始screenHeightDp->"+conf.screenHeightDp);
+		Log.e("xulei","-------------------------------");
+		float density=dm.widthPixels/wDpi;
+		int densityDpi=(int)(density*DisplayMetrics.DENSITY_DEFAULT);
+		if(densityDpi!=conf.densityDpi)
+		{
+			conf.densityDpi=densityDpi;
+			res.updateConfiguration(conf,dm);
+		}
+
+		Log.e("xulei","densityDpi->"+conf.densityDpi);
+		Log.e("xulei","density->"+dm.density);
 	}
 }
