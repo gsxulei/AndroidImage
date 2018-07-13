@@ -54,6 +54,29 @@ android
 		}
 	}
 
+	//自定义apk名称
+//	android.applicationVariants.all
+//	{
+//		variant->variant.outputs.all
+//		{
+//			outputFileName="app_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+//		}
+//	}
+
+	//编译完成后执行安装启动脚本
+	applicationVariants.all
+	{
+		variant->variant.assemble.doLast
+		{
+			exec
+			{
+				workingDir './install'
+				commandLine=['cmd','/c','install.bat',variant.buildType.name,variant.outputs[0].outputFile]
+			}
+		}
+	}
+
+
 //	sourceSets
 //	{
 //		main
