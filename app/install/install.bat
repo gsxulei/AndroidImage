@@ -10,7 +10,8 @@ echo apkName=%apkName%
 
 ::adb install -r %apkName%
 
-::if "%buildType%"=="debug" (
+if "%buildType%"=="debug" (
 ::adb install -r ..\build\outputs\apk\debug\app-debug.apk
-::adb shell am start -a -n com.x62.simple/.MainActivity
-::) else (echo "release type do not install")
+adb install -r %apkName%
+adb shell am start -a -n com.x62.simple/.MainActivity
+) else (echo "release type do not install")
