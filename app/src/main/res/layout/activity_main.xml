@@ -5,6 +5,35 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:background="@color/colorPrimary">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:text="返回"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:text="标题"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_alignParentRight="true"
+			android:gravity="center_vertical"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:text="更多"/>
+	</RelativeLayout>
+
 	<EditText
 		android:id="@+id/etQuality"
 		android:layout_width="match_parent"

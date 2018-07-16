@@ -15,6 +15,8 @@ import android.widget.EditText;
 
 import com.x62.commons.ImageCompressor;
 import com.x62.pick.PhotoPickActivity;
+import com.x62.utils.ResUtils;
+import com.x62.utils.SysBarUtils;
 
 import net.bither.util.NativeUtil;
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		SysBarUtils.statusBarTint(this,ResUtils.getColor(R.color.colorPrimary));
 		etQuality=(EditText)findViewById(R.id.etQuality);
 	}
 

@@ -13,5 +13,5 @@ echo apkName=%apkName%
 if "%buildType%"=="debug" (
 ::adb install -r ..\build\outputs\apk\debug\app-debug.apk
 adb install -r %apkName%
-adb shell am start -a -n com.x62.simple/.MainActivity
+adb shell am start -a -n com.x62.gsxulei.demo/com.x62.image.MainActivity
 ) else (echo "release type do not install")

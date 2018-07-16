@@ -42,4 +42,16 @@ public class ResUtils
 	{
 		return res.getColor(id);
 	}
+
+	public static int getStatusBarHeight()
+	{
+		int result=0;
+		//获取状态栏高度的资源id
+		int resourceId=res.getIdentifier("status_bar_height","dimen","android");
+		if(resourceId>0)
+		{
+			result=res.getDimensionPixelSize(resourceId);
+		}
+		return result;
+	}
 }
