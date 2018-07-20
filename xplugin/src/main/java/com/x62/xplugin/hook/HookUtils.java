@@ -29,6 +29,7 @@ public class HookUtils
 		Class<?> activityThreadClass=Class.forName("android.app.ActivityThread");
 		Method currentActivityThreadMethod=activityThreadClass.getDeclaredMethod("currentActivityThread");
 		currentActivityThreadMethod.setAccessible(true);
+
 		// currentActivityThread是一个static函数所以可以直接invoke，不需要带实例参数
 		Object currentActivityThread=currentActivityThreadMethod.invoke(null);
 

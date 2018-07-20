@@ -10,11 +10,16 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+
 import dalvik.system.DexClassLoader;
 
 public class Plugin
 {
 	public Class<?> pClass;
+
+	/**
+	 * 插件的启动Activity
+	 */
 	public String launchActivity;
 	public DexClassLoader loader;
 	public String packageName;

@@ -45,7 +45,7 @@ dependencies
 	implementation project(':commons')
 	//provided files(getLayoutLibPath())
 	//provided files("${SDK_DIR}/platforms/android-25/data/layoutlib.jar")
-	provided files("${android.getSdkDirectory().getAbsolutePath()}/platforms/android-25/data/layoutlib.jar")
+	provided files("${android.getSdkDirectory().getAbsolutePath()}/platforms/android-23/data/layoutlib.jar")
 }
 
 //def getLayoutLibPath()
