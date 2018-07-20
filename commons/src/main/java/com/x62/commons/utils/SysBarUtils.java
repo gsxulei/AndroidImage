@@ -1,4 +1,4 @@
-package com.x62.utils;
+package com.x62.commons.utils;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -13,6 +13,12 @@ import android.view.WindowManager;
  */
 public class SysBarUtils
 {
+	/**
+	 * 状态栏着色
+	 *
+	 * @param activity
+	 * @param color
+	 */
 	public static void statusBarTint(Activity activity,int color)
 	{
 		Window window=activity.getWindow();
@@ -22,6 +28,7 @@ public class SysBarUtils
 		}
 		else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
 		{
+			//android.R.id.content
 			ViewGroup content=(ViewGroup)window.getDecorView().findViewById(Window.ID_ANDROID_CONTENT);
 			content.getChildAt(0).setFitsSystemWindows(true);
 			View statusBarView=new View(activity);

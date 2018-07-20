@@ -1,8 +1,8 @@
-package com.x62.utils;
+package com.x62.commons.utils;
 
 import android.content.res.Resources;
 
-import com.x62.app.base.AppBase;
+import com.x62.commons.app.base.AppBase;
 
 /**
  * 资源工具类

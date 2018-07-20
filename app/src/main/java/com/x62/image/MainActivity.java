@@ -15,8 +15,8 @@ import android.widget.EditText;
 
 import com.x62.commons.ImageCompressor;
 import com.x62.pick.PhotoPickActivity;
-import com.x62.utils.ResUtils;
-import com.x62.utils.SysBarUtils;
+import com.x62.commons.utils.ResUtils;
+import com.x62.commons.utils.SysBarUtils;
 
 import net.bither.util.NativeUtil;
 

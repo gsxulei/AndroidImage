@@ -1,6 +1,6 @@
-package com.x62.utils;
+package com.x62.commons.utils;
 
-import com.x62.app.base.AppBase;
+import com.x62.commons.app.base.AppBase;
 
 import android.content.Context;
 import android.content.SharedPreferences;

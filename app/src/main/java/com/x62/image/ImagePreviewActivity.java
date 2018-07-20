@@ -27,9 +27,9 @@ import android.widget.LinearLayout;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.x62.base.ImageLoaderWrapper;
-import com.x62.utils.ScreenUtils;
-import com.x62.utils.SystemBarCompat;
-import com.x62.utils.ViewBind;
+import com.x62.commons.utils.ScreenUtils;
+import com.x62.commons.utils.SystemBarCompat;
+import com.x62.commons.utils.ViewBind;
 
 import java.io.File;
 

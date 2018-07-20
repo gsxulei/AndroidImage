@@ -1,4 +1,4 @@
-package com.x62.utils;
+package com.x62.commons.utils;
 
 import android.app.Activity;
 import android.app.Fragment;

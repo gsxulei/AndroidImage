@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.x62.utils.ViewBind;
+import com.x62.commons.utils.ViewBind;
 
 public abstract class BaseFragment extends Fragment
 {

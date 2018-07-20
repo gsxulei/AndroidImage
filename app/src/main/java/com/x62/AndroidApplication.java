@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.x62.utils.CrashHandler;
 import com.x62.utils.PathUtils;
-import com.x62.utils.ScreenUtils;
+import com.x62.commons.utils.ScreenUtils;
 
 /**
  * Created by GSXL on 2018-05-05.

@@ -1,4 +1,4 @@
-package com.x62.utils;
+package com.x62.commons.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.x62.app.base.AppBase;
+import com.x62.commons.app.base.AppBase;
 
 /**
  * 获取屏幕信息工具类

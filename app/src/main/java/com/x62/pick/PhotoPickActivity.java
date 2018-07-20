@@ -12,13 +12,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.x62.utils.ResUtils;
+import com.x62.commons.utils.ResUtils;
 import com.x62.base.BaseRecyclerViewAdapter;
 import com.x62.bean.PhotoAlbumBean;
 import com.x62.image.ImagePreviewActivity;
 import com.x62.image.R;
-import com.x62.utils.SystemBarCompat;
-import com.x62.utils.ViewBind;
+import com.x62.commons.utils.SystemBarCompat;
+import com.x62.commons.utils.ViewBind;
 
 import java.io.File;
 import java.util.ArrayList;

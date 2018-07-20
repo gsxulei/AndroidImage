@@ -1,4 +1,4 @@
-package com.x62.app.base;
+package com.x62.commons.app.base;
 
 import android.app.Application;
 import android.content.Context;
