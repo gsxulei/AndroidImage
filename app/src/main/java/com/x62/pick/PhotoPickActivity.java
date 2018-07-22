@@ -13,7 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.x62.commons.utils.ResUtils;
-import com.x62.base.BaseRecyclerViewAdapter;
+import com.x62.commons.base.BaseRecyclerViewAdapter;
 import com.x62.bean.PhotoAlbumBean;
 import com.x62.image.ImagePreviewActivity;
 import com.x62.image.R;

@@ -1,4 +1,4 @@
-package com.x62.base;
+package com.x62.commons.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;

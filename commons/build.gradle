@@ -34,4 +34,6 @@ dependencies
 //	androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 	implementation var.appcompat
+	implementation var.glide
+	implementation var.recyclerview
 }

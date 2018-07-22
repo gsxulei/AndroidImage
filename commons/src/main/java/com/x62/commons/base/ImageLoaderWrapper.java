@@ -1,4 +1,4 @@
-package com.x62.base;
+package com.x62.commons.base;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.x62.image.R;
 
 import java.io.File;
 
@@ -17,6 +16,15 @@ import java.io.File;
  */
 public class ImageLoaderWrapper
 {
+	public static int defaultPlaceholder;
+	public static int defaultError;
+
+	public static void setDefault(int id)
+	{
+		defaultPlaceholder=id;
+		defaultError=id;
+	}
+
 	/**
 	 * 参数选项
 	 */
@@ -25,8 +33,8 @@ public class ImageLoaderWrapper
 		public T obj;
 		public File file;
 		public ImageView iv;
-		public int placeholder=R.mipmap.ic_launcher;
-		public int error=R.mipmap.ic_launcher;
+		public int placeholder=defaultPlaceholder;
+		public int error=defaultError;
 		public boolean isCenterCrop=true;
 	}
 
@@ -78,6 +86,7 @@ public class ImageLoaderWrapper
 
 		manager.load(options.file).apply(reqOptions).into(options.iv);
 
-		//manager.load(options.file).placeholder(options.placeholder).centerCrop().error(options.error).into(options.iv);
+		//manager.load(options.file).placeholder(options.placeholder).centerCrop().error(options.error).into(options
+		// .iv);
 	}
 }

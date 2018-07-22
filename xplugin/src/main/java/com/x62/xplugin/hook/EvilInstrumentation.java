@@ -55,8 +55,8 @@ public class EvilInstrumentation extends Instrumentation
 		}
 	}
 
-	public ActivityResult execStartActivity(Context who,IBinder contextThread,IBinder token,Activity target,
-			Intent intent,int requestCode,Bundle options)
+	public ActivityResult execStartActivity(Context who,IBinder contextThread,IBinder token,Activity target,Intent
+			intent,int requestCode,Bundle options)
 	{
 		System.err.println("--startActivity for 23--");
 		System.err.println("intent->"+intent.getComponent().getClassName());
@@ -70,8 +70,8 @@ public class EvilInstrumentation extends Instrumentation
 		// 由于这个方法是隐藏的,因此需要使用反射调用;首先找到这个方法
 		try
 		{
-			Method execStartActivity=Instrumentation.class.getDeclaredMethod("execStartActivity",Context.class,
-					IBinder.class,IBinder.class,Activity.class,Intent.class,int.class,Bundle.class);
+			Method execStartActivity=Instrumentation.class.getDeclaredMethod("execStartActivity",Context.class,IBinder
+					.class,IBinder.class,Activity.class,Intent.class,int.class,Bundle.class);
 			execStartActivity.setAccessible(true);
 			return (ActivityResult)execStartActivity.invoke(mBase,who,contextThread,token,target,intent,requestCode,
 					options);
@@ -86,7 +86,7 @@ public class EvilInstrumentation extends Instrumentation
 
 	/**
 	 * 15以下版本
-	 * 
+	 *
 	 * @param who
 	 * @param contextThread
 	 * @param token
@@ -95,8 +95,8 @@ public class EvilInstrumentation extends Instrumentation
 	 * @param requestCode
 	 * @return
 	 */
-	public ActivityResult execStartActivity(Context who,IBinder contextThread,IBinder token,Activity target,
-			Intent intent,int requestCode)
+	public ActivityResult execStartActivity(Context who,IBinder contextThread,IBinder token,Activity target,Intent
+			intent,int requestCode)
 	{
 		System.err.println("--startActivity for 15--");
 		System.err.println("intent->"+intent.getClass().getClassLoader());
@@ -114,8 +114,8 @@ public class EvilInstrumentation extends Instrumentation
 		// 由于这个方法是隐藏的,因此需要使用反射调用;首先找到这个方法
 		try
 		{
-			Method execStartActivity=Instrumentation.class.getDeclaredMethod("execStartActivity",Context.class,
-					IBinder.class,IBinder.class,Activity.class,Intent.class,int.class);
+			Method execStartActivity=Instrumentation.class.getDeclaredMethod("execStartActivity",Context.class,IBinder
+					.class,IBinder.class,Activity.class,Intent.class,int.class);
 			execStartActivity.setAccessible(true);
 			return (ActivityResult)execStartActivity.invoke(mBase,who,contextThread,token,target,intent,requestCode);
 		}
@@ -127,15 +127,15 @@ public class EvilInstrumentation extends Instrumentation
 		}
 	}
 
-	public ActivityResult execStartActivity(Context who,IBinder contextThread,IBinder token,Fragment target,
-			Intent intent,int requestCode)
+	public ActivityResult execStartActivity(Context who,IBinder contextThread,IBinder token,Fragment target,Intent
+			intent,int requestCode)
 	{
 		replaceActivity4Check(who,intent);
 
 		try
 		{
-			Method execStartActivity=Instrumentation.class.getDeclaredMethod("execStartActivity",Context.class,
-					IBinder.class,IBinder.class,Fragment.class,Intent.class,int.class);
+			Method execStartActivity=Instrumentation.class.getDeclaredMethod("execStartActivity",Context.class,IBinder
+					.class,IBinder.class,Fragment.class,Intent.class,int.class);
 			execStartActivity.setAccessible(true);
 			return (ActivityResult)execStartActivity.invoke(mBase,who,contextThread,token,target,intent,requestCode);
 		}
@@ -148,8 +148,8 @@ public class EvilInstrumentation extends Instrumentation
 	}
 
 	@Override
-	public Activity newActivity(ClassLoader cl,String className,
-			Intent intent) throws InstantiationException,IllegalAccessException,ClassNotFoundException
+	public Activity newActivity(ClassLoader cl,String className,Intent intent) throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException
 	{
 		System.err.println("--newActivity--");
 
@@ -189,7 +189,7 @@ public class EvilInstrumentation extends Instrumentation
 				/**
 				 * SDK>16时
 				 * getResources()方法在Activity的父类(ContextThemeWrapper)中被重写了
-				 * 
+				 *
 				 */
 				int SDK=Build.VERSION.SDK_INT;
 				if(SDK<=16)
@@ -221,7 +221,7 @@ public class EvilInstrumentation extends Instrumentation
 				mTheme.set(activity,theme);
 				// activity.setTheme(resid);
 				// activity.getApplication().setTheme(plugin.themeResource);
-				
+
 
 				// System.err.println("callActivityOnCreate->"+activity.getResources());
 				// System.err.println("activity.getTheme()->"+activity.getTheme());

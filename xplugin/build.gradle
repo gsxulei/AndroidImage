@@ -43,9 +43,13 @@ dependencies
 
 	implementation var.appcompat
 	implementation project(':commons')
+
+	//provided已过时
 	//provided files(getLayoutLibPath())
 	//provided files("${SDK_DIR}/platforms/android-25/data/layoutlib.jar")
-	provided files("${android.getSdkDirectory().getAbsolutePath()}/platforms/android-23/data/layoutlib.jar")
+	//provided files("${android.getSdkDirectory().getAbsolutePath()}/platforms/android-23/data/layoutlib.jar")
+
+	compileOnly files("${android.getSdkDirectory().getAbsolutePath()}/platforms/android-23/data/layoutlib.jar")
 }
 
 //def getLayoutLibPath()

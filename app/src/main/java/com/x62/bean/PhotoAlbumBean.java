@@ -1,6 +1,6 @@
 package com.x62.bean;
 
-import com.x62.base.BaseBean;
+import com.x62.commons.base.BaseBean;
 
 import java.util.ArrayList;
 import java.util.List;

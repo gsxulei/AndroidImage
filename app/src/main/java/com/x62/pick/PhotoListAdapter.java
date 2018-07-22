@@ -9,8 +9,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.x62.commons.utils.ResUtils;
-import com.x62.base.BaseRecyclerViewAdapter;
-import com.x62.base.ImageLoaderWrapper;
+import com.x62.commons.base.BaseRecyclerViewAdapter;
+import com.x62.commons.base.ImageLoaderWrapper;
 import com.x62.image.R;
 
 import java.io.File;
