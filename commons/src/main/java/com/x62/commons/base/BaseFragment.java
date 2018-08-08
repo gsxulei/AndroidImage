@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.x62.commons.annotations.LayoutBind;
 import com.x62.commons.utils.ViewBind;
 
 public abstract class BaseFragment extends Fragment
@@ -65,7 +66,16 @@ public abstract class BaseFragment extends Fragment
 		isFirstLoad=false;
 	}
 
-	protected abstract int getLayoutId();
+	private int getLayoutId()
+	{
+		int layoutId=0;
+		LayoutBind layoutBind=getClass().getAnnotation(LayoutBind.class);
+		if(layoutBind!=null)
+		{
+			layoutId=layoutBind.id();
+		}
+		return layoutId;
+	}
 
 	protected abstract void initView(View rootView);
 

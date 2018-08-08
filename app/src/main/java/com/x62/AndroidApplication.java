@@ -27,4 +27,45 @@ public class AndroidApplication extends Application
 
 		ImageLoaderWrapper.setDefault(R.mipmap.ic_launcher);
 	}
+
+
+	@Override
+	public String getPackageName()
+	{
+		StackTraceElement[] stacks=Thread.currentThread().getStackTrace();
+		boolean flag=false;
+		for(StackTraceElement stack : stacks)
+		{
+			if(isNeedHandle(stack.toString()))
+			{
+				flag=true;
+			}
+		}
+
+		if(flag)
+		{
+			return "xxx.xxx.xxx";
+		}
+
+		//		Exception ex=new Exception("");
+		//		stacks=ex.getStackTrace();
+		//		for(StackTraceElement stack:stacks)
+		//		{
+		//			System.err.println(stack);
+		//		}
+		return super.getPackageName();
+	}
+
+	/**
+	 * 是否需要处理
+	 *
+	 * @param methodName 方法名
+	 * @return
+	 */
+	private boolean isNeedHandle(String methodName)
+	{
+		boolean b=false;
+		b=b||methodName.contains("com.xxx.xxx");
+		return false;
+	}
 }
