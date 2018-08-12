@@ -12,9 +12,9 @@ import com.x62.commons.utils.ViewBind;
 public abstract class BaseFragment extends Fragment
 {
 	private View rootView;
-	private boolean isVisible=false;// 当前Fragment是否可见
-	private boolean isInitView=false;// 是否与View建立起映射关系
-	private boolean isFirstLoad=true;// 是否是第一次加载数据
+	protected boolean isVisible=false;// 当前Fragment是否可见
+	protected boolean isInitView=false;// 是否与View建立起映射关系
+	protected boolean isFirstLoad=true;// 是否是第一次加载数据
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState)
@@ -27,9 +27,11 @@ public abstract class BaseFragment extends Fragment
 		if(rootView==null)
 		{
 			rootView=inflater.inflate(layoutId,container,false);
-			ViewBind.bind(this,rootView);
-			initView(rootView);
+			//			ViewBind.bind(this,rootView);
+			//			initView(rootView);
 		}
+		ViewBind.bind(this,rootView);
+		initView(rootView);
 
 		ViewGroup parent=(ViewGroup)rootView.getParent();
 		if(parent!=null)
@@ -54,9 +56,9 @@ public abstract class BaseFragment extends Fragment
 	}
 
 	/**
-	 * 懒加载
+	 * 懒加载,子类可按需重写
 	 */
-	private void lazyLoadData()
+	public void lazyLoadData()
 	{
 		if(!isFirstLoad||!isVisible||!isInitView)
 		{

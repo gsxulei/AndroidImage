@@ -72,6 +72,11 @@ public abstract class BaseListAdapter<T> extends BaseAdapter
 		notifyDataSetChanged();
 	}
 
+	public List<T> getData()
+	{
+		return data;
+	}
+
 	protected abstract int getLayout();
 
 	protected abstract void onBindView(View root,int position);

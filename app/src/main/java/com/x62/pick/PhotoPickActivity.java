@@ -11,7 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.x62.adapter.PhotoAlbumListAdapter;
 import com.x62.commons.utils.ResUtils;
 import com.x62.commons.base.BaseRecyclerViewAdapter;
 import com.x62.bean.PhotoAlbumBean;
@@ -28,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PhotoPickActivity extends AppCompatActivity
+public class PhotoPickActivity extends AppCompatActivity implements View.OnClickListener
 {
 	private List<PhotoAlbumBean> list=new ArrayList<>();
 
@@ -39,7 +45,23 @@ public class PhotoPickActivity extends AppCompatActivity
 	//	@ViewBind.Bind(id=R.id.gvPhoto)
 	//	private GridView gvPhoto;
 
+	@ViewBind.Bind(id=R.id.lvAlbum)
+	private ListView lvAlbum;
+
+	@ViewBind.Bind(id=R.id.tvAlbumName)
+	private TextView tvAlbumName;
+
+	@ViewBind.Bind(id=R.id.vMask)
+	private View vMask;
+
 	private PhotoListAdapter photoListAdapter;
+
+	private PhotoAlbumListAdapter photoAlbumListAdapter;
+
+	private int currAlbumPosition=0;
+
+	private Animation bottomEnter;
+	private Animation bottomOut;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -52,6 +74,30 @@ public class PhotoPickActivity extends AppCompatActivity
 		ViewBind.bind(this);
 
 		initData();
+		bottomEnter=AnimationUtils.loadAnimation(this,R.anim.bottom_enter);
+		bottomOut=AnimationUtils.loadAnimation(this,R.anim.bottom_out);
+
+		photoAlbumListAdapter=new PhotoAlbumListAdapter(this);
+		photoAlbumListAdapter.addData(list);
+		lvAlbum.setAdapter(photoAlbumListAdapter);
+		lvAlbum.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent,View view,int position,long id)
+			{
+				lvAlbum.setVisibility(View.GONE);
+				vMask.setVisibility(View.GONE);
+				lvAlbum.startAnimation(bottomOut);
+				if(currAlbumPosition==position)
+				{
+					return;
+				}
+				photoListAdapter.setData(list.get(position).photos);
+				tvAlbumName.setText(list.get(position).name);
+				currAlbumPosition=position;
+				photoAlbumListAdapter.setCurrAlbumPosition(currAlbumPosition);
+			}
+		});
 
 		photoListAdapter=new PhotoListAdapter(this);
 		photoListAdapter.setData(list.get(0).photos);
@@ -73,6 +119,11 @@ public class PhotoPickActivity extends AppCompatActivity
 				view.getLocationInWindow(location);
 				intent.putExtra("x",location[0]);
 				intent.putExtra("y",location[1]);
+				intent.putExtra("position",position);
+				intent.putExtra("PhotoAlbum",list.get(currAlbumPosition));
+
+				//intent传递字符串数组数据大小有限制
+				//intent.putStringArrayListExtra("paths",photoListAdapter.getData());
 
 				//				if(Build.VERSION.SDK_INT>21)
 				//				{
@@ -83,7 +134,7 @@ public class PhotoPickActivity extends AppCompatActivity
 				//					return;
 				//				}
 				startActivity(intent);
-				overridePendingTransition(0,0);
+				//overridePendingTransition(0,0);
 			}
 		});
 
@@ -150,7 +201,7 @@ public class PhotoPickActivity extends AppCompatActivity
 				map.put(parentPath,bean);
 				list.add(bean);
 			}
-			bean.photos.add(parent.getAbsolutePath());
+			bean.photos.add(path);
 		}
 		mCursor.close();
 
@@ -169,5 +220,42 @@ public class PhotoPickActivity extends AppCompatActivity
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		switch(v.getId())
+		{
+			case R.id.tvAlbumName:
+			{
+				if(lvAlbum.getVisibility()==View.GONE)
+				{
+					lvAlbum.setVisibility(View.VISIBLE);
+					vMask.setVisibility(View.VISIBLE);
+					lvAlbum.startAnimation(bottomEnter);
+				}
+				else
+				{
+					lvAlbum.setVisibility(View.GONE);
+					vMask.setVisibility(View.GONE);
+					lvAlbum.startAnimation(bottomOut);
+				}
+			}
+			break;
+		}
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		if(lvAlbum.getVisibility()==View.VISIBLE)
+		{
+			lvAlbum.setVisibility(View.GONE);
+			vMask.setVisibility(View.GONE);
+			lvAlbum.startAnimation(bottomOut);
+			return;
+		}
+		super.onBackPressed();
 	}
 }

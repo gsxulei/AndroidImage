@@ -1,5 +1,7 @@
 package com.x62.commons.base;
 
-public class BaseBean
+import java.io.Serializable;
+
+public class BaseBean implements Serializable
 {
 }

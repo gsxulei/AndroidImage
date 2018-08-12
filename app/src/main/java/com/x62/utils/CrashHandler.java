@@ -228,7 +228,7 @@ public class CrashHandler implements UncaughtExceptionHandler
 		{
 			long timestamp=System.currentTimeMillis();
 			String time=formatter.format(new Date());
-			String fileName="crash-"+time+"-"+timestamp+".log";
+			String fileName="crash-"+time+"-"+timestamp+".txt";
 
 			if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
 			{

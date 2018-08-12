@@ -38,6 +38,11 @@ public abstract class BaseRecyclerViewAdapter<T,HV extends RecyclerView.ViewHold
 		notifyDataSetChanged();
 	}
 
+	public ArrayList<T> getData()
+	{
+		return data;
+	}
+
 	@Override
 	public int getItemCount()
 	{

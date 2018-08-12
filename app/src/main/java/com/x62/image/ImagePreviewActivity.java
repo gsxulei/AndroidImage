@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,26 +27,34 @@ import android.widget.LinearLayout;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.x62.adapter.ImagePreviewFragmentStatePagerAdapter;
+import com.x62.bean.PhotoAlbumBean;
 import com.x62.commons.base.ImageLoaderWrapper;
 import com.x62.commons.utils.ScreenUtils;
+import com.x62.commons.utils.SysBarUtils;
 import com.x62.commons.utils.SystemBarCompat;
 import com.x62.commons.utils.ViewBind;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 图片预览
  */
 public class ImagePreviewActivity extends AppCompatActivity
 {
-	@ViewBind.Bind(id=R.id.iv)
-	private ImageView iv;
+	//	@ViewBind.Bind(id=R.id.iv)
+	//	private ImageView iv;
 
-	@ViewBind.Bind(id=R.id.ssiv)
-	private SubsamplingScaleImageView ssiv;
+	//	@ViewBind.Bind(id=R.id.ssiv)
+	//	private SubsamplingScaleImageView ssiv;
 
 	@ViewBind.Bind(id=R.id.flImage)
 	private FrameLayout flImage;
+
+	@ViewBind.Bind(id=R.id.vpImage)
+	private ViewPager vpImage;
 
 	private int width=-1;
 	private int height=-1;
@@ -59,6 +68,9 @@ public class ImagePreviewActivity extends AppCompatActivity
 
 	private ScreenUtils screenUtils=ScreenUtils.getInstance();
 
+	private PhotoAlbumBean photoAlbumBean;
+	private ImagePreviewFragmentStatePagerAdapter adapter;
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
 	{
@@ -71,12 +83,30 @@ public class ImagePreviewActivity extends AppCompatActivity
 		//		window.setEnterTransition(transition);
 		SystemBarCompat.imagePreviewMode(this);
 		setContentView(R.layout.activity_image_preview);
+		//SysBarUtils.sysBarFloat(this);
 		//initStatusBar();
 
 		ViewBind.bind(this);
 		//overridePendingTransition(0,0);
 		screenWidth=screenUtils.getWidth();
 		screenHeight=screenUtils.getHeight();
+
+		String path="";
+		List<String> paths=new ArrayList<>();
+		int position=0;
+		Intent intent=getIntent();
+		if(intent!=null)
+		{
+			photoAlbumBean=(PhotoAlbumBean)intent.getSerializableExtra("PhotoAlbum");
+			//paths=intent.getStringArrayListExtra("paths");
+			paths=photoAlbumBean.photos;
+			position=intent.getIntExtra("position",0);
+			path=paths.get(position);
+		}
+		adapter=new ImagePreviewFragmentStatePagerAdapter(getFragmentManager());
+		adapter.setData(paths);
+		vpImage.setAdapter(adapter);
+		vpImage.setCurrentItem(position);
 
 		//iv=(ImageView)findViewById(R.id.iv);
 		//ssiv=(SubsamplingScaleImageView)findViewById(R.id.ssiv);
@@ -85,25 +115,25 @@ public class ImagePreviewActivity extends AppCompatActivity
 		//ssiv.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM);
 		//animation.s
 
-		String path="";
-		Intent intent=getIntent();
-		if(intent!=null)
-		{
-			width=intent.getIntExtra("width",-1);
-			height=intent.getIntExtra("height",-1);
-			x=intent.getIntExtra("x",0);
-			y=intent.getIntExtra("y",0);
-			path=intent.getStringExtra("path");
-		}
+		//		String path="";
+		//		Intent intent=getIntent();
+		//		if(intent!=null)
+		//		{
+		width=intent.getIntExtra("width",-1);
+		height=intent.getIntExtra("height",-1);
+		x=intent.getIntExtra("x",0);
+		y=intent.getIntExtra("y",0);
+		path=intent.getStringExtra("path");
+		//		}
 
 		BitmapFactory.Options opt=new BitmapFactory.Options();
 		opt.inJustDecodeBounds=true;
 		BitmapFactory.decodeFile(path,opt);
 
-		//		Log.e("xulei","width->"+width);
-		//		Log.e("xulei","height->"+height);
-		//		Log.e("xulei","x->"+x);
-		//		Log.e("xulei","y->"+y);
+		Log.e("xulei","width->"+width);
+		Log.e("xulei","height->"+height);
+		Log.e("xulei","x->"+x);
+		Log.e("xulei","y->"+y);
 		Log.e("xulei","outWidth->"+opt.outWidth);
 		Log.e("xulei","outHeight->"+opt.outHeight);
 
@@ -168,51 +198,51 @@ public class ImagePreviewActivity extends AppCompatActivity
 		//Log.e("xulei","fromX->"+view.getWidth());
 		flImage.startAnimation(animation);
 
-		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options();
-		options.obj=this;
-		options.file=new File(path);
-		options.iv=iv;
-		options.isCenterCrop=false;
-		options.placeholder=0;
-		ImageLoaderWrapper.load(options);
-
-		if(!TextUtils.isEmpty(path))
-		{
-			ssiv.setImage(ImageSource.uri(Uri.fromFile(new File(path))));
-		}
-		ssiv.setOnImageEventListener(new SubsamplingScaleImageView.OnImageEventListener()
-		{
-			@Override
-			public void onReady()
-			{
-			}
-
-			@Override
-			public void onImageLoaded()
-			{
-				iv.setVisibility(View.GONE);
-			}
-
-			@Override
-			public void onPreviewLoadError(Exception e)
-			{
-			}
-
-			@Override
-			public void onImageLoadError(Exception e)
-			{
-			}
-
-			@Override
-			public void onTileLoadError(Exception e)
-			{
-			}
-
-			@Override
-			public void onPreviewReleased()
-			{
-			}
-		});
+		//		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options();
+		//		options.obj=this;
+		//		options.file=new File(path);
+		//		options.iv=iv;
+		//		options.isCenterCrop=false;
+		//		options.placeholder=0;
+		//		ImageLoaderWrapper.load(options);
+		//
+		//		if(!TextUtils.isEmpty(path))
+		//		{
+		//			ssiv.setImage(ImageSource.uri(Uri.fromFile(new File(path))));
+		//		}
+		//		ssiv.setOnImageEventListener(new SubsamplingScaleImageView.OnImageEventListener()
+		//		{
+		//			@Override
+		//			public void onReady()
+		//			{
+		//			}
+		//
+		//			@Override
+		//			public void onImageLoaded()
+		//			{
+		//				iv.setVisibility(View.GONE);
+		//			}
+		//
+		//			@Override
+		//			public void onPreviewLoadError(Exception e)
+		//			{
+		//			}
+		//
+		//			@Override
+		//			public void onImageLoadError(Exception e)
+		//			{
+		//			}
+		//
+		//			@Override
+		//			public void onTileLoadError(Exception e)
+		//			{
+		//			}
+		//
+		//			@Override
+		//			public void onPreviewReleased()
+		//			{
+		//			}
+		//		});
 	}
 
 	public void initStatusBar()

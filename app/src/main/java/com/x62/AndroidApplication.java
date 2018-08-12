@@ -66,6 +66,6 @@ public class AndroidApplication extends Application
 	{
 		boolean b=false;
 		b=b||methodName.contains("com.xxx.xxx");
-		return false;
+		return b;
 	}
 }
