@@ -1,6 +1,6 @@
-package com.x62.commons.handle;
+package com.x62.commons.model;
 
-public interface CallBack<S,F>
+public interface ModelCallBack<S,F>
 {
 	/**
 	 * 成功回调

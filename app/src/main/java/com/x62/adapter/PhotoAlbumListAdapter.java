@@ -53,8 +53,6 @@ public class PhotoAlbumListAdapter extends BaseListAdapter<PhotoAlbumBean>
 		options.obj=activity;
 		options.file=new File(bean.photos.get(0));
 		options.iv=ivAlbum;
-		options.isCenterCrop=false;
-		options.isCenterCrop=true;
 		ImageLoaderWrapper.load(options);
 
 		tvAlbumName.setText(bean.name);

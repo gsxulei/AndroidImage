@@ -1,37 +1,42 @@
-package com.x62.commons.handle;
+package com.x62.commons.model;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import android.os.Handler;
-import android.os.Message;
-
 /**
  * 基本数据处理封装
- *
- * @param <P> 参数
- * @param <S> 处理成功回调参数
- * @param <F> 处理失败回调参数
+ * 
  * @author GSXL
+ *
+ * @param <P>
+ *            参数
+ * @param <S>
+ *            处理成功回调参数
+ * @param <F>
+ *            处理失败回调参数
  */
-public abstract class BaseHandle<P,S,F>
+public abstract class BaseModel<P,S,F>
 {
 	private final int SUCCESS=0;
 	private final int FAIL=1;
 
-	private Map<String,CallBack<S,F>> cbs=new HashMap<>();
-	protected ExecutorService es=Executors.newCachedThreadPool();
+	private Map<String,ModelCallBack<S,F>> cbs=new HashMap<>();
+	private static ExecutorService es=Executors.newCachedThreadPool();
 	private Map<String,S> ss=new HashMap<>();
 	private Map<String,F> fs=new HashMap<>();
 
-	private Handler handler=new Handler()
+	private Handler handler=new Handler(Looper.getMainLooper())
 	{
 		public void handleMessage(Message msg)
 		{
 			String key=""+msg.arg1;
-			CallBack<S,F> cb=cbs.get(key);
+			ModelCallBack<S,F> cb=cbs.get(key);
 			if(cb==null)
 			{
 				return;
@@ -57,7 +62,7 @@ public abstract class BaseHandle<P,S,F>
 		}
 	};
 
-	protected void addCallBack(CallBack<S,F> cb)
+	private void addCallBack(ModelCallBack<S,F> cb)
 	{
 		if(cb==null)
 		{
@@ -66,7 +71,7 @@ public abstract class BaseHandle<P,S,F>
 		cbs.put(""+cb.hashCode(),cb);
 	}
 
-	protected void removeCallBack(CallBack<S,F> cb)
+	protected void removeCallBack(ModelCallBack<S,F> cb)
 	{
 		if(cb==null)
 		{
@@ -75,7 +80,7 @@ public abstract class BaseHandle<P,S,F>
 		cbs.remove(""+cb.hashCode());
 	}
 
-	public void exec(final P p,final CallBack<S,F> cb)
+	public void exec(final P p,final ModelCallBack<S,F> cb)
 	{
 		addCallBack(cb);
 		es.execute(new Runnable()

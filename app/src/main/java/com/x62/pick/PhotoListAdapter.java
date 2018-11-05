@@ -5,12 +5,14 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.x62.commons.utils.ResUtils;
 import com.x62.commons.base.BaseRecyclerViewAdapter;
 import com.x62.commons.base.ImageLoaderWrapper;
+import com.x62.commons.utils.ViewBind;
 import com.x62.image.R;
 
 import java.io.File;
@@ -53,13 +55,21 @@ public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAd
 
 	public static class ViewHolder extends RecyclerView.ViewHolder
 	{
+		@ViewBind.Bind(id=R.id.ivPhotoItem)
 		public ImageView ivPhotoItem;
+
+		@ViewBind.Bind(id=R.id.vMask)
+		public View vMask;
+
+		@ViewBind.Bind(id=R.id.cbSelected)
+		public CheckBox cbSelected;
 
 		public ViewHolder(View itemView)
 		{
 			super(itemView);
 
-			ivPhotoItem=(ImageView)itemView.findViewById(R.id.ivPhotoItem);
+			//ivPhotoItem=(ImageView)itemView.findViewById(R.id.ivPhotoItem);
+			ViewBind.bind(this,itemView);
 		}
 	}
 	//	@Override

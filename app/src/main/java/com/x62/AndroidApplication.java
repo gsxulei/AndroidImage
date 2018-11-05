@@ -28,7 +28,6 @@ public class AndroidApplication extends Application
 		ImageLoaderWrapper.setDefault(R.mipmap.ic_launcher);
 	}
 
-
 	@Override
 	public String getPackageName()
 	{

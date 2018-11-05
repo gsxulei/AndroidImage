@@ -23,6 +23,18 @@ public class ResUtils
 	}
 
 	/**
+	 * 根据ID获取带有占位符的字符串
+	 *
+	 * @param id   字符串ID
+	 * @param args 占位符参数
+	 * @return 与资源ID对应的字符串
+	 */
+	public static String getStringFormat(int id,Object... args)
+	{
+		return String.format(res.getString(id),args);
+	}
+
+	/**
 	 * 获取屏幕宽度
 	 *
 	 * @return 屏幕宽度

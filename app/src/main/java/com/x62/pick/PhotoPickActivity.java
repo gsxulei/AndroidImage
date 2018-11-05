@@ -21,6 +21,7 @@ import com.x62.adapter.PhotoAlbumListAdapter;
 import com.x62.commons.utils.ResUtils;
 import com.x62.commons.base.BaseRecyclerViewAdapter;
 import com.x62.bean.PhotoAlbumBean;
+import com.x62.image.ImageData;
 import com.x62.image.ImagePreviewActivity;
 import com.x62.image.R;
 import com.x62.commons.utils.SystemBarCompat;
@@ -220,6 +221,7 @@ public class PhotoPickActivity extends AppCompatActivity implements View.OnClick
 				}
 			}
 		});
+		ImageData.getInstance().setData(list);
 	}
 
 	@Override
