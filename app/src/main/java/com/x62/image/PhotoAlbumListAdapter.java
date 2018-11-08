@@ -1,4 +1,4 @@
-package com.x62.adapter;
+package com.x62.image;
 
 import android.app.Activity;
 import android.view.View;
@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.x62.bean.PhotoAlbumBean;
+import com.x62.image.PhotoAlbumBean;
 import com.x62.commons.base.BaseListAdapter;
 import com.x62.commons.base.ImageLoaderWrapper;
 import com.x62.image.R;
@@ -51,12 +51,12 @@ public class PhotoAlbumListAdapter extends BaseListAdapter<PhotoAlbumBean>
 
 		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options<>();
 		options.obj=activity;
-		options.file=new File(bean.photos.get(0));
+		options.file=new File(bean.cover);
 		options.iv=ivAlbum;
 		ImageLoaderWrapper.load(options);
 
 		tvAlbumName.setText(bean.name);
-		tvAlbumSum.setText(bean.photos.size()+"项");
+		tvAlbumSum.setText(bean.size+"项");
 
 		if(position==currAlbumPosition)
 		{

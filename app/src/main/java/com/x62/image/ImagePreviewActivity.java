@@ -1,17 +1,13 @@
 package com.x62.image;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,27 +18,23 @@ import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.x62.adapter.ImagePreviewFragmentStatePagerAdapter;
-import com.x62.bean.PhotoAlbumBean;
-import com.x62.commons.base.ImageLoaderWrapper;
+import com.x62.commons.base.BaseActivity;
+import com.x62.commons.msgbus.MsgBus;
+import com.x62.commons.msgbus.MsgEvent;
+import com.x62.commons.msgbus.MsgReceiver;
 import com.x62.commons.utils.ScreenUtils;
-import com.x62.commons.utils.SysBarUtils;
 import com.x62.commons.utils.SystemBarCompat;
 import com.x62.commons.utils.ViewBind;
+import com.x62.utils.MsgEventId;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 图片预览
  */
-public class ImagePreviewActivity extends AppCompatActivity
+public class ImagePreviewActivity extends BaseActivity
 {
 	//	@ViewBind.Bind(id=R.id.iv)
 	//	private ImageView iv;
@@ -68,7 +60,7 @@ public class ImagePreviewActivity extends AppCompatActivity
 
 	private ScreenUtils screenUtils=ScreenUtils.getInstance();
 
-	private PhotoAlbumBean photoAlbumBean;
+	//private PhotoAlbumBean photoAlbumBean;
 	private ImagePreviewFragmentStatePagerAdapter adapter;
 
 	@Override
@@ -90,21 +82,48 @@ public class ImagePreviewActivity extends AppCompatActivity
 		//overridePendingTransition(0,0);
 		screenWidth=screenUtils.getWidth();
 		screenHeight=screenUtils.getHeight();
+	}
 
+	/**
+	 * 初始化数据
+	 *
+	 * @param event
+	 */
+	@MsgReceiver(id=MsgEventId.ID_100006, sticky=true)
+	private void initData(MsgEvent<List<String>> event)
+	{
+		MsgBus.cancelSticky(event);
+		//		int position=0;
+		//		Intent intent=getIntent();
+		//		if(intent!=null)
+		//		{
+		//			position=intent.getIntExtra("position",0);
+		//		}
+		//		adapter=new ImagePreviewFragmentStatePagerAdapter(getFragmentManager());
+		//		adapter.setData(event.t);
+		//		vpImage.setAdapter(adapter);
+		//		vpImage.setCurrentItem(position);
+		show(event.t);
+	}
+
+	private void show(List<String> data)
+	{
 		String path="";
-		List<String> paths=new ArrayList<>();
 		int position=0;
 		Intent intent=getIntent();
 		if(intent!=null)
 		{
-			photoAlbumBean=(PhotoAlbumBean)intent.getSerializableExtra("PhotoAlbum");
+			//photoAlbumBean=(PhotoAlbumBean)intent.getSerializableExtra("PhotoAlbum");
 			//paths=intent.getStringArrayListExtra("paths");
-			paths=photoAlbumBean.photos;
 			position=intent.getIntExtra("position",0);
-			path=paths.get(position);
+			path=data.get(position);
+			width=intent.getIntExtra("width",-1);
+			height=intent.getIntExtra("height",-1);
+			x=intent.getIntExtra("x",0);
+			y=intent.getIntExtra("y",0);
 		}
 		adapter=new ImagePreviewFragmentStatePagerAdapter(getFragmentManager());
-		adapter.setData(paths);
+		adapter.setData(data);
 		vpImage.setAdapter(adapter);
 		vpImage.setCurrentItem(position);
 
@@ -114,17 +133,6 @@ public class ImagePreviewActivity extends AppCompatActivity
 		//ssiv.setMinScale(0.8F);
 		//ssiv.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM);
 		//animation.s
-
-		//		String path="";
-		//		Intent intent=getIntent();
-		//		if(intent!=null)
-		//		{
-		width=intent.getIntExtra("width",-1);
-		height=intent.getIntExtra("height",-1);
-		x=intent.getIntExtra("x",0);
-		y=intent.getIntExtra("y",0);
-		path=intent.getStringExtra("path");
-		//		}
 
 		BitmapFactory.Options opt=new BitmapFactory.Options();
 		opt.inJustDecodeBounds=true;

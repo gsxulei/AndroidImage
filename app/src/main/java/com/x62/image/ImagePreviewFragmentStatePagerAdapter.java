@@ -1,4 +1,4 @@
-package com.x62.adapter;
+package com.x62.image;
 
 import android.app.Fragment;
 import android.app.FragmentManager;

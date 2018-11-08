@@ -1,13 +1,8 @@
 package com.x62.pick;
 
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,25 +12,26 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.x62.adapter.PhotoAlbumListAdapter;
+import com.x62.commons.base.BaseActivity;
+import com.x62.commons.msgbus.MsgBus;
+import com.x62.commons.msgbus.MsgEvent;
+import com.x62.commons.msgbus.MsgReceiver;
+import com.x62.image.ImageModel;
+import com.x62.image.PhotoAlbumListAdapter;
 import com.x62.commons.utils.ResUtils;
 import com.x62.commons.base.BaseRecyclerViewAdapter;
-import com.x62.bean.PhotoAlbumBean;
-import com.x62.image.ImageData;
+import com.x62.image.PhotoAlbumBean;
 import com.x62.image.ImagePreviewActivity;
 import com.x62.image.R;
 import com.x62.commons.utils.SystemBarCompat;
 import com.x62.commons.utils.ViewBind;
+import com.x62.utils.MsgEventId;
+import com.x62.widget.LoadingDialog;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class PhotoPickActivity extends AppCompatActivity implements View.OnClickListener
+public class PhotoPickActivity extends BaseActivity implements View.OnClickListener
 {
 	private List<PhotoAlbumBean> list=new ArrayList<>();
 
@@ -64,6 +60,10 @@ public class PhotoPickActivity extends AppCompatActivity implements View.OnClick
 	private Animation bottomEnter;
 	private Animation bottomOut;
 
+	private LoadingDialog loadingDialog;
+
+	private boolean isLoading=false;
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
 	{
@@ -74,13 +74,32 @@ public class PhotoPickActivity extends AppCompatActivity implements View.OnClick
 		SystemBarCompat.tint(this,ResUtils.getColor(R.color.colorPrimaryDark));
 		ViewBind.bind(this);
 
-		initData();
+		//initData();
 		bottomEnter=AnimationUtils.loadAnimation(this,R.anim.bottom_enter);
 		bottomOut=AnimationUtils.loadAnimation(this,R.anim.bottom_out);
 
 		photoAlbumListAdapter=new PhotoAlbumListAdapter(this);
 		photoAlbumListAdapter.addData(list);
 		lvAlbum.setAdapter(photoAlbumListAdapter);
+		rvPhoto.addOnScrollListener(new RecyclerView.OnScrollListener()
+		{
+			@Override
+			public void onScrollStateChanged(RecyclerView recyclerView,int newState)
+			{
+				super.onScrollStateChanged(recyclerView,newState);
+				if(newState==0&&!recyclerView.canScrollVertically(1))
+				{
+					loadPhoto();
+				}
+			}
+
+			@Override
+			public void onScrolled(RecyclerView recyclerView,int dx,int dy)
+			{
+				super.onScrolled(recyclerView,dx,dy);
+			}
+		});
+
 		lvAlbum.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
@@ -93,15 +112,25 @@ public class PhotoPickActivity extends AppCompatActivity implements View.OnClick
 				{
 					return;
 				}
-				photoListAdapter.setData(list.get(position).photos);
+				//				photoListAdapter.setData(list.get(position).photos);
+				//				tvAlbumName.setText(list.get(position).name);
+				//				currAlbumPosition=position;
+				//				photoAlbumListAdapter.setCurrAlbumPosition(currAlbumPosition);
 				tvAlbumName.setText(list.get(position).name);
 				currAlbumPosition=position;
 				photoAlbumListAdapter.setCurrAlbumPosition(currAlbumPosition);
+				PhotoAlbumBean bean=list.get(currAlbumPosition);
+				if(bean.photos.size()<=0)
+				{
+					loadPhoto();
+					return;
+				}
+				photoListAdapter.setData(bean.photos);
 			}
 		});
 
 		photoListAdapter=new PhotoListAdapter(this);
-		photoListAdapter.setData(list.get(0).photos);
+		//photoListAdapter.setData(list.get(0).photos);
 
 		GridLayoutManager manager=new GridLayoutManager(this,4);
 		rvPhoto.setLayoutManager(manager);
@@ -111,8 +140,12 @@ public class PhotoPickActivity extends AppCompatActivity implements View.OnClick
 			@Override
 			public void onItemClick(View view,int position,String path)
 			{
+				MsgEvent<List<String>> event=new MsgEvent<>();
+				event.id=MsgEventId.ID_100006;
+				event.t=list.get(currAlbumPosition).photos;
+				MsgBus.sendSticky(event);
+
 				Intent intent=new Intent(getApplication(),ImagePreviewActivity.class);
-				intent.putExtra("path",path);
 				intent.putExtra("width",view.getWidth());
 				intent.putExtra("height",view.getHeight());
 				int[] location=new int[2];
@@ -121,7 +154,19 @@ public class PhotoPickActivity extends AppCompatActivity implements View.OnClick
 				intent.putExtra("x",location[0]);
 				intent.putExtra("y",location[1]);
 				intent.putExtra("position",position);
-				intent.putExtra("PhotoAlbum",list.get(currAlbumPosition));
+				startActivity(intent);
+
+//				Intent intent=new Intent(getApplication(),ImagePreviewActivity.class);
+//				intent.putExtra("path",path);
+//				intent.putExtra("width",view.getWidth());
+//				intent.putExtra("height",view.getHeight());
+//				int[] location=new int[2];
+//				//view.getLocationOnScreen(location);
+//				view.getLocationInWindow(location);
+//				intent.putExtra("x",location[0]);
+//				intent.putExtra("y",location[1]);
+//				intent.putExtra("position",position);
+//				intent.putExtra("PhotoAlbum",list.get(currAlbumPosition));
 
 				//intent传递字符串数组数据大小有限制
 				//intent.putStringArrayListExtra("paths",photoListAdapter.getData());
@@ -134,7 +179,7 @@ public class PhotoPickActivity extends AppCompatActivity implements View.OnClick
 				//					startActivity(intent,options.toBundle());
 				//					return;
 				//				}
-				startActivity(intent);
+				//startActivity(intent);
 				//overridePendingTransition(0,0);
 			}
 		});
@@ -154,75 +199,140 @@ public class PhotoPickActivity extends AppCompatActivity implements View.OnClick
 		//				startActivity(intent);
 		//			}
 		//		});
+
+		MsgBus.register(ImageModel.class);
+		MsgBus.send(MsgEventId.ID_100008);
+
+		loadingDialog=new LoadingDialog(this);
+		loadingDialog.setLoadingText("请稍候...");
+		loadingDialog.show();
 	}
 
-	private void initData()
+
+	/**
+	 * 查询相册成功
+	 *
+	 * @param event 含有相册数据的消息
+	 */
+	@MsgReceiver(id=MsgEventId.ID_100009)
+	private void onAlbumDataQuerySuccess(MsgEvent<List<PhotoAlbumBean>> event)
 	{
-		Uri mImageUri=MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-		String MIME_TYPE=MediaStore.Images.Media.MIME_TYPE;
-		ContentResolver mContentResolver=getContentResolver();
-
-		//只查询jpeg和png的图片
-		Cursor mCursor=mContentResolver.query(mImageUri,null,MIME_TYPE+"=? or "+MIME_TYPE+"=?",new
-				String[]{"image/jpeg","image/png"},MediaStore.Images.Media.DATE_MODIFIED+" desc");
-
-		if(mCursor==null)
-		{
-			return;
-		}
-
-		PhotoAlbumBean all=new PhotoAlbumBean();
-		all.name=ResUtils.getString(R.string.all_photo);
-		list.add(all);
-		//list.contains(all);
-
-		Map<String,PhotoAlbumBean> map=new HashMap<>();
-		while(mCursor.moveToNext())
-		{
-			//获取图片的路径
-			String path=mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATA));
-
-			if(!new File(path).exists())
-			{
-				continue;
-			}
-
-			//获取该图片的父路径名
-			//String parentName=new File(path).getParentFile().getName();
-			File parent=new File(path).getParentFile();
-			String parentPath=parent.getAbsolutePath();
-
-			all.photos.add(path);
-
-			PhotoAlbumBean bean=map.get(parentPath);
-			if(bean==null)
-			{
-				bean=new PhotoAlbumBean();
-				bean.name=parent.getName();
-				map.put(parentPath,bean);
-				list.add(bean);
-			}
-			bean.photos.add(path);
-		}
-		mCursor.close();
-
-		Collections.sort(list,new Comparator<PhotoAlbumBean>()
-		{
-			@Override
-			public int compare(PhotoAlbumBean pab1,PhotoAlbumBean pab2)
-			{
-				try
-				{
-					return pab2.photos.size()-pab1.photos.size();
-				}
-				catch(Exception e)
-				{
-					return 0;
-				}
-			}
-		});
-		ImageData.getInstance().setData(list);
+		loadingDialog.dismiss();
+		list.addAll(event.t);
+		photoAlbumListAdapter.addData(list);
+		loadPhoto();
 	}
+
+	private void loadPhoto()
+	{
+		PhotoAlbumBean bean=list.get(currAlbumPosition);
+		if(bean.isLoadMore())
+		{
+			MsgBus.register(ImageModel.class);
+			MsgEvent<String[]> event=new MsgEvent<>();
+			event.id=MsgEventId.ID_100002;
+			event.t=new String[]{bean.id,bean.lastId};
+			MsgBus.send(event);
+			isLoading=true;
+		}
+	}
+
+	/**
+	 * 查询图片成功
+	 *
+	 * @param event 含有图片数据的消息
+	 */
+	@MsgReceiver(id=MsgEventId.ID_100003)
+
+	private void onImageDataQuerySuccess(MsgEvent<PhotoAlbumBean> event)
+	{
+		loadingDialog.dismiss();
+		PhotoAlbumBean bean=list.get(currAlbumPosition);
+		bean.lastId=event.t.lastId;
+		bean.photos.addAll(event.t.photos);
+		photoListAdapter.setData(bean.photos);
+		isLoading=false;
+	}
+
+	/**
+	 * 查询图片失败
+	 *
+	 * @param event
+	 */
+	@MsgReceiver(id=MsgEventId.ID_100004)
+	void onImageDataQueryFail(MsgEvent<String> event)
+	{
+		loadingDialog.dismiss();
+		isLoading=false;
+	}
+
+	//	private void initData()
+	//	{
+	//		Uri mImageUri=MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+	//		String MIME_TYPE=MediaStore.Images.Media.MIME_TYPE;
+	//		ContentResolver mContentResolver=getContentResolver();
+	//
+	//		//只查询jpeg和png的图片
+	//		Cursor mCursor=mContentResolver.query(mImageUri,null,MIME_TYPE+"=? or "+MIME_TYPE+"=?",new
+	//				String[]{"image/jpeg","image/png"},MediaStore.Images.Media.DATE_MODIFIED+" desc");
+	//
+	//		if(mCursor==null)
+	//		{
+	//			return;
+	//		}
+	//
+	//		PhotoAlbumBean all=new PhotoAlbumBean();
+	//		all.name=ResUtils.getString(R.string.all_photo);
+	//		list.add(all);
+	//		//list.contains(all);
+	//
+	//		Map<String,PhotoAlbumBean> map=new HashMap<>();
+	//		while(mCursor.moveToNext())
+	//		{
+	//			//获取图片的路径
+	//			String path=mCursor.getString(mCursor.getColumnIndex(MediaStore.Images.Media.DATA));
+	//
+	//			if(!new File(path).exists())
+	//			{
+	//				continue;
+	//			}
+	//
+	//			//获取该图片的父路径名
+	//			//String parentName=new File(path).getParentFile().getName();
+	//			File parent=new File(path).getParentFile();
+	//			String parentPath=parent.getAbsolutePath();
+	//
+	//			all.photos.add(path);
+	//
+	//			PhotoAlbumBean bean=map.get(parentPath);
+	//			if(bean==null)
+	//			{
+	//				bean=new PhotoAlbumBean();
+	//				bean.name=parent.getName();
+	//				map.put(parentPath,bean);
+	//				list.add(bean);
+	//			}
+	//			bean.photos.add(path);
+	//		}
+	//		mCursor.close();
+	//
+	//		Collections.sort(list,new Comparator<PhotoAlbumBean>()
+	//		{
+	//			@Override
+	//			public int compare(PhotoAlbumBean pab1,PhotoAlbumBean pab2)
+	//			{
+	//				try
+	//				{
+	//					return pab2.photos.size()-pab1.photos.size();
+	//				}
+	//				catch(Exception e)
+	//				{
+	//					return 0;
+	//				}
+	//			}
+	//		});
+	//		ImageData.getInstance().setData(list);
+	//	}
 
 	@Override
 	public void onClick(View v)

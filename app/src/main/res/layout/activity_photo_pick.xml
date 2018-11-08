@@ -5,11 +5,22 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
-	<LinearLayout
+	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="48dp">
+		android:layout_height="48dp"
+		android:background="@color/colorPrimary">
 
-	</LinearLayout>
+		<TextView
+			android:id="@+id/tvAlbumName"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:clickable="true"
+			android:gravity="center"
+			android:text="@string/all_photo"
+			android:textColor="#FFFFFF"
+			android:textSize="18sp"/>
+	</RelativeLayout>
 
 	<FrameLayout
 		android:layout_width="match_parent"
@@ -45,21 +56,4 @@
 		android:layout_height="match_parent"
 		android:layout_weight="2"
 		android:numColumns="4"/>-->
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="48dp">
-
-		<TextView
-			android:id="@+id/tvAlbumName"
-			android:layout_width="wrap_content"
-			android:layout_height="match_parent"
-			android:clickable="true"
-			android:gravity="center"
-			android:paddingLeft="10dp"
-			android:paddingRight="10dp"
-			android:text="@string/all_photo"
-			android:textSize="15sp"/>
-
-	</LinearLayout>
 </LinearLayout>

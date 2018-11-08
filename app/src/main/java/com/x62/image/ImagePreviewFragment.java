@@ -111,7 +111,10 @@ public class ImagePreviewFragment extends BaseFragment
 	public void onDestroy()
 	{
 		super.onDestroy();
-		ssiv.recycle();
+		if(ssiv!=null)
+		{
+			ssiv.recycle();
+		}
 		Log.e("xulei","onDestroy->"+position);
 	}
 }

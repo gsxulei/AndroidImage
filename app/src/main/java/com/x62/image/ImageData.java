@@ -1,7 +1,5 @@
 package com.x62.image;
 
-import com.x62.bean.PhotoAlbumBean;
-
 import java.util.ArrayList;
 import java.util.List;
 

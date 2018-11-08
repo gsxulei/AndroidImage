@@ -1,0 +1,181 @@
+package com.x62.image;
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.text.TextUtils;
+
+import com.x62.commons.app.base.AppBase;
+import com.x62.commons.msgbus.MsgBus;
+import com.x62.commons.msgbus.MsgEvent;
+import com.x62.commons.msgbus.MsgReceiver;
+import com.x62.commons.msgbus.MsgThread;
+import com.x62.commons.utils.ResUtils;
+import com.x62.utils.MsgEventId;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class ImageModel
+{
+	@MsgReceiver(id=MsgEventId.ID_100008, threadType=MsgThread.BACKGROUND)
+	public static void queryAlbum(MsgEvent<String> event)
+	{
+		List<PhotoAlbumBean> list=new ArrayList<>();
+		Context context=AppBase.getInstance().getContext();
+		Uri mImageUri=MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+		String MIME_TYPE=MediaStore.Images.Media.MIME_TYPE;
+		ContentResolver mContentResolver=context.getContentResolver();
+
+		//只查询jpeg和png的图片
+		String[] projection=new String[]{MediaStore.Images.Media.DATA,MediaStore.Images.Media.BUCKET_ID,MediaStore
+				.Images.Media.BUCKET_DISPLAY_NAME,MediaStore.Images.Media._ID,"count(_id) as album_count"};
+		String selection=MIME_TYPE+"=? or "+MIME_TYPE+"=?) group by ("+MediaStore.Images.Media.BUCKET_ID;
+		String[] selectionArgs=new String[]{"image/jpeg","image/png"};
+		String sortOrder=MediaStore.Images.Media.DATE_MODIFIED+" desc";
+		Cursor mCursor=mContentResolver.query(mImageUri,projection,selection,selectionArgs,sortOrder);
+
+		if(mCursor==null)
+		{
+			MsgBus.send(MsgEventId.ID_100004);
+			return;
+		}
+
+		PhotoAlbumBean all=new PhotoAlbumBean();
+		all.name=ResUtils.getString(R.string.all_photo);
+		list.add(all);
+		try
+		{
+			while(mCursor.moveToNext())
+			{
+				//获取图片的路径
+				String path=mCursor.getString(0);
+
+				if(!new File(path).exists())
+				{
+					continue;
+				}
+
+				String id=mCursor.getString(1);
+				String name=mCursor.getString(2);
+				String lastId=mCursor.getInt(3)+1000+"";
+				int size=mCursor.getInt(4);
+
+				PhotoAlbumBean bean=new PhotoAlbumBean();
+				bean.id=id;
+				bean.name=name;
+				bean.cover=path;
+				bean.size=size;
+				bean.lastId=lastId;
+
+				list.add(bean);
+
+				all.size+=size;
+				if(TextUtils.isEmpty(all.cover))
+				{
+					all.cover=path;
+					all.lastId=lastId;
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			mCursor.close();
+		}
+
+		Collections.sort(list,new Comparator<PhotoAlbumBean>()
+		{
+			@Override
+			public int compare(PhotoAlbumBean pab1,PhotoAlbumBean pab2)
+			{
+				try
+				{
+					return pab2.size-pab1.size;
+				}
+				catch(Exception e)
+				{
+					return 0;
+				}
+			}
+		});
+
+		MsgEvent<List<PhotoAlbumBean>> retEvent=new MsgEvent<>();
+		retEvent.id=MsgEventId.ID_100009;
+		retEvent.t=list;
+		MsgBus.send(retEvent);
+	}
+
+	/**
+	 * 查询某一相册(目录)的图片
+	 *
+	 * @param event
+	 */
+	@MsgReceiver(id=MsgEventId.ID_100002, threadType=MsgThread.BACKGROUND)
+	public static void queryImageByAlbum(MsgEvent<String[]> event)
+	{
+		String id=event.t[0];
+		String lastId=event.t[1];
+
+		Context context=AppBase.getInstance().getContext();
+		Uri mImageUri=MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+		String MIME_TYPE=MediaStore.Images.Media.MIME_TYPE;
+		ContentResolver mContentResolver=context.getContentResolver();
+
+		//只查询jpeg和png的图片
+		String[] projection=new String[]{MediaStore.Images.Media.DATA,MediaStore.Images.Media._ID};
+		String selection="("+MIME_TYPE+"=? or "+MIME_TYPE+"=?) and _id< ?";
+		String[] selectionArgs=new String[]{"image/jpeg","image/png",lastId};
+		if(!TextUtils.isEmpty(id))
+		{
+			selection+="and bucket_id=?";
+			selectionArgs=new String[]{"image/jpeg","image/png",lastId,id};
+		}
+		String sortOrder=MediaStore.Images.Media.DATE_MODIFIED+" desc limit 200";
+		Cursor mCursor=mContentResolver.query(mImageUri,projection,selection,selectionArgs,sortOrder);
+
+		if(mCursor==null)
+		{
+			MsgBus.send(MsgEventId.ID_100004);
+			return;
+		}
+
+		PhotoAlbumBean bean=new PhotoAlbumBean();
+		try
+		{
+			while(mCursor.moveToNext())
+			{
+				//获取图片的路径
+				String path=mCursor.getString(0);
+
+				if(!new File(path).exists())
+				{
+					continue;
+				}
+				bean.photos.add(path);
+				bean.lastId=mCursor.getString(1);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			mCursor.close();
+		}
+
+		MsgEvent<PhotoAlbumBean> retEvent=new MsgEvent<>();
+		retEvent.id=MsgEventId.ID_100003;
+		retEvent.t=bean;
+		MsgBus.send(retEvent);
+	}
+}
