@@ -217,7 +217,6 @@ public class PhotoPickActivity extends BaseActivity implements View.OnClickListe
 	@MsgReceiver(id=MsgEventId.ID_100009)
 	private void onAlbumDataQuerySuccess(MsgEvent<List<PhotoAlbumBean>> event)
 	{
-		loadingDialog.dismiss();
 		list.addAll(event.t);
 		photoAlbumListAdapter.addData(list);
 		loadPhoto();
@@ -231,7 +230,7 @@ public class PhotoPickActivity extends BaseActivity implements View.OnClickListe
 			MsgBus.register(ImageModel.class);
 			MsgEvent<String[]> event=new MsgEvent<>();
 			event.id=MsgEventId.ID_100002;
-			event.t=new String[]{bean.id,bean.lastId};
+			event.t=new String[]{bean.id,bean.lastModified};
 			MsgBus.send(event);
 			isLoading=true;
 		}
@@ -243,12 +242,11 @@ public class PhotoPickActivity extends BaseActivity implements View.OnClickListe
 	 * @param event 含有图片数据的消息
 	 */
 	@MsgReceiver(id=MsgEventId.ID_100003)
-
 	private void onImageDataQuerySuccess(MsgEvent<PhotoAlbumBean> event)
 	{
 		loadingDialog.dismiss();
 		PhotoAlbumBean bean=list.get(currAlbumPosition);
-		bean.lastId=event.t.lastId;
+		bean.lastModified=event.t.lastModified;
 		bean.photos.addAll(event.t.photos);
 		photoListAdapter.setData(bean.photos);
 		isLoading=false;

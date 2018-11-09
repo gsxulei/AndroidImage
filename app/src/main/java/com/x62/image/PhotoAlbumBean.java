@@ -11,7 +11,7 @@ public class PhotoAlbumBean extends BaseBean
 	public String name;
 	public String cover;
 	public int size;
-	public String lastId;
+	public String lastModified;
 	public List<String> photos=new ArrayList<>();
 
 	public boolean isLoadMore()
