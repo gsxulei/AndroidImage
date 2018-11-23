@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#MsgBus混淆
+-keepclassmembers class com.x62.commons.msgbus.MsgReceiver
+-keep enum com.x62.commons.msgbus.MsgThread{*;}
+-keepclassmembers class **{
+    @com.x62.commons.msgbus.MsgReceiver <methods>;
+}
