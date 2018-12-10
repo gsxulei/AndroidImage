@@ -45,7 +45,7 @@ public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAd
 		super.onBindViewHolder(holder,position);
 
 		holder.itemView.setLayoutParams(new FrameLayout.LayoutParams(width,width));
-		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options();
+		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options<>();
 		options.obj=(Activity)context;
 		options.file=new File(data.get(position));
 		options.iv=holder.ivPhotoItem;

@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import com.x62.commons.annotations.LayoutBind;
 import com.x62.commons.utils.ViewBind;
 
-public abstract class BaseFragment extends Fragment
+public abstract class BaseFragment extends Fragment implements View.OnClickListener
 {
 	private View rootView;
-	protected boolean isVisible=false;// 当前Fragment是否可见
+	//protected boolean isVisible=false;// 当前Fragment是否可见
 	protected boolean isInitView=false;// 是否与View建立起映射关系
 	protected boolean isFirstLoad=true;// 是否是第一次加载数据
 
@@ -44,23 +44,23 @@ public abstract class BaseFragment extends Fragment
 		return rootView;
 	}
 
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser)
-	{
-		super.setUserVisibleHint(isVisibleToUser);
-		isVisible=isVisibleToUser;
-		if(isVisibleToUser)
-		{
-			lazyLoadData();
-		}
-	}
+	//	@Override
+	//	public void setUserVisibleHint(boolean isVisibleToUser)
+	//	{
+	//		super.setUserVisibleHint(isVisibleToUser);
+	//		isVisible=isVisibleToUser;
+	//		if(isVisibleToUser)
+	//		{
+	//			lazyLoadData();
+	//		}
+	//	}
 
 	/**
 	 * 懒加载,子类可按需重写
 	 */
 	public void lazyLoadData()
 	{
-		if(!isFirstLoad||!isVisible||!isInitView)
+		if(!isFirstLoad||!isInitView)
 		{
 			return;
 		}
@@ -77,6 +77,11 @@ public abstract class BaseFragment extends Fragment
 			layoutId=layoutBind.id();
 		}
 		return layoutId;
+	}
+
+	@Override
+	public void onClick(View v)
+	{
 	}
 
 	protected abstract void initView(View rootView);

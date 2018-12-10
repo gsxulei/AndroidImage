@@ -1,4 +1,4 @@
-package com.x62.utils;
+package com.x62.commons.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -126,7 +126,7 @@ public class CrashHandler implements UncaughtExceptionHandler
 	 * @param ex
 	 * @return true：如果处理了该异常信息；否则返回 false
 	 */
-	private boolean handleException(Throwable ex)
+	public boolean handleException(Throwable ex)
 	{
 		if(ex==null)
 		{
@@ -196,7 +196,7 @@ public class CrashHandler implements UncaughtExceptionHandler
 	}
 
 	/**
-	 * 保存错误信息到文件中 *
+	 * 保存错误信息到文件中
 	 *
 	 * @param ex
 	 * @return 返回文件名称,便于将文件传送到服务器

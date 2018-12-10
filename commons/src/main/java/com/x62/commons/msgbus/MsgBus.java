@@ -7,6 +7,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
+import com.x62.commons.utils.CrashHandler;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -313,6 +315,7 @@ public class MsgBus
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			CrashHandler.getInstance().handleException(e);
 		}
 		finally
 		{

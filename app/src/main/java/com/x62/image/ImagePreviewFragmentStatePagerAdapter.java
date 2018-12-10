@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 
 import com.x62.commons.base.BaseFragmentStatePagerAdapter;
-import com.x62.image.ImagePreviewFragment;
 
 public class ImagePreviewFragmentStatePagerAdapter extends BaseFragmentStatePagerAdapter<String>
 {

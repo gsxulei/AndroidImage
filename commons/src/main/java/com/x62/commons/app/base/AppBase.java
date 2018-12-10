@@ -44,7 +44,7 @@ public class AppBase
 			 * 可以直接使用ActivityThread.currentApplication()
 			 * 需要导包${sdk.dir}/platforms/android-xx/data/layoutlib.jar
 			 */
-			Class clazz=Class.forName("android.app.ActivityThread");
+			Class<?> clazz=Class.forName("android.app.ActivityThread");
 			Method currentApplication=clazz.getMethod("currentApplication");
 			app=(Application)currentApplication.invoke(null,(Object[])null);
 			mCtx=app;

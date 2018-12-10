@@ -42,10 +42,10 @@ andResGuard
 
 	compressFilePattern=
 	[
-			"*.png",
-			"*.jpg",
-			"*.jpeg",
-			"*.gif",
+		"*.png",
+		"*.jpg",
+		"*.jpeg",
+		"*.gif",
 	]
 
 	sevenzip

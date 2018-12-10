@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.x62.commons.base.ImageLoaderWrapper;
 import com.x62.image.R;
-import com.x62.utils.CrashHandler;
+import com.x62.commons.utils.CrashHandler;
 import com.x62.utils.PathUtils;
 import com.x62.commons.utils.ScreenUtils;
 
