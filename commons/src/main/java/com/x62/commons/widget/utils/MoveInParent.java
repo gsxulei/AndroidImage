@@ -1,9 +1,8 @@
 package com.x62.commons.widget.utils;
 
+import android.animation.ObjectAnimator;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 
 /**
  * 在父控件内拖动子控件
@@ -116,27 +115,30 @@ public class MoveInParent implements View.OnTouchListener
 					{
 						dx=mParent.getRight()-v.getRight();
 					}
-					final int offset=dx;
-					TranslateAnimation animation=new TranslateAnimation(0.0F,offset,0.0F,0.0F);
-					animation.setDuration(200L);
-					animation.setFillAfter(true);
-					animation.setAnimationListener(new Animation.AnimationListener()
-					{
-						public void onAnimationEnd(Animation paramAnonymousAnimation)
-						{
-							v.offsetLeftAndRight(offset);
-							v.clearAnimation();
-						}
-
-						public void onAnimationRepeat(Animation paramAnonymousAnimation)
-						{
-						}
-
-						public void onAnimationStart(Animation paramAnonymousAnimation)
-						{
-						}
-					});
-					v.startAnimation(animation);
+					ObjectAnimator animator=ObjectAnimator.ofFloat(v,"translationX",dx);
+					animator.setDuration(200);
+					animator.start();
+					//					final int offset=dx;
+					//					TranslateAnimation animation=new TranslateAnimation(0.0F,offset,0.0F,0.0F);
+					//					animation.setDuration(200L);
+					//					animation.setFillAfter(true);
+					//					animation.setAnimationListener(new Animation.AnimationListener()
+					//					{
+					//						public void onAnimationEnd(Animation paramAnonymousAnimation)
+					//						{
+					//							v.offsetLeftAndRight(offset);
+					//							v.clearAnimation();
+					//						}
+					//
+					//						public void onAnimationRepeat(Animation paramAnonymousAnimation)
+					//						{
+					//						}
+					//
+					//						public void onAnimationStart(Animation paramAnonymousAnimation)
+					//						{
+					//						}
+					//					});
+					//					v.startAnimation(animation);
 				}
 				else
 				{
