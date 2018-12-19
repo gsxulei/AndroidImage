@@ -13,6 +13,7 @@ import android.text.format.Formatter;
 import android.view.View;
 import android.widget.EditText;
 
+import com.x62.activity.ContentActivity;
 import com.x62.commons.ImageCompressor;
 import com.x62.pick.PhotoPickActivity;
 import com.x62.commons.utils.ResUtils;
@@ -76,6 +77,12 @@ public class MainActivity extends AppCompatActivity
 			compress(picturePath);
 			cursor.close();
 		}
+	}
+
+	public void gotoContentLayout(View view)
+	{
+		Intent intent=new Intent(this,ContentActivity.class);
+		startActivity(intent);
 	}
 
 	public void compressImage(View view)

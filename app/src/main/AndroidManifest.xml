@@ -32,6 +32,11 @@
 			android:name="com.x62.image.ImagePreviewActivity"
 			android:screenOrientation="portrait"
 			android:theme="@style/PreviewFullScreen"/>
+
+		<activity
+			android:name="com.x62.activity.ContentActivity"
+			android:screenOrientation="portrait"
+			android:theme="@style/PreviewFullScreen"/>
 	</application>
 
 </manifest>

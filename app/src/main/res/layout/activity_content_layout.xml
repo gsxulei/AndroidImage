@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#FFFFFF"
+	android:orientation="vertical">
+
+	<com.x62.commons.widget.ContentLayout
+		android:id="@+id/Content"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fadeScrollbars="false"
+		android:overScrollMode="never"
+		android:scrollbars="none"
+		/>
+
+</LinearLayout>

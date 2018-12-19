@@ -21,24 +21,22 @@ public class LongClickHelper implements View.OnTouchListener
 
 	private Handler handler=new Handler(Looper.getMainLooper());
 
-	private int bgId=0;
-	private int bgClickId=0;
-
-
-	public void setView(View view,Runnable runnable)
-	{
-		setView(view,runnable,0,0);
-	}
+	//	private int bgId=0;
+	//	private int bgClickId=0;
+	//
+	//
+	//	public void setView(View view,Runnable runnable)
+	//	{
+	//		setView(view,runnable,0,0);
+	//	}
 
 	/**
 	 * 设置View
 	 *
-	 * @param view      待处理的View
-	 * @param runnable  长按执行回调
-	 * @param bgId      View默认背景
-	 * @param bgClickId View按下背景
+	 * @param view     待处理的View
+	 * @param runnable 长按执行回调
 	 */
-	public void setView(View view,Runnable runnable,int bgId,int bgClickId)
+	public void setView(View view,Runnable runnable)
 	{
 		if(view==null)
 		{
@@ -46,8 +44,8 @@ public class LongClickHelper implements View.OnTouchListener
 		}
 		view.setOnTouchListener(this);
 		this.runnable=runnable;
-		this.bgId=bgId;
-		this.bgClickId=bgClickId;
+		//		this.bgId=bgId;
+		//		this.bgClickId=bgClickId;
 	}
 
 	@Override
@@ -59,10 +57,11 @@ public class LongClickHelper implements View.OnTouchListener
 		{
 			case MotionEvent.ACTION_DOWN:
 			{
-				if(bgClickId>0)
-				{
-					v.setBackgroundResource(bgClickId);
-				}
+				//				if(bgClickId>0)
+				//				{
+				//					v.setBackgroundResource(bgClickId);
+				//				}
+				v.setPressed(true);
 
 				//lastClickTime=System.currentTimeMillis();
 				timer=new Timer();
@@ -92,10 +91,12 @@ public class LongClickHelper implements View.OnTouchListener
 				//				{
 				//					//handler.removeCallbacks(runnable);
 				//				}
-				if(bgId>0)
-				{
-					v.setBackgroundResource(bgId);
-				}
+				//				if(bgId>0)
+				//				{
+				//					v.setBackgroundResource(bgId);
+				//				}
+
+				v.setPressed(false);
 				if(timer!=null)
 				{
 					timer.cancel();
