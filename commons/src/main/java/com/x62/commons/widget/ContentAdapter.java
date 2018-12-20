@@ -18,23 +18,37 @@ public class ContentAdapter extends RecyclerView.Adapter
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,int viewType)
 	{
-		if(viewType==-1)
+		if(isHeaderViewPosition(viewType))
 		{
-			return adapter.onCreateViewHolder(parent,viewType);
+			return new ContentViewHolder(headers.get(viewType));
+		}
+		else if(isFooterViewPosition(viewType))
+		{
+			int location=viewType-headers.size()-getRealItemCount();
+			return new ContentViewHolder(headers.get(location));
 		}
 		else
 		{
-			//int position=viewType;
-			if(isHeaderViewPosition(viewType))
-			{
-				return new ContentViewHolder(headers.get(viewType));
-			}
-			else
-			{
-				int location=viewType-headers.size()-getRealItemCount();
-				return new ContentViewHolder(headers.get(location));
-			}
+			int realViewType=adapter.getItemViewType(viewType);
+			return adapter.onCreateViewHolder(parent,realViewType);
 		}
+		//		if(viewType==-1)
+		//		{
+		//			return adapter.onCreateViewHolder(parent,viewType);
+		//		}
+		//		else
+		//		{
+		//			//int position=viewType;
+		//			if(isHeaderViewPosition(viewType))
+		//			{
+		//				return new ContentViewHolder(headers.get(viewType));
+		//			}
+		//			else
+		//			{
+		//				int location=viewType-headers.size()-getRealItemCount();
+		//				return new ContentViewHolder(headers.get(location));
+		//			}
+		//		}
 	}
 
 	@Override
@@ -64,11 +78,12 @@ public class ContentAdapter extends RecyclerView.Adapter
 	@Override
 	public int getItemViewType(int position)
 	{
-		if(isHeaderViewPosition(position)||isFooterViewPosition(position))
-		{
-			return position;
-		}
-		return -1;
+		//		if(isHeaderViewPosition(position)||isFooterViewPosition(position))
+		//		{
+		//			return position;
+		//		}
+		//		return -1;
+		return position;
 	}
 
 	@Override
