@@ -3,6 +3,7 @@ package com.x62.commons.base;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +33,7 @@ public class ImageLoaderWrapper
 	{
 		public T obj;
 		public File file;
+		public String url;
 		public ImageView iv;
 		public int placeholder=defaultPlaceholder;
 		public int error=defaultError;
@@ -84,7 +86,16 @@ public class ImageLoaderWrapper
 		}
 		reqOptions.error(options.error);
 
-		manager.load(options.file).apply(reqOptions).into(options.iv);
+		if(!TextUtils.isEmpty(options.url))
+		{
+			manager.load(options.url).apply(reqOptions).into(options.iv);
+		}
+		else if(options.file!=null)
+		{
+			manager.load(options.file).apply(reqOptions).into(options.iv);
+		}
+
+		//manager.load(options.file).apply(reqOptions).into(options.iv);
 
 		//manager.load(options.file).placeholder(options.placeholder).centerCrop().error(options.error).into(options
 		// .iv);
