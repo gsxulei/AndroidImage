@@ -97,7 +97,10 @@ public class ContentAdapter extends RecyclerView.Adapter
 	{
 		//解决网格布局头部尾部错乱问题
 		//super.onAttachedToRecyclerView(recyclerView);
-		adapter.onAttachedToRecyclerView(recyclerView);
+		if(adapter!=null)
+		{
+			adapter.onAttachedToRecyclerView(recyclerView);
+		}
 
 		final RecyclerView.LayoutManager layoutManager=recyclerView.getLayoutManager();
 		if(layoutManager instanceof GridLayoutManager)
