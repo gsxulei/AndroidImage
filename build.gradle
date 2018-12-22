@@ -4,8 +4,21 @@ buildscript
 {
 	repositories
 	{
-		google()
-		jcenter()
+		//mavenCentral()
+		//maven { url "https://jitpack.io" }
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+		//maven { url 'http://maven.oschina.net/content/groups/public/' }
+		//maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+		//maven { url "http://maven.springframework.org/release" }
+		//maven { url "http://maven.restlet.org" }
+		//maven { url "http://mirrors.ibiblio.org/maven2" }
+		//maven { url "http://repo.baichuan-android.taobao.com/content/groups/BaichuanRepositories/" }
+		//maven { url 'https://maven.fabric.io/public' }
+		//maven { url "http://maven.springframework.org/release" }
+		//maven { url "http://maven.restlet.org" }
+
+		//google()
+		//jcenter()
 	}
 
 	dependencies
@@ -21,8 +34,9 @@ allprojects
 {
 	repositories
 	{
-		google()
-		jcenter()
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+		//google()
+		//jcenter()
 	}
 }
 
