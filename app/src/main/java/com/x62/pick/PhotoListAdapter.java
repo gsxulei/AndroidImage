@@ -15,8 +15,6 @@ import com.x62.commons.base.ImageLoaderWrapper;
 import com.x62.commons.utils.ViewBind;
 import com.x62.image.R;
 
-import java.io.File;
-
 public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAdapter.ViewHolder>
 {
 	private int width;
@@ -47,7 +45,7 @@ public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAd
 		holder.itemView.setLayoutParams(new FrameLayout.LayoutParams(width,width));
 		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options<>();
 		options.obj=(Activity)context;
-		options.file=new File(data.get(position));
+		options.path=data.get(position);
 		options.iv=holder.ivPhotoItem;
 		ImageLoaderWrapper.load(options);
 	}

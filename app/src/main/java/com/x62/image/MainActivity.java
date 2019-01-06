@@ -3,7 +3,6 @@ package com.x62.image;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -14,15 +13,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.x62.activity.ContentActivity;
-import com.x62.commons.ImageCompressor;
+import com.x62.commons.images.ImageCompressor;
 import com.x62.pick.PhotoPickActivity;
 import com.x62.commons.utils.ResUtils;
 import com.x62.commons.utils.SysBarUtils;
 
-import net.bither.util.NativeUtil;
-
 import java.io.File;
-import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -112,9 +108,9 @@ public class MainActivity extends AppCompatActivity
 		File f2=new File(sdRoot,ct+"_2_java.webp");
 		File f3=new File(sdRoot,ct+"_3_jni.jpg");
 
-		javaCompressToJEPG(path,f1.getAbsolutePath());
-		javaCompressToWEBP(path,f2.getAbsolutePath());
-		//jniCompressToJEPG(path,f3.getAbsolutePath());
+		ImageCompressor.javaCompressToJEPG(path,f1.getAbsolutePath());
+		ImageCompressor.javaCompressToWEBP(path,f2.getAbsolutePath());
+		//ImageCompressor.jniCompressToJEPG(path,f3.getAbsolutePath());
 		System.out.println(file.getAbsolutePath());
 		System.out.println("原始文件大小->"+Formatter.formatFileSize(this,file.length()));
 		System.out.println("纯Java压缩JPG->"+Formatter.formatFileSize(this,f1.length()));
@@ -122,75 +118,75 @@ public class MainActivity extends AppCompatActivity
 		//System.out.println("jni压缩JPG->"+Formatter.formatFileSize(this,f3.length()));
 	}
 
-	public void javaCompressToJEPG(String path,String to)
-	{
-		System.out.println("----------------纯Java压缩JPG-------------------");
-		long start=System.currentTimeMillis();
-
-		try
-		{
-			Bitmap bitmap=ImageCompressor.getBitmap(path);
-			FileOutputStream fos=new FileOutputStream(to);
-			bitmap.compress(Bitmap.CompressFormat.JPEG,quality,fos);
-			fos.close();
-			bitmap.recycle();
-			bitmap=null;
-			Runtime.getRuntime().gc();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		long end=System.currentTimeMillis();
-		System.out.println("压缩耗时->"+(end-start));
-		System.out.println("----------------纯Java压缩JPG-------------------");
-	}
-
-	public void javaCompressToWEBP(String path,String to)
-	{
-		System.out.println("----------------纯Java压缩WEBP-------------------");
-		long start=System.currentTimeMillis();
-
-		try
-		{
-			Bitmap bitmap=ImageCompressor.getBitmap(path);
-			FileOutputStream fos=new FileOutputStream(to);
-			bitmap.compress(Bitmap.CompressFormat.WEBP,quality,fos);
-			fos.close();
-			bitmap.recycle();
-			bitmap=null;
-			Runtime.getRuntime().gc();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		long end=System.currentTimeMillis();
-		System.out.println("压缩耗时->"+(end-start));
-		System.out.println("----------------纯Java压缩WEBP-------------------");
-	}
-
-	public void jniCompressToJEPG(String path,String to)
-	{
-		System.out.println("----------------jni压缩JPG-------------------");
-		long start=System.currentTimeMillis();
-
-		try
-		{
-			Bitmap bitmap=ImageCompressor.getBitmap(path);
-			NativeUtil.compressBitmap(bitmap,quality,to,true);
-			bitmap.recycle();
-			bitmap=null;
-			Runtime.getRuntime().gc();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		long end=System.currentTimeMillis();
-		System.out.println("压缩耗时->"+(end-start));
-		System.out.println("----------------jni压缩JPG-------------------");
-	}
+//	public void javaCompressToJEPG(String path,String to)
+//	{
+//		System.out.println("----------------纯Java压缩JPG-------------------");
+//		long start=System.currentTimeMillis();
+//
+//		try
+//		{
+//			Bitmap bitmap=ImageCompressor.getBitmap(path);
+//			FileOutputStream fos=new FileOutputStream(to);
+//			bitmap.compress(Bitmap.CompressFormat.JPEG,quality,fos);
+//			fos.close();
+//			bitmap.recycle();
+//			bitmap=null;
+//			Runtime.getRuntime().gc();
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+//
+//		long end=System.currentTimeMillis();
+//		System.out.println("压缩耗时->"+(end-start));
+//		System.out.println("----------------纯Java压缩JPG-------------------");
+//	}
+//
+//	public void javaCompressToWEBP(String path,String to)
+//	{
+//		System.out.println("----------------纯Java压缩WEBP-------------------");
+//		long start=System.currentTimeMillis();
+//
+//		try
+//		{
+//			Bitmap bitmap=ImageCompressor.getBitmap(path);
+//			FileOutputStream fos=new FileOutputStream(to);
+//			bitmap.compress(Bitmap.CompressFormat.WEBP,quality,fos);
+//			fos.close();
+//			bitmap.recycle();
+//			bitmap=null;
+//			Runtime.getRuntime().gc();
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+//		long end=System.currentTimeMillis();
+//		System.out.println("压缩耗时->"+(end-start));
+//		System.out.println("----------------纯Java压缩WEBP-------------------");
+//	}
+//
+//	public void jniCompressToJEPG(String path,String to)
+//	{
+//		System.out.println("----------------jni压缩JPG-------------------");
+//		long start=System.currentTimeMillis();
+//
+//		try
+//		{
+//			Bitmap bitmap=ImageCompressor.getBitmap(path);
+//			NativeUtil.compressBitmap(bitmap,quality,to,true);
+//			bitmap.recycle();
+//			bitmap=null;
+//			Runtime.getRuntime().gc();
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+//
+//		long end=System.currentTimeMillis();
+//		System.out.println("压缩耗时->"+(end-start));
+//		System.out.println("----------------jni压缩JPG-------------------");
+//	}
 }

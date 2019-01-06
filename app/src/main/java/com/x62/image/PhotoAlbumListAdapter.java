@@ -6,12 +6,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.x62.image.PhotoAlbumBean;
 import com.x62.commons.base.BaseListAdapter;
 import com.x62.commons.base.ImageLoaderWrapper;
-import com.x62.image.R;
-
-import java.io.File;
 
 /**
  * 相册列表
@@ -51,7 +47,7 @@ public class PhotoAlbumListAdapter extends BaseListAdapter<PhotoAlbumBean>
 
 		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options<>();
 		options.obj=activity;
-		options.file=new File(bean.cover);
+		options.path=bean.cover;
 		options.iv=ivAlbum;
 		ImageLoaderWrapper.load(options);
 

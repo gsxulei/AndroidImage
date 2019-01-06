@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.x62.commons.network.Downloader;
 
 import java.io.File;
 
@@ -32,8 +33,8 @@ public class ImageLoaderWrapper
 	public static class Options<T>
 	{
 		public T obj;
-		public File file;
-		public String url;
+		//public File file;
+		public String path;
 		public ImageView iv;
 		public int placeholder=defaultPlaceholder;
 		public int error=defaultError;
@@ -50,7 +51,7 @@ public class ImageLoaderWrapper
 	 *
 	 * @param options
 	 */
-	private static void glideLoad(Options options)
+	private static void glideLoad(final Options options)
 	{
 		RequestManager manager=null;
 		if(options.obj instanceof Activity)
@@ -75,7 +76,7 @@ public class ImageLoaderWrapper
 			return;
 		}
 
-		RequestOptions reqOptions=new RequestOptions();
+		final RequestOptions reqOptions=new RequestOptions();
 		if(options.placeholder>0)
 		{
 			reqOptions.placeholder(options.placeholder);
@@ -86,14 +87,52 @@ public class ImageLoaderWrapper
 		}
 		reqOptions.error(options.error);
 
-		if(!TextUtils.isEmpty(options.url))
+		if(TextUtils.isEmpty(options.path))
 		{
-			manager.load(options.url).apply(reqOptions).into(options.iv);
+			return;
 		}
-		else if(options.file!=null)
+
+		if(options.path.startsWith("http"))
 		{
-			manager.load(options.file).apply(reqOptions).into(options.iv);
+			//manager.load(options.path).apply(reqOptions).into(options.iv);
+
+			if(Downloader.isDownload(options.path))
+			{
+				//options.file=new File(Downloader.getLocalPathByUrl(options.url));
+				File file=new File(Downloader.getLocalPathByUrl(options.path));
+				manager.load(file).apply(reqOptions).into(options.iv);
+			}
+			else
+			{
+				Downloader.Options opt=new Downloader.Options();
+				opt.url=options.path;
+				final RequestManager finalManager=manager;
+				opt.callBack=new Downloader.DefaultDownloadCallBack()
+				{
+					@Override
+					public void onDownloadSuccess(String localPath)
+					{
+						File file=new File(localPath);
+						finalManager.load(file).apply(reqOptions).into(options.iv);
+					}
+				};
+				Downloader.download(opt);
+			}
 		}
+		else
+		{
+			File file=new File(options.path);
+			manager.load(file).apply(reqOptions).into(options.iv);
+		}
+
+		//		if(!TextUtils.isEmpty(options.path))
+		//		{
+		//			manager.load(options.path).apply(reqOptions).into(options.iv);
+		//		}
+		//		else if(options.file!=null)
+		//		{
+		//			manager.load(options.file).apply(reqOptions).into(options.iv);
+		//		}
 
 		//manager.load(options.file).apply(reqOptions).into(options.iv);
 

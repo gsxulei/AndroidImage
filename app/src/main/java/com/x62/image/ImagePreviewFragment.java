@@ -65,7 +65,7 @@ public class ImagePreviewFragment extends BaseViewPagerFragment
 
 		ImageLoaderWrapper.Options<Fragment> options=new ImageLoaderWrapper.Options<>();
 		options.obj=this;
-		options.file=new File(path);
+		options.path=path;
 		options.iv=iv;
 		options.isCenterCrop=false;
 		options.placeholder=0;

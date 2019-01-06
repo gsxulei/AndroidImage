@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.x62.commons.annotations.LayoutBind;
+import com.x62.commons.msgbus.MsgBus;
 import com.x62.commons.utils.ViewBind;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener
@@ -32,6 +33,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 		}
 		ViewBind.bind(this,rootView);
 		initView(rootView);
+		MsgBus.register(this);
 
 		ViewGroup parent=(ViewGroup)rootView.getParent();
 		if(parent!=null)
