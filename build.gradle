@@ -59,6 +59,10 @@ ext
 		glide:'com.github.bumptech.glide:glide:4.0.0',
 		SubsamplingScaleImageView:'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0',
 		supportV13:'com.android.support:support-v13:23.1.0',
+		gson:'com.google.code.gson:gson:2.7',
+		retrofit:'com.squareup.retrofit2:retrofit:2.3.0',
+		ConverterGson:'com.squareup.retrofit2:converter-gson:2.3.0',
+		OkHttpLogging:'com.squareup.okhttp3:logging-interceptor:3.6.0'
 	]
 }
 

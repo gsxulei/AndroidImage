@@ -36,5 +36,12 @@ dependencies
 	implementation var.appcompat
 	implementation var.glide
 	implementation var.recyclerview
-	implementation 'com.android.support:support-v13:23.1.0'
+	//implementation 'com.android.support:support-v13:23.1.0'
+
+	implementation var.supportV13
+	implementation var.gson
+
+	implementation var.retrofit
+	implementation var.ConverterGson
+	implementation var.OkHttpLogging
 }
