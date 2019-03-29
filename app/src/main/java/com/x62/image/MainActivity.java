@@ -13,10 +13,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.x62.activity.ContentActivity;
-import com.x62.commons.images.ImageCompressor;
+import commons.images.ImageCompressor;
 import com.x62.pick.PhotoPickActivity;
-import com.x62.commons.utils.ResUtils;
-import com.x62.commons.utils.SysBarUtils;
+import commons.utils.ResUtils;
+import commons.utils.SysBarUtils;
 
 import java.io.File;
 

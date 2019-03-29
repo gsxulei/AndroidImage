@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.x62.commons.base.BaseListAdapter;
-import com.x62.commons.base.ImageLoaderWrapper;
+import commons.base.BaseListAdapter;
+import commons.base.ImageLoaderWrapper;
 
 /**
  * 相册列表

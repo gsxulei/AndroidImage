@@ -57,7 +57,7 @@ andResGuard
 	/**
 	 * 可选： 如果不设置则会默认覆盖assemble输出的apk
 	 **/
-	finalApkBackupPath = "${project.rootDir}/app/build/outputs/apk/gsxulei/release/final.apk"
+	finalApkBackupPath="${project.rootDir}/app/build/outputs/apk/gsxulei/release/final.apk"
 
 	/**
 	 * 可选: 指定v1签名时生成jar文件的摘要算法
@@ -78,6 +78,13 @@ android
 		versionCode 1
 		versionName "1.0"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+	}
+
+	//是否检查图片格式(png、点9)正确
+	aaptOptions
+	{
+		cruncherEnabled=false
+		useNewCruncher=false
 	}
 
 	//证书配置 keytool -printcert -file CERT.RSA
@@ -164,6 +171,8 @@ dependencies
 	//testImplementation 'junit:junit:4.12'
 	//androidTestImplementation 'com.android.support.test:runner:1.0.1'
 	//androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+	implementation var.design
 
 
 	implementation project(':commons')

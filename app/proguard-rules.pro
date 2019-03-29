@@ -23,10 +23,10 @@
 #-ignorewarnings
 
 #MsgBus混淆
--keepclassmembers class com.x62.commons.msgbus.MsgReceiver
--keep enum com.x62.commons.msgbus.MsgThread{*;}
+-keepclassmembers class commons.msgbus.MsgReceiver
+#-keep enum commons.msgbus.MsgThread{*;}
 -keepclassmembers class **{
-    @com.x62.commons.msgbus.MsgReceiver <methods>;
+    @commons.msgbus.MsgReceiver <methods>;
 }
 
 #Glide

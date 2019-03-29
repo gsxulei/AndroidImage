@@ -16,7 +16,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import com.x62.commons.utils.Cache;
+import commons.utils.Cache;
 import com.x62.xplugin.api.APISupport;
 import com.x62.xplugin.obj.Plugin;
 

@@ -2,11 +2,11 @@ package com.x62;
 
 import android.app.Application;
 
-import com.x62.commons.base.ImageLoaderWrapper;
+import commons.base.ImageLoaderWrapper;
 import com.x62.image.R;
-import com.x62.commons.utils.CrashHandler;
+import commons.utils.CrashHandler;
 import com.x62.utils.PathUtils;
-import com.x62.commons.utils.ScreenUtils;
+import commons.utils.ScreenUtils;
 
 /**
  * Created by GSXL on 2018-05-05.

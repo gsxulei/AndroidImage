@@ -7,12 +7,12 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
-import com.x62.commons.app.base.AppBase;
-import com.x62.commons.msgbus.MsgBus;
-import com.x62.commons.msgbus.MsgEvent;
-import com.x62.commons.msgbus.MsgReceiver;
-import com.x62.commons.msgbus.MsgThread;
-import com.x62.commons.utils.ResUtils;
+import commons.app.base.AppBase;
+import commons.msgbus.MsgBus;
+import commons.msgbus.MsgEvent;
+import commons.msgbus.MsgReceiver;
+import commons.msgbus.MsgThread;
+import commons.utils.ResUtils;
 import com.x62.utils.MsgEventId;
 
 import java.io.File;

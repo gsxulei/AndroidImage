@@ -1,6 +1,6 @@
 package com.x62.image;
 
-import com.x62.commons.base.BaseBean;
+import commons.base.BaseBean;
 
 import java.util.ArrayList;
 import java.util.List;

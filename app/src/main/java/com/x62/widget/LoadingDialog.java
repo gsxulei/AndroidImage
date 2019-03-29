@@ -8,7 +8,7 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.x62.commons.utils.ResUtils;
+import commons.utils.ResUtils;
 import com.x62.image.R;
 
 public class LoadingDialog

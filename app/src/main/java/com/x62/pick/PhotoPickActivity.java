@@ -12,19 +12,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.x62.commons.base.BaseActivity;
-import com.x62.commons.msgbus.MsgBus;
-import com.x62.commons.msgbus.MsgEvent;
-import com.x62.commons.msgbus.MsgReceiver;
+import commons.base.BaseActivity;
+import commons.msgbus.MsgBus;
+import commons.msgbus.MsgEvent;
+import commons.msgbus.MsgReceiver;
 import com.x62.image.ImageModel;
 import com.x62.image.PhotoAlbumListAdapter;
-import com.x62.commons.utils.ResUtils;
-import com.x62.commons.base.BaseRecyclerViewAdapter;
+import commons.utils.ResUtils;
+import commons.base.BaseRecyclerViewAdapter;
 import com.x62.image.PhotoAlbumBean;
 import com.x62.image.ImagePreviewActivity;
 import com.x62.image.R;
-import com.x62.commons.utils.SystemBarCompat;
-import com.x62.commons.utils.ViewBind;
+import commons.utils.SystemBarCompat;
+import commons.utils.ViewBind;
 import com.x62.utils.MsgEventId;
 import com.x62.widget.LoadingDialog;
 
@@ -75,8 +75,8 @@ public class PhotoPickActivity extends BaseActivity implements View.OnClickListe
 		ViewBind.bind(this);
 
 		//initData();
-		bottomEnter=AnimationUtils.loadAnimation(this,R.anim.bottom_enter);
-		bottomOut=AnimationUtils.loadAnimation(this,R.anim.bottom_out);
+		bottomEnter=AnimationUtils.loadAnimation(mContext,R.anim.bottom_enter);
+		bottomOut=AnimationUtils.loadAnimation(mContext,R.anim.bottom_out);
 
 		photoAlbumListAdapter=new PhotoAlbumListAdapter(this);
 		photoAlbumListAdapter.addData(list);
@@ -129,7 +129,7 @@ public class PhotoPickActivity extends BaseActivity implements View.OnClickListe
 			}
 		});
 
-		photoListAdapter=new PhotoListAdapter(this);
+		photoListAdapter=new PhotoListAdapter(mContext);
 		//photoListAdapter.setData(list.get(0).photos);
 
 		GridLayoutManager manager=new GridLayoutManager(this,4);

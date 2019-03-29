@@ -9,10 +9,10 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.x62.commons.utils.ResUtils;
-import com.x62.commons.base.BaseRecyclerViewAdapter;
-import com.x62.commons.base.ImageLoaderWrapper;
-import com.x62.commons.utils.ViewBind;
+import commons.utils.ResUtils;
+import commons.base.BaseRecyclerViewAdapter;
+import commons.base.ImageLoaderWrapper;
+import commons.utils.ViewBind;
 import com.x62.image.R;
 
 public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAdapter.ViewHolder>

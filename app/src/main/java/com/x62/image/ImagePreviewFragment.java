@@ -10,14 +10,14 @@ import android.widget.ImageView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.x62.commons.annotations.LayoutBind;
-import com.x62.commons.base.BaseViewPagerFragment;
-import com.x62.commons.base.ImageLoaderWrapper;
-import com.x62.commons.utils.ViewBind;
+import commons.annotations.LayoutBind;
+import commons.base.BaseViewPagerFragment;
+import commons.base.ImageLoaderWrapper;
+import commons.utils.ViewBind;
 
 import java.io.File;
 
-@LayoutBind(id=R.layout.fragment_image_preview)
+@LayoutBind(R.layout.fragment_image_preview)
 public class ImagePreviewFragment extends BaseViewPagerFragment
 {
 	private String path;

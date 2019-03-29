@@ -6,7 +6,7 @@
 	android:background="#FFFFFF"
 	android:orientation="vertical">
 
-	<com.x62.commons.widget.ContentLayout
+	<commons.widget.ContentLayout
 		android:id="@+id/Content"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"

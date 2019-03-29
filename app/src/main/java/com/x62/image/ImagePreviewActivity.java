@@ -20,13 +20,13 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.x62.commons.base.BaseActivity;
-import com.x62.commons.msgbus.MsgBus;
-import com.x62.commons.msgbus.MsgEvent;
-import com.x62.commons.msgbus.MsgReceiver;
-import com.x62.commons.utils.ScreenUtils;
-import com.x62.commons.utils.SystemBarCompat;
-import com.x62.commons.utils.ViewBind;
+import commons.base.BaseActivity;
+import commons.msgbus.MsgBus;
+import commons.msgbus.MsgEvent;
+import commons.msgbus.MsgReceiver;
+import commons.utils.ScreenUtils;
+import commons.utils.SystemBarCompat;
+import commons.utils.ViewBind;
 import com.x62.utils.MsgEventId;
 
 import java.util.List;
