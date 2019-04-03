@@ -1,1 +1,1 @@
-include ':app', ':xplugin', ':commons'
+include ':app'

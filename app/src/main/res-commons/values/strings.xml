@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="commons_please_wait">请稍候&#8230;</string>
+	<string name="commons_dialog_ask_cancel">取消</string>
+	<string name="commons_dialog_ask_confirm">确定</string>
+</resources>

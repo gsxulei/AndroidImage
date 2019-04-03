@@ -127,6 +127,13 @@ android
 		}
 	}
 
+	//每个模块按照此方式添加独立的资源文件
+	sourceSets.main
+	{
+		res.srcDirs+='src/main/res'
+		res.srcDirs+='src/main/res-commons'
+	}
+
 	//自定义apk名称
 //	android.applicationVariants.all
 //	{
@@ -163,17 +170,24 @@ dependencies
 	implementation fileTree(include: ['*.jar'], dir: 'libs')
 	implementation var.appcompat
 	implementation var.recyclerview
-	implementation var.glide
-	implementation var.SubsamplingScaleImageView
+	implementation var.design
 	implementation var.supportV13
+
+	implementation var.glide
+	implementation var.gson
+	implementation var.SubsamplingScaleImageView
+
+	implementation var.retrofit
+	implementation var.ConverterGson
+	implementation var.OkHttpLogging
+
+	compileOnly files("${android.getSdkDirectory().getAbsolutePath()}/platforms/android-23/data/layoutlib.jar")
+
 	//implementation 'org.greenrobot:eventbus:3.1.1'
 	//implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 	//testImplementation 'junit:junit:4.12'
 	//androidTestImplementation 'com.android.support.test:runner:1.0.1'
 	//androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-	implementation var.design
-
-
-	implementation project(':commons')
+	//implementation project(':commons')
 }
