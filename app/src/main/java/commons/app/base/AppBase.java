@@ -82,7 +82,7 @@ public class AppBase
 	/**
 	 * 获取Context
 	 *
-	 * @return
+	 * @return Context
 	 */
 	public Context getContext()
 	{

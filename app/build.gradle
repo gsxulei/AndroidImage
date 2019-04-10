@@ -134,6 +134,15 @@ android
 		res.srcDirs+='src/main/res-commons'
 	}
 
+	//排除不想添加到apk中的文件
+	packagingOptions
+	{
+		exclude 'okhttp3/internal/publicsuffix/publicsuffixes.gz'
+		exclude 'publicsuffixes.gz'
+		exclude 'META-INF/proguard/proguard.pro'
+		exclude 'META-INF/com.android.support_exifinterface.version'
+	}
+
 	//自定义apk名称
 //	android.applicationVariants.all
 //	{

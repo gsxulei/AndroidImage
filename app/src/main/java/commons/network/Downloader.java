@@ -112,7 +112,7 @@ public class Downloader
 	public static boolean isDownload(String url)
 	{
 		File file=new File(getLocalPathByUrl(url));
-		return file.exists();
+		return file.exists()&&file.length()>0;
 	}
 
 	/**

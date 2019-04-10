@@ -16,8 +16,8 @@ public class SysBarUtils
 	/**
 	 * 状态栏着色
 	 *
-	 * @param activity
-	 * @param color
+	 * @param activity Activity
+	 * @param color 颜色
 	 */
 	public static void statusBarTint(Activity activity,int color)
 	{
@@ -45,7 +45,7 @@ public class SysBarUtils
 	/**
 	 * 系统栏(状态栏、导航栏)悬浮
 	 *
-	 * @param activity
+	 * @param activity Activity
 	 */
 	public static void sysBarFloat(Activity activity)
 	{
@@ -64,7 +64,7 @@ public class SysBarUtils
 	/**
 	 * 状态栏悬浮
 	 *
-	 * @param activity
+	 * @param activity Activity
 	 */
 	public static void statusBarFloat(Activity activity)
 	{

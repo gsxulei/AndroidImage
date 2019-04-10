@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+
 import commons.utils.MsgEventId;
 
 import commons.msgbus.MsgBus;
@@ -54,21 +55,36 @@ public class ImageLoaderWrapper
 	/**
 	 * 使用Glide加载图片
 	 *
-	 * @param options
+	 * @param options 参数选项
 	 */
 	private static void glideLoad(final Options options)
 	{
 		RequestManager manager=null;
 		if(options.obj instanceof Activity)
 		{
-			manager=Glide.with((Activity)options.obj);
+			Activity activity=(Activity)options.obj;
+			if(activity.isDestroyed()||activity.isFinishing())
+			{
+				return;
+			}
+			manager=Glide.with(activity);
 		}
 		else if(options.obj instanceof Fragment)
 		{
+			Activity activity=((Fragment)options.obj).getActivity();
+			if(activity.isDestroyed()||activity.isFinishing())
+			{
+				return;
+			}
 			manager=Glide.with((Fragment)options.obj);
 		}
 		else if(options.obj instanceof android.support.v4.app.Fragment)
 		{
+			Activity activity=((android.support.v4.app.Fragment)options.obj).getActivity();
+			if(activity.isDestroyed()||activity.isFinishing())
+			{
+				return;
+			}
 			manager=Glide.with((android.support.v4.app.Fragment)options.obj);
 		}
 		else if(options.obj instanceof Context)

@@ -62,7 +62,7 @@ public class PathUtils
 	//		return dbPath.getAbsolutePath();
 	//	}
 	private static String sdRoot=Environment.getExternalStorageDirectory().getAbsolutePath();
-	private static final String APP_ROOT_NAME="LotteryAssistant";
+	private static final String APP_ROOT_NAME="ZhiBen";
 	private static final String APP_CRASH_NAME="crash";
 	private static final String APP_TEMP_NAME="temp";
 	private static final String APP_CACHE_NAME="cache";

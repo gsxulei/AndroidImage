@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="CommonsLine">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">@dimen/commons_divider_height</item>
+		<item name="android:background">#D7D7D7</item>
+	</style>
+
+	<style name="CommonsVerticalLine">
+		<item name="android:layout_width">@dimen/commons_divider_height</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:background">#D7D7D7</item>
+	</style>
+</resources>

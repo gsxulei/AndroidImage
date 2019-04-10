@@ -48,7 +48,7 @@ public class BaseAgent implements View.OnClickListener, Cloneable
 		}
 	}
 
-	public Bundle getParamBundle()
+	protected Bundle getParamBundle()
 	{
 		return ((BaseActivity)mContext).getParamBundle();
 	}

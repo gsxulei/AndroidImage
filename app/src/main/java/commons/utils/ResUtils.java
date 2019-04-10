@@ -9,18 +9,30 @@ import commons.app.base.AppBase;
  */
 public class ResUtils
 {
-	private static Resources res=AppBase.getInstance().getContext().getResources();
+	private static final Resources res=AppBase.getInstance().getContext().getResources();
 
-	/**
-	 * 根据ID获取字符串
-	 *
-	 * @param id 字符串ID
-	 * @return 与资源ID对应的字符串
-	 */
-	public static String getString(int id)
-	{
-		return res.getString(id);
-	}
+	//	/**
+	//	 * 根据ID获取字符串
+	//	 *
+	//	 * @param id 字符串ID
+	//	 * @return 与资源ID对应的字符串
+	//	 */
+	//	public static String getString(int id)
+	//	{
+	//		return res.getString(id);
+	//	}
+	//
+	//	/**
+	//	 * 根据ID获取带有占位符的字符串
+	//	 *
+	//	 * @param id   字符串ID
+	//	 * @param args 占位符参数
+	//	 * @return 与资源ID对应的字符串
+	//	 */
+	//	public static String getStringFormat(int id,Object... args)
+	//	{
+	//		return String.format(res.getString(id),args);
+	//	}
 
 	/**
 	 * 根据ID获取带有占位符的字符串
@@ -29,9 +41,19 @@ public class ResUtils
 	 * @param args 占位符参数
 	 * @return 与资源ID对应的字符串
 	 */
-	public static String getStringFormat(int id,Object... args)
+	public static String getString(int id,Object... args)
 	{
+		//Resources res=AppBase.getInstance().getContext().getResources();
+		if(args==null||args.length==0)
+		{
+			return res.getString(id);
+		}
 		return String.format(res.getString(id),args);
+	}
+
+	public static int getDimension(int id)
+	{
+		return res.getDimensionPixelSize(id);
 	}
 
 	/**

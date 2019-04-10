@@ -9,8 +9,8 @@ import android.content.Context;
 
 public abstract class BaseDialog
 {
-	protected AlertDialog dialog;
-	protected Context context;
+	protected AlertDialog mDialog;
+	protected Context mContext;
 
 	/**
 	 * 显示弹框
@@ -22,9 +22,9 @@ public abstract class BaseDialog
 	 */
 	public void dismiss()
 	{
-		if(dialog!=null)
+		if(mDialog!=null)
 		{
-			dialog.dismiss();
+			mDialog.dismiss();
 		}
 	}
 }

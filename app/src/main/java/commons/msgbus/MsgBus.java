@@ -317,7 +317,7 @@ public class MsgBus
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			CrashHandler.getInstance().handleException(e);
+			CrashHandler.getInstance().uncaughtException(null,e);
 		}
 		finally
 		{

@@ -112,7 +112,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 	public void onDestroy()
 	{
 		super.onDestroy();
-		MsgBus.unregister(this);
+		//MsgBus.unregister(this);
+		if(mAgent!=null)
+		{
+			MsgBus.unregister(mAgent);
+			mAgent.onDestroy();
+		}
 	}
 
 	/**
