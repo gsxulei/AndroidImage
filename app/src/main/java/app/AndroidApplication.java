@@ -2,7 +2,7 @@ package app;
 
 import android.app.Application;
 
-import commons.base.BaseAgent;
+import commons.agent.BaseAgent;
 import commons.base.ImageLoaderWrapper;
 
 import image.PreviewAgent;

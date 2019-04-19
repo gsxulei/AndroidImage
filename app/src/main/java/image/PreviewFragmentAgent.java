@@ -14,7 +14,7 @@ import commons.utils.MsgEventId;
 import java.io.File;
 
 import commons.annotations.LayoutBind;
-import commons.base.BaseAgent;
+import commons.agent.BaseAgent;
 import commons.base.ImageLoaderWrapper;
 import commons.msgbus.MsgBus;
 import commons.msgbus.MsgEvent;

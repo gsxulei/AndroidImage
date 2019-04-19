@@ -7,7 +7,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
-import commons.base.BaseAgent;
+import commons.agent.BaseAgent;
 import commons.utils.CrashHandler;
 
 import java.lang.reflect.Method;

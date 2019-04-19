@@ -1,6 +1,6 @@
 package commons.annotations;
 
-import commons.base.BaseAgent;
+import commons.agent.BaseAgent;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

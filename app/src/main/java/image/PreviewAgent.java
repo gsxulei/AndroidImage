@@ -10,7 +10,7 @@ import commons.utils.MsgEventId;
 import java.util.List;
 
 import commons.annotations.LayoutBind;
-import commons.base.BaseAgent;
+import commons.agent.BaseAgent;
 import commons.msgbus.MsgBus;
 import commons.msgbus.MsgEvent;
 import commons.msgbus.MsgReceiver;

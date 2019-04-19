@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import commons.base.BaseActivity;
+import commons.agent.BaseActivity;
 import commons.msgbus.MsgBus;
 import commons.msgbus.MsgEvent;
 import commons.msgbus.MsgReceiver;

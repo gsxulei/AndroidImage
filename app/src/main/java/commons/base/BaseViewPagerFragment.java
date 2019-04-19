@@ -1,5 +1,7 @@
 package commons.base;
 
+import commons.agent.BaseFragment;
+
 /**
  * 用于和ViewPager一起使用
  */

@@ -1,7 +1,7 @@
 package com.x62.content;
 
 import commons.annotations.LayoutBind;
-import commons.base.BaseAgent;
+import commons.agent.BaseAgent;
 import commons.utils.ViewBind;
 import commons.widget.ContentLayout;
 import com.x62.image.R;

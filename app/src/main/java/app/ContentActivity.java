@@ -1,7 +1,7 @@
 package app;
 
 import commons.annotations.Agent;
-import commons.base.BaseActivity;
+import commons.agent.BaseActivity;
 import com.x62.content.ContentAgent;
 
 @Agent(ContentAgent.class)
