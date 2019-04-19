@@ -140,17 +140,20 @@ android
 		exclude 'okhttp3/internal/publicsuffix/publicsuffixes.gz'
 		exclude 'publicsuffixes.gz'
 		exclude 'META-INF/proguard/proguard.pro'
+		exclude 'META-INF/proguard/okhttp3.pro'
 		exclude 'META-INF/com.android.support_exifinterface.version'
 	}
 
-	//自定义apk名称
-//	android.applicationVariants.all
-//	{
-//		variant->variant.outputs.all
-//		{
-//			outputFileName="app_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-//		}
-//	}
+	//修改生成的apk文件名
+	applicationVariants.all
+	{
+		variant->variant.outputs.all
+		{
+			outputFileName="app_${defaultConfig.versionName}_"
+			outputFileName+=variant.productFlavors[0].name
+			outputFileName+="."+releaseTime()+".apk"
+		}
+	}
 
 	//编译完成后执行安装启动脚本
 	applicationVariants.all
@@ -160,7 +163,11 @@ android
 			exec
 			{
 				workingDir './install'
-				commandLine=['cmd','/c','install.bat',variant.buildType.name,variant.outputs[0].outputFile]
+				//commandLine=['cmd','/c','install.bat',variant.buildType.name,variant.outputs[0].outputFile]
+				def buildType=variant.buildType.name
+				def apkName=variant.outputs[0].outputFile
+				def applicationId=variant.productFlavors[0].applicationId
+				commandLine=['cmd','/c','install.bat',buildType,apkName,applicationId]
 			}
 		}
 	}
@@ -172,6 +179,17 @@ android
 //			jniLibs.srcDirs=['libs']
 //		}
 //	}
+}
+
+/**
+ * 获取当前时间
+ *
+ * @return 当前时间
+ */
+def static releaseTime()
+{
+	//,TimeZone.getTimeZone("UTC")
+	return new Date().format("yyyyMMdd.HHmmss")
 }
 
 dependencies
