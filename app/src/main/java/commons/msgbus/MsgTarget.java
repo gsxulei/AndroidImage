@@ -37,10 +37,10 @@ public class MsgTarget
 	@Override
 	public boolean equals(Object o)
 	{
-		if(o==null||!(o instanceof MsgTarget))
+		if(o instanceof MsgTarget)
 		{
-			return false;
+			return object==((MsgTarget)o).object;
 		}
-		return object==((MsgTarget)o).object;
+		return false;
 	}
 }

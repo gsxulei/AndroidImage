@@ -55,3 +55,8 @@
 -keep class retrofit2.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
+
+#自定义混淆字典
+-obfuscationdictionary proguard/proguard-o0O.txt
+-classobfuscationdictionary proguard/proguard-o0O.txt
+-packageobfuscationdictionary proguard/proguard-o0O.txt

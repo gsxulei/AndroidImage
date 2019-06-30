@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -253,7 +254,11 @@ public class PhotoPickActivity extends BaseActivity implements View.OnClickListe
 	{
 		hideLoading();
 		PhotoAlbumBean bean=list.get(currAlbumPosition);
-		bean.lastModified=event.t.lastModified;
+		//bean.lastModified=event.t.lastModified;
+		if(!TextUtils.isEmpty(event.t.lastModified))
+		{
+			bean.lastModified=event.t.lastModified;
+		}
 		bean.photos.addAll(event.t.photos);
 		photoListAdapter.setData(bean.photos);
 		isLoading=false;

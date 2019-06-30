@@ -149,9 +149,12 @@ android
 	{
 		variant->variant.outputs.all
 		{
-			outputFileName="app_${defaultConfig.versionName}_"
-			outputFileName+=variant.productFlavors[0].name
-			outputFileName+="."+releaseTime()+".apk"
+			if("release"==variant.buildType.name)
+			{
+				outputFileName="app_${defaultConfig.versionName}_"
+				outputFileName+=variant.productFlavors[0].name
+				outputFileName+="."+releaseTime()+".apk"
+			}
 		}
 	}
 

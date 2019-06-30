@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  */
 public class AppBase
 {
-	private Context mCtx;
+	//private Context mCtx;
 	private Application app;
 
 	/**
@@ -40,14 +40,12 @@ public class AppBase
 	{
 		try
 		{
-			/**
-			 * 可以直接使用ActivityThread.currentApplication()
-			 * 需要导包${sdk.dir}/platforms/android-xx/data/layoutlib.jar
-			 */
+			//可以直接使用ActivityThread.currentApplication()
+			//需要导包${sdk.dir}/platforms/android-xx/data/layoutlib.jar
 			Class<?> clazz=Class.forName("android.app.ActivityThread");
 			Method currentApplication=clazz.getMethod("currentApplication");
 			app=(Application)currentApplication.invoke(null,(Object[])null);
-			mCtx=app;
+			//mCtx=app;
 		}
 		catch(Exception e)
 		{
@@ -59,10 +57,8 @@ public class AppBase
 		// return;
 		// }
 
-		/**
-		 * 可以直接使用AppGlobals.getInitialApplication()
-		 * 需要导包${sdk.dir}/platforms/android-xx/data/layoutlib.jar
-		 */
+		//可以直接使用ActivityThread.currentApplication()
+		//需要导包${sdk.dir}/platforms/android-xx/data/layoutlib.jar
 		// try
 		// {
 		// app=(Application)Class.forName("android.app.AppGlobals").getMethod("getInitialApplication")
@@ -86,10 +82,10 @@ public class AppBase
 	 */
 	public Context getContext()
 	{
-		if(mCtx!=null)
-		{
-			return mCtx;
-		}
+		//		if(mCtx!=null)
+		//		{
+		//			return mCtx;
+		//		}
 		return app;
 	}
 

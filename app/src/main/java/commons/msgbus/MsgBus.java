@@ -48,27 +48,23 @@ public class MsgBus
 		{
 			super.handleMessage(msg);
 
-			switch(msg.what)
+			if(msg.what==1)
 			{
-				case 1:
+				Object[] objArr=(Object[])msg.obj;
+				MsgTarget target=null;
+				MsgEvent event=null;
+				if(objArr[0] instanceof MsgTarget)
 				{
-					Object[] objArr=(Object[])msg.obj;
-					MsgTarget target=null;
-					MsgEvent event=null;
-					if(objArr[0] instanceof MsgTarget)
-					{
-						target=(MsgTarget)objArr[0];
-					}
-					if(objArr[1] instanceof MsgEvent)
-					{
-						event=(MsgEvent)objArr[1];
-					}
-					if(target!=null&&event!=null)
-					{
-						exec(target,event);
-					}
+					target=(MsgTarget)objArr[0];
 				}
-				break;
+				if(objArr[1] instanceof MsgEvent)
+				{
+					event=(MsgEvent)objArr[1];
+				}
+				if(target!=null&&event!=null)
+				{
+					exec(target,event);
+				}
 			}
 		}
 	};

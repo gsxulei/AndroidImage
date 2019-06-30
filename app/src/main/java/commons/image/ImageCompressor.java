@@ -142,7 +142,7 @@ public class ImageCompressor
 
 		try
 		{
-			Bitmap bitmap=ImageCompressor.getBitmap(path);
+			Bitmap bitmap=getBitmap(path);
 			FileOutputStream fos=new FileOutputStream(to);
 			bitmap.compress(Bitmap.CompressFormat.JPEG,quality,fos);
 			fos.close();
@@ -167,7 +167,7 @@ public class ImageCompressor
 
 		try
 		{
-			Bitmap bitmap=ImageCompressor.getBitmap(path);
+			Bitmap bitmap=getBitmap(path);
 			FileOutputStream fos=new FileOutputStream(to);
 			bitmap.compress(Bitmap.CompressFormat.WEBP,quality,fos);
 			fos.close();
@@ -191,7 +191,7 @@ public class ImageCompressor
 
 		try
 		{
-			Bitmap bitmap=ImageCompressor.getBitmap(path);
+			Bitmap bitmap=getBitmap(path);
 			NativeUtil.compressBitmap(bitmap,quality,to,true);
 			bitmap.recycle();
 			bitmap=null;
