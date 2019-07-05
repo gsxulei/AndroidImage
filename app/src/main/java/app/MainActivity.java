@@ -11,13 +11,18 @@ import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import commons.image.ImageCompressor;
 
 import com.x62.image.R;
 
+import commons.utils.Logger;
+import commons.utils.PatchUtils;
+import commons.utils.PathUtils;
 import commons.utils.ResUtils;
 import commons.utils.SysBarUtils;
+import test.PatchClass;
 
 import java.io.File;
 
@@ -34,6 +39,16 @@ public class MainActivity extends AppCompatActivity
 		setContentView(R.layout.activity_main);
 		SysBarUtils.statusBarTint(this,ResUtils.getColor(R.color.colorPrimary));
 		etQuality=(EditText)findViewById(R.id.etQuality);
+
+		//Logger.e(getClassLoader().toString()+"");
+		//Logger.e(String.class.getClassLoader().toString()+"");
+
+		File patch=PathUtils.getAppDataFile("patch/oat/arm");
+		File[] files=patch.listFiles();
+		for(File file : files)
+		{
+			Logger.e(file.getAbsolutePath());
+		}
 	}
 
 	//	public void compressImage(View view)
@@ -74,6 +89,29 @@ public class MainActivity extends AppCompatActivity
 			compress(picturePath);
 			cursor.close();
 		}
+	}
+
+	public void calculate(View view)
+	{
+		PatchClass patchClass=new PatchClass();
+		try
+		{
+			int result=patchClass.getResult();
+			Toast.makeText(this,"结果->"+result,Toast.LENGTH_SHORT).show();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			Toast.makeText(this,"出错了",Toast.LENGTH_SHORT).show();
+		}
+		//Logger.e(patchClass.getResult()+"");
+		Logger.e(patchClass.getClass().getClassLoader().toString()+"");
+	}
+
+	public void patchUp(View view)
+	{
+		String path=Environment.getExternalStorageDirectory().getAbsolutePath()+"/classes2.dex";
+		PatchUtils.patchUp(getApplication(),new String[]{path});
 	}
 
 	public void gotoContentLayout(View view)

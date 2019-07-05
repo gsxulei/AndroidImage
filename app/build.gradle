@@ -158,6 +158,15 @@ android
 		}
 	}
 
+	//编译之前操作
+	applicationVariants.all
+	{
+		variant->variant.assemble.doFirst
+		{
+			println "编译之前操作"
+		}
+	}
+
 	//编译完成后执行安装启动脚本
 	applicationVariants.all
 	{

@@ -128,6 +128,11 @@ public class PathUtils
 		return appDataFile;
 	}
 
+	public static File getAppDataFile(String name)
+	{
+		return new File(getPath(appDataFile.getAbsolutePath(),name));
+	}
+
 	public static File getAppCacheFile()
 	{
 		return appCacheFile;

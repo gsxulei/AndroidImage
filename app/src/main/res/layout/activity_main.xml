@@ -52,4 +52,16 @@
 		android:layout_height="wrap_content"
 		android:onClick="gotoContentLayout"
 		android:text="加头RecyclerView"/>
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="calculate"
+		android:text="计算"/>
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="patchUp"
+		android:text="打补丁"/>
 </LinearLayout>

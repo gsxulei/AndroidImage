@@ -5,6 +5,7 @@ import android.app.Application;
 import commons.agent.BaseAgent;
 import commons.base.ImageLoaderWrapper;
 
+import commons.utils.PatchUtils;
 import image.PreviewAgent;
 import com.x62.image.R;
 
@@ -36,6 +37,8 @@ public class AndroidApplication extends Application
 		Downloader.setDownloadDir(PathUtils.getCachePath());
 
 		fixProguard();
+
+		PatchUtils.loadPatch(this);
 	}
 
 	@Override

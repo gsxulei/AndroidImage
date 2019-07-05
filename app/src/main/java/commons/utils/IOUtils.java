@@ -292,14 +292,22 @@ public class IOUtils
 	public static String getFileExt(String name)
 	{
 		int index=name.lastIndexOf(".");
-		String fileExt=name.substring(index);
+		String fileExt="";
+		if(index>-1)
+		{
+			fileExt=name.substring(index+1);
+		}
 		return fileExt;
 	}
 
 	public static String getFileNameNoExt(String name)
 	{
 		int index=name.lastIndexOf(".");
-		String fileName=name.substring(0,index);
+		String fileName="";
+		if(index>-1)
+		{
+			fileName=name.substring(0,index);
+		}
 		return fileName;
 	}
 
