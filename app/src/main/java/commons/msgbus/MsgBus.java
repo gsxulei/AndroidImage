@@ -7,9 +7,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
-import commons.agent.BaseAgent;
-import commons.utils.CrashHandler;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +139,7 @@ public class MsgBus
 			flag=flag||obj instanceof Fragment;
 			flag=flag||obj instanceof View;
 			flag=flag||obj instanceof android.support.v4.app.Fragment;
-			flag=flag||obj instanceof BaseAgent;
+			//flag=flag||obj instanceof BaseAgent;
 			if(flag)
 			{
 				target.threadType=MsgThread.MAIN;
@@ -313,7 +310,7 @@ public class MsgBus
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			CrashHandler.getInstance().uncaughtException(null,e);
+			//CrashHandler.getInstance().uncaughtException(null,e);
 		}
 		finally
 		{

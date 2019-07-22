@@ -78,6 +78,8 @@ android
 		versionCode 1
 		versionName "1.0"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+		//只保留中文资源
+		resConfig("zh-rCN")
 	}
 
 	//是否检查图片格式(png、点9)正确

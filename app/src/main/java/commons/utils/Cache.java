@@ -10,9 +10,6 @@ import android.content.SharedPreferences;
  */
 public class Cache
 {
-	private String name="";
-	private Context mCtx;
-	private int MODE=Context.MODE_PRIVATE;
 	private SharedPreferences sp;
 
 	private static class Loader
@@ -22,8 +19,8 @@ public class Cache
 
 	private Cache()
 	{
-		mCtx=AppBase.getInstance().getContext();
-		sp=mCtx.getSharedPreferences(name,MODE);
+		Context mCtx=AppBase.getInstance().getContext();
+		sp=mCtx.getSharedPreferences("cache",Context.MODE_PRIVATE);
 	}
 
 	public static Cache getInstance()

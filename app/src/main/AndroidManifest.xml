@@ -17,7 +17,9 @@
 		android:theme="@style/FullScreen">
 		<activity android:name="app.MainActivity">
 			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
 				<action android:name="android.intent.action.MAIN"/>
+
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
@@ -38,6 +40,18 @@
 			android:name="app.ContentActivity"
 			android:screenOrientation="portrait"
 			android:theme="@style/PreviewFullScreen"/>
+
+		<!--动态修改桌面图标-->
+		<!--
+		<activity-alias
+			android:name=""
+			android:targetActivity="">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity-alias>
+		-->
 	</application>
 
 </manifest>
