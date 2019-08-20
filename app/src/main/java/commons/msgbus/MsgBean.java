@@ -20,8 +20,7 @@ public class MsgBean
 
 	public List<MsgTarget> getTargets()
 	{
-		List<MsgTarget> result=new ArrayList<>();
-		result.addAll(targets);
+		List<MsgTarget> result=new ArrayList<>(targets);
 		Collections.sort(result,new Comparator<MsgTarget>()
 		{
 			@Override

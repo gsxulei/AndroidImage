@@ -36,7 +36,7 @@ public class Utils
 	public static String digest(InputStream is,String algorithm)
 	{
 		MessageDigest digest;
-		byte buffer[]=new byte[1024];
+		byte[] buffer=new byte[1024];
 		int len;
 		try
 		{

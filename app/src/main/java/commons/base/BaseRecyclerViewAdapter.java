@@ -8,7 +8,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseRecyclerViewAdapter<T,HV extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<HV>
+public abstract class BaseRecyclerViewAdapter<T,HV extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<HV> implements View.OnClickListener
 {
 	protected ArrayList<T> data=new ArrayList<>();
 	protected Context context;
@@ -50,24 +50,25 @@ public abstract class BaseRecyclerViewAdapter<T,HV extends RecyclerView.ViewHold
 	}
 
 	@Override
-	public void onBindViewHolder(final HV holder,final int position)
+	public void onBindViewHolder(HV holder,int position)
 	{
-		holder.itemView.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				if(listener!=null)
-				{
-					listener.onItemClick(holder.itemView,position,data.get(position));
-				}
-			}
-		});
+		holder.itemView.setId(position);
+		holder.itemView.setOnClickListener(this);
 	}
 
 	public void setOnItemClickListener(OnItemClickListener<T> listener)
 	{
 		this.listener=listener;
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		int position=v.getId();
+		if(listener!=null)
+		{
+			listener.onItemClick(v,position,data.get(position));
+		}
 	}
 
 	protected abstract int getLayout();
