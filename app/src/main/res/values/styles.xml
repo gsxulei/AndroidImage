@@ -16,8 +16,9 @@
 	<style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar"></style>
 	-->
 
-	<!-- Base application theme. -->
+	<!-- Base application theme. Theme.AppCompat.Light.DarkActionBar android:Theme.Holo.Light-->
 	<!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+	<!--<style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">-->
 	<style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
 		<!-- Customize your theme here. -->
 		<!--
@@ -36,7 +37,18 @@
 
 		<!-- 隐藏状态栏 -->
 		<!--<item name="android:windowFullscreen">true</item>-->
+
+		<!--<item name="android:textViewStyle">@style/TextViewStyle</item>-->
 	</style>
+
+	<!--解決Toast文字背景白块问题-->
+	<!--
+	<style name="TextViewStyle">
+		<item name="android:textSize">12.5sp</item>
+		<item name="android:textColor">@color/colorText</item>
+		<item name="android:background">@android:color/transparent</item>
+	</style>
+	-->
 
 	<style name="PreviewFullScreen" parent="FullScreen">
 		<item name="android:windowBackground">@android:color/transparent</item>

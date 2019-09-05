@@ -32,7 +32,7 @@ public class EasyToast
 
 	public static void show(String msg)
 	{
-		if(mCtx!=null)
+		if(mCtx==null)
 		{
 			return;
 		}

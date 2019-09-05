@@ -6,7 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 消息接收者
+ * 消息接收者<br/>
+ * <a href="https://www.jianshu.com/p/33d92e827f80">解决Method '...' is never used警告</a>
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

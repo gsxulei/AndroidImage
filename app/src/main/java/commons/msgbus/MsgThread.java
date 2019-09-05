@@ -3,20 +3,20 @@ package commons.msgbus;
 /**
  * 线程类型
  */
-public class MsgThread
+interface MsgThread
 {
 	/**
 	 * 主线程
 	 */
-	public static final int MAIN=0;
+	int MAIN=0;
 
 	/**
 	 * 相同线程
 	 */
-	public static final int SAME=1;
+	int SAME=1;
 
 	/**
 	 * 子线程
 	 */
-	public static final int BACKGROUND=2;
+	int BACKGROUND=2;
 }
