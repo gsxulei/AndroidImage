@@ -143,6 +143,16 @@ public abstract class BaseActivity extends Activity
 	}
 
 	/**
+	 * 获取Activity当前的Fragment
+	 *
+	 * @return Fragment
+	 */
+	public Fragment getCurrentFragment()
+	{
+		return fragment;
+	}
+
+	/**
 	 * 获取默认Fragment(第一个界面Fragment)
 	 *
 	 * @return 默认Fragment
