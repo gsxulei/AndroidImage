@@ -193,14 +193,7 @@ public class MsgBus
 
 	public static void send(final MsgEvent event)
 	{
-		POOL.submit(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				asyncSend(event);
-			}
-		});
+		POOL.submit(()->asyncSend(event));
 	}
 
 	public static void send(int id)
@@ -245,17 +238,13 @@ public class MsgBus
 
 	private static void stickyInit(final MsgTarget target)
 	{
-		POOL.submit(new Runnable()
+		POOL.submit(()->
 		{
-			@Override
-			public void run()
+			for(MsgEvent event : MsgBus.stickyEvent)
 			{
-				for(MsgEvent event : MsgBus.stickyEvent)
+				if(event.id==target.id)
 				{
-					if(event.id==target.id)
-					{
-						dispatch(target,event);
-					}
+					dispatch(target,event);
 				}
 			}
 		});
@@ -272,7 +261,7 @@ public class MsgBus
 					exec(target,event);
 					return;
 				}
-				Message message=new Message();
+				Message message=Message.obtain();
 				message.what=1;
 				message.obj=new Object[]{target,event};
 				handler.sendMessage(message);
@@ -287,14 +276,7 @@ public class MsgBus
 
 			case MsgThread.BACKGROUND:
 			{
-				POOL.submit(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						exec(target,event);
-					}
-				});
+				POOL.submit(()->exec(target,event));
 			}
 			break;
 		}
