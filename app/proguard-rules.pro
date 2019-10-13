@@ -59,8 +59,8 @@
 #自定义混淆字典
 
 #指定外部模糊字典
--obfuscationdictionary proguard/p0005.txt
+#-obfuscationdictionary proguard/p0005.txt
 #指定class模糊字典
--classobfuscationdictionary proguard/p0005.txt
+#-classobfuscationdictionary proguard/p0005.txt
 #指定package模糊字典
--packageobfuscationdictionary proguard/p0005.txt
+#-packageobfuscationdictionary proguard/p0005.txt

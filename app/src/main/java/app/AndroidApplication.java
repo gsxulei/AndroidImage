@@ -1,6 +1,8 @@
 package app;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import commons.agent.BaseAgent;
 import commons.base.ImageLoaderWrapper;
@@ -22,6 +24,13 @@ import commons.utils.ScreenUtils;
 
 public class AndroidApplication extends Application
 {
+	@Override
+	protected void attachBaseContext(Context base)
+	{
+		super.attachBaseContext(base);
+		MultiDex.install(this);
+	}
+
 	@Override
 	public void onCreate()
 	{

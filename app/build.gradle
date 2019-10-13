@@ -80,6 +80,17 @@ android
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 		//只保留中文资源
 		resConfig("zh-rCN")
+
+		multiDexEnabled true
+
+
+		defaultConfig
+		{
+			//分包1,指定某个类在maindex，例如LeakCanary启动的时候会初始化一个ContentProvider
+			multiDexEnabled true
+			multiDexKeepProguard file('multiDexKeep.pro') // 打包到main dex的这些类的混淆规制，没特殊需求就给个空文件
+			multiDexKeepFile file('maindexlist.txt') // keep specific classes
+		}
 	}
 
 	//是否检查图片格式(png、点9)正确
@@ -144,6 +155,7 @@ android
 		exclude 'META-INF/proguard/proguard.pro'
 		exclude 'META-INF/proguard/okhttp3.pro'
 		exclude 'META-INF/com.android.support_exifinterface.version'
+		exclude 'androidsupportmultidexversion.txt'
 	}
 
 	//修改生成的apk文件名
@@ -230,6 +242,8 @@ dependencies
 	implementation var.OkHttpLogging
 
 	compileOnly files("${android.getSdkDirectory().getAbsolutePath()}/platforms/android-23/data/layoutlib.jar")
+
+	implementation 'com.android.support:multidex:1.0.3'
 
 	//implementation 'org.greenrobot:eventbus:3.1.1'
 	//implementation 'com.android.support.constraint:constraint-layout:1.1.0'
