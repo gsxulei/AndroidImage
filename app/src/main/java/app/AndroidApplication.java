@@ -7,8 +7,11 @@ import android.support.multidex.MultiDex;
 import commons.agent.BaseAgent;
 import commons.base.ImageLoaderWrapper;
 
+import commons.tools.AppBlockCanaryContext;
 import commons.utils.PatchUtils;
 import image.PreviewAgent;
+
+import com.github.moduth.blockcanary.BlockCanary;
 import com.x62.image.R;
 
 import commons.network.Downloader;
@@ -48,6 +51,8 @@ public class AndroidApplication extends Application
 		fixProguard();
 
 		PatchUtils.loadPatch(this);
+
+		BlockCanary.install(this, new AppBlockCanaryContext()).start();
 	}
 
 	@Override
