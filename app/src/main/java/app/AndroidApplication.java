@@ -7,11 +7,14 @@ import android.support.multidex.MultiDex;
 import commons.agent.BaseAgent;
 import commons.base.ImageLoaderWrapper;
 
-import commons.tools.AppBlockCanaryContext;
+import commons.utils.Logger;
 import commons.utils.PatchUtils;
 import image.PreviewAgent;
 
+import com.github.anrwatchdog.ANRError;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.github.moduth.blockcanary.BlockCanary;
+import com.github.moduth.blockcanary.BlockCanaryContext;
 import com.x62.image.R;
 
 import commons.network.Downloader;
@@ -52,7 +55,22 @@ public class AndroidApplication extends Application
 
 		PatchUtils.loadPatch(this);
 
-		BlockCanary.install(this, new AppBlockCanaryContext()).start();
+		BlockCanary.install(this, new BlockCanaryContext()).start();
+
+
+		ANRWatchDog watchDog=new ANRWatchDog();
+		watchDog.setANRListener((error)->
+		{
+			StringBuilder msg=new StringBuilder();
+			for(StackTraceElement element : error.getCause().getStackTrace())
+			{
+				msg.append("\t");
+				msg.append(element.toString());
+				msg.append("\n");
+			}
+			Logger.e(msg.toString());
+		});
+		watchDog.start();
 	}
 
 	@Override
