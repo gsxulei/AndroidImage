@@ -181,6 +181,7 @@ public class MsgBus
 			target.object=obj;
 			msg.targets.remove(target);
 		}
+		map.remove(obj);
 	}
 
 	public static void unregisterClass(Class clazz)
