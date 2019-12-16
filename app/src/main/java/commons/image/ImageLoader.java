@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.util.Log;
 import android.util.SparseArray;
 import android.widget.ImageView;
 
@@ -24,13 +23,23 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 图片加载器
+ */
 public class ImageLoader
 {
 	private static final File root=Environment.getExternalStorageDirectory();
 	private static final Executor POOL=new ThreadPoolExecutor(0,1000,5L,TimeUnit.SECONDS,new SynchronousQueue<>());
 	private static final SparseArray<Long> times=new SparseArray<>();
 
+	/**
+	 * GC阈值
+	 */
 	private static final long MAX=1024*1024*32;
+
+	/**
+	 * 当前待回收内存大小
+	 */
 	private static long sum=0;
 
 	private static Method cleaner;
@@ -38,6 +47,8 @@ public class ImageLoader
 
 	static
 	{
+		//Android7.0及以后的版本,DirectByteBuffer可以手动释放内存
+		//但api为隐藏,需要使用反射
 		try
 		{
 			Class<?> clazz=Class.forName("java.nio.DirectByteBuffer");
@@ -46,7 +57,6 @@ public class ImageLoader
 			{
 				cleaner.setAccessible(true);
 			}
-			Log.e("xulei","cleaner->"+cleaner);
 
 			clazz=Class.forName("sun.misc.Cleaner");
 			clean=clazz.getDeclaredMethod("clean");
@@ -54,7 +64,6 @@ public class ImageLoader
 			{
 				clean.setAccessible(true);
 			}
-			Log.e("xulei","cleaner->"+clean);
 		}
 		catch(Exception e)
 		{
@@ -64,7 +73,8 @@ public class ImageLoader
 
 	private static String getCacheDir()
 	{
-		File file=new File(root,"ImageLoader");
+		File imageLoader=new File(root,"ImageLoader");
+		File file=new File(imageLoader,"Cache");
 		if(!file.exists())
 		{
 			file.mkdirs();
@@ -72,10 +82,15 @@ public class ImageLoader
 		return file.getAbsolutePath();
 	}
 
-	public static void load(ImageView view,String path,int placeholder)
+	public static void load(ImageView view,String path)
 	{
 		int hashCode=view.hashCode();
 		times.put(hashCode,System.currentTimeMillis());
+		if(view.getWidth()>0&&view.getHeight()>0)
+		{
+			loadImage(view,path);
+			return;
+		}
 		view.post(()->loadImage(view,path));
 	}
 
@@ -83,7 +98,6 @@ public class ImageLoader
 	{
 		POOL.execute(()->
 		{
-			long start=System.currentTimeMillis();
 			int imageW=view.getWidth();
 			int imageH=view.getHeight();
 
@@ -95,7 +109,7 @@ public class ImageLoader
 				MappedByteBuffer buffer=mapFile(cacheFile.getAbsolutePath());
 				int width=buffer.getInt();
 				int height=buffer.getInt();
-				bitmap=Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+				bitmap=Bitmap.createBitmap(width,height,Bitmap.Config.RGB_565);
 				bitmap.copyPixelsFromBuffer(buffer);
 				buffer.clear();
 				recycleBuffer(buffer);
@@ -112,13 +126,11 @@ public class ImageLoader
 				int inSampleSizeH=height/imageH;
 				options.inSampleSize=inSampleSizeW>inSampleSizeH?inSampleSizeW:inSampleSizeH;
 				options.inJustDecodeBounds=false;
+				options.inPreferredConfig=Bitmap.Config.RGB_565;
 
 				//MappedByteBuffer buffer=IOUtils.mapFile(path);
 				bitmap=BitmapFactory.decodeFile(path,options);
-				//view.setImageBitmap(bitmap);
 			}
-			long end=System.currentTimeMillis();
-			Log.e("xulei","子线程耗时->"+(end-start));
 
 			view.post(()->
 			{
@@ -128,7 +140,6 @@ public class ImageLoader
 					recycleBitmap(((BitmapDrawable)drawable).getBitmap());
 				}
 				view.setImageBitmap(bitmap);
-				Log.e("xulei","耗时->"+view.hashCode()+","+(System.currentTimeMillis()-times.get(view.hashCode())));
 			});
 
 			if(!cacheFile.exists())
@@ -161,7 +172,6 @@ public class ImageLoader
 				clean.invoke(cleaner.invoke(buffer));
 				if(sum>MAX)
 				{
-					//Log.e("xulei","recycleBuffer->"+sum);
 					System.gc();
 					sum=0;
 				}
@@ -187,11 +197,9 @@ public class ImageLoader
 
 			if(sum>MAX)
 			{
-				//Log.e("xulei","recycleBitmap->"+sum);
 				System.gc();
 				sum=0;
 			}
-			//Log.e("xulei","recycleBitmap->recycle->"+bitmap.getWidth()+","+bitmap.getHeight()+","+bitmap.getByteCount());
 		});
 	}
 

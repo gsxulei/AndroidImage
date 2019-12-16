@@ -20,7 +20,6 @@ import commons.utils.MsgEventId;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class ImageModel
@@ -74,7 +73,7 @@ public class ImageModel
 
 				String id=mCursor.getString(1);
 				String name=mCursor.getString(2);
-				String lastModified=mCursor.getInt(3)+1000+"";
+				String lastModified=System.currentTimeMillis()+"";//mCursor.getInt(3)+1000+"";
 				int size=mCursor.getInt(4);
 
 				PhotoAlbumBean bean=new PhotoAlbumBean();
@@ -103,19 +102,15 @@ public class ImageModel
 			mCursor.close();
 		}
 
-		Collections.sort(list,new Comparator<PhotoAlbumBean>()
+		Collections.sort(list,(PhotoAlbumBean pab1,PhotoAlbumBean pab2)->
 		{
-			@Override
-			public int compare(PhotoAlbumBean pab1,PhotoAlbumBean pab2)
+			try
 			{
-				try
-				{
-					return pab2.size-pab1.size;
-				}
-				catch(Exception e)
-				{
-					return 0;
-				}
+				return pab2.size-pab1.size;
+			}
+			catch(Exception e)
+			{
+				return 0;
 			}
 		});
 
@@ -153,7 +148,7 @@ public class ImageModel
 			selection+="and bucket_id=?";
 			selectionArgs=new String[]{"image/jpeg","image/png",lastModified,id};
 		}
-		String sortOrder=DATE_MODIFIED+" desc limit 200";
+		String sortOrder=DATE_MODIFIED+" desc limit 500";
 		Cursor mCursor=mContentResolver.query(mImageUri,projection,selection,selectionArgs,sortOrder);
 
 		if(mCursor==null)
