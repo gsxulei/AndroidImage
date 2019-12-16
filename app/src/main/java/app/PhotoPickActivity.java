@@ -84,6 +84,7 @@ public class PhotoPickActivity extends BaseActivity implements View.OnClickListe
 		photoAlbumListAdapter=new PhotoAlbumListAdapter(this);
 		photoAlbumListAdapter.addData(list);
 		lvAlbum.setAdapter(photoAlbumListAdapter);
+		rvPhoto.setItemAnimator(null);
 		rvPhoto.addOnScrollListener(new RecyclerView.OnScrollListener()
 		{
 			@Override

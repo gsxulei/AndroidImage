@@ -35,7 +35,8 @@ public abstract class BaseRecyclerViewAdapter<T,HV extends RecyclerView.ViewHold
 	public void addData(List<T> data)
 	{
 		this.data.addAll(data);
-		notifyDataSetChanged();
+		//notifyDataSetChanged();
+		notifyItemRangeChanged(0,this.data.size());
 	}
 
 	public ArrayList<T> getData()

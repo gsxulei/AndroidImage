@@ -1,6 +1,5 @@
 package image;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,10 +8,11 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import commons.image.ImageLoader;
 import commons.utils.ResUtils;
 import commons.base.BaseRecyclerViewAdapter;
-import commons.base.ImageLoaderWrapper;
 import commons.utils.ViewBind;
+
 import com.x62.image.R;
 
 public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAdapter.ViewHolder>
@@ -43,11 +43,12 @@ public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAd
 		super.onBindViewHolder(holder,position);
 
 		holder.itemView.setLayoutParams(new FrameLayout.LayoutParams(width,width));
-		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options<>();
-		options.obj=(Activity)context;
-		options.path=data.get(position);
-		options.iv=holder.ivPhotoItem;
-		ImageLoaderWrapper.load(options);
+		//				ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options<>();
+		//				options.obj=(Activity)context;
+		//				options.path=data.get(position);
+		//				options.iv=holder.ivPhotoItem;
+		//				ImageLoaderWrapper.load(options);
+		ImageLoader.load(holder.ivPhotoItem,data.get(position));
 	}
 
 
