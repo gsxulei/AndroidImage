@@ -1,9 +1,16 @@
 package commons.utils;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.os.Process;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.MessageDigest;
+import java.util.List;
 
 public class Utils
 {
@@ -152,8 +159,8 @@ public class Utils
 	/**
 	 * 判断字符串是否为空
 	 *
-	 * @param str
-	 * @return
+	 * @param str 待判断字符串
+	 * @return true-字符串为空,false-字符串不为空
 	 */
 	public static boolean isEmpty(String str)
 	{
@@ -163,11 +170,60 @@ public class Utils
 	/**
 	 * 判断字符串是否不为空
 	 *
-	 * @param str
-	 * @return
+	 * @param str 待判断字符串
+	 * @return true-字符串不为空,false-字符串为空
 	 */
 	public static boolean notEmpty(String str)
 	{
 		return !isEmpty(str);
+	}
+
+	public static String getStackTrace(Throwable throwable)
+	{
+		StringWriter sw=new StringWriter();
+		PrintWriter pw=new PrintWriter(sw);
+		try
+		{
+			throwable.printStackTrace(pw);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			IOUtils.close(pw);
+		}
+		return sw.toString();
+	}
+
+
+	public static String getProcessName(Context context)
+	{
+		ActivityManager activityManager=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+		if(activityManager==null)
+		{
+			return null;
+		}
+		List<ActivityManager.RunningAppProcessInfo> appProcesses=activityManager.getRunningAppProcesses();
+
+		int myPid=Process.myPid();
+
+		if(appProcesses==null||appProcesses.size()==0)
+		{
+			return null;
+		}
+
+		for(ActivityManager.RunningAppProcessInfo appProcess : appProcesses)
+		{
+			if(appProcess.processName.equals(context.getPackageName()))
+			{
+				if(appProcess.pid==myPid)
+				{
+					return appProcess.processName;
+				}
+			}
+		}
+		return null;
 	}
 }

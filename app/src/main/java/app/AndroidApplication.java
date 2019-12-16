@@ -11,11 +11,12 @@ import commons.utils.Logger;
 import commons.utils.PatchUtils;
 import image.PreviewAgent;
 
-import com.github.anrwatchdog.ANRError;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
 import com.x62.image.R;
+
+import java.util.concurrent.CountDownLatch;
 
 import commons.network.Downloader;
 import commons.utils.CrashHandler;
@@ -30,6 +31,8 @@ import commons.utils.ScreenUtils;
 
 public class AndroidApplication extends Application
 {
+	CountDownLatch mCountDownLatch=new CountDownLatch(1);
+
 	@Override
 	protected void attachBaseContext(Context base)
 	{
@@ -55,8 +58,7 @@ public class AndroidApplication extends Application
 
 		PatchUtils.loadPatch(this);
 
-		BlockCanary.install(this, new BlockCanaryContext()).start();
-
+		BlockCanary.install(this,new BlockCanaryContext()).start();
 
 		ANRWatchDog watchDog=new ANRWatchDog();
 		watchDog.setANRListener((error)->
@@ -71,6 +73,38 @@ public class AndroidApplication extends Application
 			Logger.e(msg.toString());
 		});
 		watchDog.start();
+
+		//mCountDownLatch.countDown();
+		//		try
+		//		{
+		//			mCountDownLatch.await();
+		//		}
+		//		catch(Exception e)
+		//		{
+		//			e.printStackTrace();
+		//		}
+
+		//利用系统空闲发送消息
+		//		MessageQueue.IdleHandler handler=new MessageQueue.IdleHandler()
+		//		{
+		//			@Override
+		//			public boolean queueIdle()
+		//			{
+		//				return false;
+		//			}
+		//		};
+		//		Looper.myQueue().addIdleHandler(handler);
+
+		//Debug.dumpHprofData("app");
+
+
+		//SysTrace
+		//Trace.beginSection("trace");
+		//Trace.endSection();
+
+		//TraceView
+		//Debug.startMethodTracing("");
+		//Debug.stopMethodTracing();
 	}
 
 	@Override

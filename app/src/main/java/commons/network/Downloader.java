@@ -34,7 +34,6 @@ public class Downloader
 
 		clientBuilder.retryOnConnectionFailure(true);
 		clientBuilder.addNetworkInterceptor(interceptor);
-		clientBuilder.retryOnConnectionFailure(true);
 	}
 
 	@MsgReceiver(id=MsgEventId.ID_200030)
