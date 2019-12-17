@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.util.SparseArray;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import java.io.Closeable;
@@ -30,8 +30,6 @@ public class ImageLoader
 {
 	private static final File root=Environment.getExternalStorageDirectory();
 	private static final Executor POOL=new ThreadPoolExecutor(0,1000,5L,TimeUnit.SECONDS,new SynchronousQueue<>());
-	private static final SparseArray<Long> times=new SparseArray<>();
-
 	/**
 	 * GC阈值
 	 */
@@ -85,13 +83,21 @@ public class ImageLoader
 	public static void load(ImageView view,String path)
 	{
 		int hashCode=view.hashCode();
-		times.put(hashCode,System.currentTimeMillis());
 		if(view.getWidth()>0&&view.getHeight()>0)
 		{
 			loadImage(view,path);
 			return;
 		}
-		view.post(()->loadImage(view,path));
+		//view.post(()->loadImage(view,path));
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener()
+		{
+			@Override
+			public void onGlobalLayout()
+			{
+				view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+				loadImage(view,path);
+			}
+		});
 	}
 
 	private static void loadImage(ImageView view,String path)
@@ -109,7 +115,17 @@ public class ImageLoader
 				MappedByteBuffer buffer=mapFile(cacheFile.getAbsolutePath());
 				int width=buffer.getInt();
 				int height=buffer.getInt();
-				bitmap=Bitmap.createBitmap(width,height,Bitmap.Config.RGB_565);
+				int size=(buffer.capacity()-8)/width/height;
+				Bitmap.Config config=Bitmap.Config.RGB_565;
+				if(size==4)
+				{
+					config=Bitmap.Config.ARGB_8888;
+				}
+				else if(size==1)
+				{
+					config=Bitmap.Config.ALPHA_8;
+				}
+				bitmap=Bitmap.createBitmap(width,height,config);
 				bitmap.copyPixelsFromBuffer(buffer);
 				buffer.clear();
 				recycleBuffer(buffer);
