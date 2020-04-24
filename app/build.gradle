@@ -122,9 +122,17 @@ android
 
 	buildTypes
 	{
+		debug
+		{
+			//在BuildConfig中增加一些常量
+			buildConfigField "String", "BASE_URL", "\"http://www.jianshu.com\""
+		}
+
 		release
 		{
 			minifyEnabled true
+			//无用资源生成占位
+			shrinkResources true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 			signingConfig signingConfigs.release
 		}
@@ -137,6 +145,12 @@ android
 		{
 			dimension "product"
 			applicationId "com.x62.gsxulei.demo"
+		}
+
+		gallery
+		{
+			dimension "product"
+			applicationId "com.x62.gsxulei.gallery.demo"
 		}
 	}
 
@@ -248,6 +262,9 @@ dependencies
 	implementation 'com.github.markzhai:blockcanary-android:1.5.0'
 
 	implementation 'com.github.anrwatchdog:anrwatchdog:1.4.0'
+
+	// 启动器
+	//implementation 'com.github.zeshaoaaa:LaunchStarter:0.0.1'
 
 	//implementation 'org.greenrobot:eventbus:3.1.1'
 	//implementation 'com.android.support.constraint:constraint-layout:1.1.0'

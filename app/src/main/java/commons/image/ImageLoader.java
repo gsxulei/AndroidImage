@@ -29,11 +29,11 @@ import java.util.concurrent.TimeUnit;
 public class ImageLoader
 {
 	private static final File root=Environment.getExternalStorageDirectory();
-	private static final Executor POOL=new ThreadPoolExecutor(0,1000,5L,TimeUnit.SECONDS,new SynchronousQueue<>());
+	private static final Executor POOL=new ThreadPoolExecutor(0,100,1L,TimeUnit.SECONDS,new SynchronousQueue<>());
 	/**
 	 * GC阈值
 	 */
-	private static final long MAX=1024*1024*32;
+	private static final long MAX=1024*1024*64;
 
 	/**
 	 * 当前待回收内存大小

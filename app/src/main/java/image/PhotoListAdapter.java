@@ -52,18 +52,18 @@ public class PhotoListAdapter extends BaseRecyclerViewAdapter<String,PhotoListAd
 	}
 
 
-	public static class ViewHolder extends RecyclerView.ViewHolder
+	static class ViewHolder extends RecyclerView.ViewHolder
 	{
 		@ViewBind.Bind(id=R.id.ivPhotoItem)
-		public ImageView ivPhotoItem;
+		ImageView ivPhotoItem;
 
 		@ViewBind.Bind(id=R.id.vMask)
-		public View vMask;
+		View vMask;
 
 		@ViewBind.Bind(id=R.id.cbSelected)
-		public CheckBox cbSelected;
+		CheckBox cbSelected;
 
-		public ViewHolder(View itemView)
+		ViewHolder(View itemView)
 		{
 			super(itemView);
 
