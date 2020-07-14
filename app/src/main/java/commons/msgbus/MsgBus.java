@@ -108,7 +108,7 @@ public class MsgBus
 		if(methods==null)
 		{
 			methods=getMethods(clazz);
-			if(methods==null||methods.size()<=0)
+			if(methods.size()<=0)
 			{
 				return;
 			}
