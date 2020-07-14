@@ -30,6 +30,7 @@ public class ImageLoader
 {
 	private static final File root=Environment.getExternalStorageDirectory();
 	private static final Executor POOL=new ThreadPoolExecutor(0,100,1L,TimeUnit.SECONDS,new SynchronousQueue<>());
+
 	/**
 	 * GC阈值
 	 */
