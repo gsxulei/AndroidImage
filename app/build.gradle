@@ -164,12 +164,13 @@ android
 	//排除不想添加到apk中的文件
 	packagingOptions
 	{
-		exclude 'okhttp3/internal/publicsuffix/publicsuffixes.gz'
+		//exclude 'okhttp3/internal/publicsuffix/publicsuffixes.gz'
 		exclude 'publicsuffixes.gz'
-		exclude 'META-INF/proguard/proguard.pro'
-		exclude 'META-INF/proguard/okhttp3.pro'
-		exclude 'META-INF/com.android.support_exifinterface.version'
-		exclude 'androidsupportmultidexversion.txt'
+		//exclude 'META-INF/proguard/proguard.pro'
+		//exclude 'META-INF/proguard/okhttp3.pro'
+		//exclude 'META-INF/com.android.support_exifinterface.version'
+		exclude 'android**'
+		exclude 'META-INF**'
 	}
 
 	//修改生成的apk文件名
