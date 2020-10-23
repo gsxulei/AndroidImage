@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import commons.utils.PatchUtils;
 import commons.utils.PathUtils;
 import commons.utils.ResUtils;
 import commons.utils.SysBarUtils;
+import commons.widget.EasyLoadingDialog;
+import commons.widget.Toaster;
 import test.PatchClass;
 
 import java.io.File;
@@ -112,6 +115,28 @@ public class MainActivity extends AppCompatActivity
 	{
 		String path=Environment.getExternalStorageDirectory().getAbsolutePath()+"/classes2.dex";
 		PatchUtils.patchUp(getApplication(),new String[]{path});
+	}
+
+	public void loading(View view)
+	{
+		String text=ResUtils.getString(R.string.commons_please_wait);
+		Thread show=new Thread(()->
+		{
+			EasyLoadingDialog.show(text,R.layout.commons_widget_dialog_loading,R.id.tvLoading);
+			SystemClock.sleep(1000);
+			EasyLoadingDialog.show("哈哈",R.layout.commons_widget_dialog_loading,R.id.tvLoading);
+		});
+		show.start();
+
+		Thread dismiss=new Thread(()->
+		{
+			SystemClock.sleep(1500);
+			EasyLoadingDialog.dismiss();
+			SystemClock.sleep(1500);
+			EasyLoadingDialog.dismiss();
+			Toaster.show("成功");
+		});
+		dismiss.start();
 	}
 
 	public void gotoContentLayout(View view)

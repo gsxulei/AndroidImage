@@ -9,6 +9,7 @@ import commons.base.ImageLoaderWrapper;
 
 import commons.utils.Logger;
 import commons.utils.PatchUtils;
+import commons.widget.utils.TopActivity;
 import image.PreviewAgent;
 
 import com.github.anrwatchdog.ANRWatchDog;
@@ -105,6 +106,8 @@ public class AndroidApplication extends Application
 		//TraceView
 		//Debug.startMethodTracing("");
 		//Debug.stopMethodTracing();
+
+		TopActivity.init(this);
 	}
 
 	@Override

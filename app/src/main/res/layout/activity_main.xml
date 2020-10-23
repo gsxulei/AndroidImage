@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
@@ -38,8 +37,7 @@
 		android:id="@+id/etQuality"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:inputType="number"
-		/>
+		android:inputType="number"/>
 
 	<Button
 		android:layout_width="match_parent"
@@ -51,7 +49,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:onClick="gotoContentLayout"
-		android:text="加头RecyclerView"/>
+		android:text="加头RecyclerView"
+		android:textAllCaps="false"/>
 
 	<Button
 		android:layout_width="match_parent"
@@ -64,4 +63,11 @@
 		android:layout_height="wrap_content"
 		android:onClick="patchUp"
 		android:text="打补丁"/>
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="loading"
+		android:text="Loading框"
+		android:textAllCaps="false"/>
 </LinearLayout>
