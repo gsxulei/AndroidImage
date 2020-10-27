@@ -47,7 +47,10 @@ public class TopActivity implements Application.ActivityLifecycleCallbacks
 	@Override
 	public void onActivityStarted(Activity activity)
 	{
-		set(activity);
+		if(activity!=get())
+		{
+			set(activity);
+		}
 	}
 
 	@Override
