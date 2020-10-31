@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import commons.halt.Assert;
 import commons.widget.utils.EasyShow;
 import commons.widget.utils.TopActivity;
 
@@ -32,13 +33,9 @@ public class EasyLoadingDialog
 	 */
 	private void showDialog(String text,int layoutId,int textViewId)
 	{
-		if(TopActivity.get()==null||layoutId<=0)
-		{
-			return;
-		}
+		Assert.halt(TopActivity.get()==null||layoutId<=0);
 
-		sCount++;
-		if(sCount>1)
+		if(sCount>0)
 		{
 			initView(text,textViewId);
 			return;
@@ -49,10 +46,7 @@ public class EasyLoadingDialog
 		mDialog.show();
 
 		Window window=mDialog.getWindow();
-		if(window==null)
-		{
-			return;
-		}
+		Assert.halt(window==null);
 
 		window.setDimAmount(0f);
 		window.setContentView(layoutId);
@@ -62,39 +56,29 @@ public class EasyLoadingDialog
 
 	private void initView(String text,int textViewId)
 	{
-		if(mDialog==null||TextUtils.isEmpty(text)||textViewId==0)
-		{
-			return;
-		}
+		sCount++;
+		Assert.halt(mDialog==null||TextUtils.isEmpty(text)||textViewId==0);
 
 		Window window=mDialog.getWindow();
-		if(window==null)
-		{
-			return;
-		}
+		Assert.halt(window==null);
 
 		//这里不用做判空
 		View decorView=window.getDecorView();
 		TextView textView=(TextView)decorView.findViewById(textViewId);
-		if(textView==null)
-		{
-			return;
-		}
+		Assert.halt(textView);
+
 		textView.setText(text);
 	}
 
 	private void dismissDialog()
 	{
-		if(mDialog==null)
-		{
-			return;
-		}
+		Assert.halt(mDialog);
 		sCount--;
-		if(sCount<=0)
-		{
-			sCount=0;
-			mDialog.dismiss();
-		}
+		Assert.halt(sCount!=0);
+
+		//Dialog内部会判断有没有显示
+		mDialog.dismiss();
+		mDialog=null;
 	}
 
 	/**

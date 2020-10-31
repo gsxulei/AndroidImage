@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import commons.agent.BaseAgent;
 import commons.base.ImageLoaderWrapper;
 
+import commons.utils.CrashMonitor;
 import commons.utils.Logger;
 import commons.utils.PatchUtils;
 import commons.widget.utils.TopActivity;
@@ -15,12 +16,12 @@ import image.PreviewAgent;
 import com.github.anrwatchdog.ANRWatchDog;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
+import com.github.moduth.blockcanary.BlockCanaryFix;
 import com.x62.image.R;
 
 import java.util.concurrent.CountDownLatch;
 
 import commons.network.Downloader;
-import commons.utils.CrashHandler;
 
 import commons.utils.PathUtils;
 
@@ -47,7 +48,8 @@ public class AndroidApplication extends Application
 		super.onCreate();
 
 		//崩溃处理初始化
-		CrashHandler.getInstance().init(this,PathUtils.getCrashPath());
+		//CrashHandler.getInstance().init(this,PathUtils.getCrashPath());
+		CrashMonitor.init();
 
 		//设置屏幕宽度dpi
 		ScreenUtils.getInstance().setDpi();
@@ -60,6 +62,7 @@ public class AndroidApplication extends Application
 		PatchUtils.loadPatch(this);
 
 		BlockCanary.install(this,new BlockCanaryContext()).start();
+		CrashMonitor.addOnLoopListener(BlockCanaryFix::fix);
 
 		ANRWatchDog watchDog=new ANRWatchDog();
 		watchDog.setANRListener((error)->

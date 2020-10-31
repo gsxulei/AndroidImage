@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import commons.halt.Assert;
 import commons.image.ImageCompressor;
 
 import com.x62.image.R;
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity
 
 	public void loading(View view)
 	{
+		//SystemClock.sleep(2000);
 		String text=ResUtils.getString(R.string.commons_please_wait);
 		Thread show=new Thread(()->
 		{
@@ -137,6 +139,13 @@ public class MainActivity extends AppCompatActivity
 			Toaster.show("成功");
 		});
 		dismiss.start();
+	}
+
+	public void halt(View view)
+	{
+		String text=etQuality.getText().toString();
+		Assert.halt(text,R.string.commons_please_wait);
+		Toaster.show(text);
 	}
 
 	public void gotoContentLayout(View view)

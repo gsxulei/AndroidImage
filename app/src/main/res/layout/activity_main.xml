@@ -70,4 +70,12 @@
 		android:onClick="loading"
 		android:text="Loading框"
 		android:textAllCaps="false"/>
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="halt"
+		android:text="Assert"
+		android:textAllCaps="false"/>
+
 </LinearLayout>
