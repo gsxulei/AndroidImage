@@ -4,12 +4,21 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
-import commons.utils.CrashMonitor;
-
 public class EasyShow implements Runnable
 {
 	private static final Handler HANDLER;
 	private static final Handler MAIN_HANDLER=new Handler(Looper.getMainLooper());
+	private static final Thread.UncaughtExceptionHandler defCatcher;
+	private static final boolean isSysCatcher;
+
+	static
+	{
+		defCatcher=Thread.getDefaultUncaughtExceptionHandler();
+
+		//com.android.internal.os.RuntimeInit$UncaughtHandler
+		//com.android.internal.os.RuntimeInit$KillApplicationHandler 8.0+
+		isSysCatcher=(defCatcher==null||defCatcher.getClass().getName().startsWith("com.android.internal.os"));
+	}
 
 	static
 	{
@@ -41,7 +50,14 @@ public class EasyShow implements Runnable
 			}
 			catch(Exception e)
 			{
-				CrashMonitor.onCrash(Thread.currentThread(),e);
+				if(isSysCatcher)
+				{
+					e.printStackTrace();
+				}
+				else
+				{
+					defCatcher.uncaughtException(Thread.currentThread(),e);
+				}
 			}
 		}
 	}

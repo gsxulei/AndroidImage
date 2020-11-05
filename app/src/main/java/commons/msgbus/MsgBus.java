@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.view.View;
 
 import java.lang.reflect.Method;
@@ -30,6 +29,8 @@ public class MsgBus
 	private static List<MsgBean> msgList=new CopyOnWriteArrayList<>();
 	private static Map<Class<?>,List<Method>> METHOD_CACHE=new ConcurrentHashMap<>();
 	private static Map<Object,List<MsgBean>> map=new ConcurrentHashMap<>();
+	private static final Thread.UncaughtExceptionHandler defCatcher;
+	private static final boolean isSysCatcher;
 
 	/**
 	 * 事件状态
@@ -38,33 +39,16 @@ public class MsgBus
 
 	private static final List<MsgEvent<?>> stickyEvent=new CopyOnWriteArrayList<>();
 
-	private static Handler handler=new Handler(Looper.getMainLooper())
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			super.handleMessage(msg);
+	private static final Handler MAIN_HANDLER=new Handler(Looper.getMainLooper());
 
-			if(msg.what==1)
-			{
-				Object[] objArr=(Object[])msg.obj;
-				MsgTarget target=null;
-				MsgEvent event=null;
-				if(objArr[0] instanceof MsgTarget)
-				{
-					target=(MsgTarget)objArr[0];
-				}
-				if(objArr[1] instanceof MsgEvent)
-				{
-					event=(MsgEvent)objArr[1];
-				}
-				if(target!=null&&event!=null)
-				{
-					exec(target,event);
-				}
-			}
-		}
-	};
+	static
+	{
+		defCatcher=Thread.getDefaultUncaughtExceptionHandler();
+
+		//com.android.internal.os.RuntimeInit$UncaughtHandler
+		//com.android.internal.os.RuntimeInit$KillApplicationHandler 8.0+
+		isSysCatcher=(defCatcher==null||defCatcher.getClass().getName().startsWith("com.android.internal.os"));
+	}
 
 	/**
 	 * 注册消息接收
@@ -138,15 +122,12 @@ public class MsgBus
 			boolean flag=obj instanceof Activity;
 			flag=flag||obj instanceof Fragment;
 			flag=flag||obj instanceof View;
-			flag=flag||obj instanceof android.support.v4.app.Fragment;
-			//flag=flag||obj instanceof BaseAgent;
 			if(flag)
 			{
 				target.threadType=MsgThread.MAIN;
 			}
 
 			msg.targets.add(target);
-			//Log.e("xulei","注册->"+target.object+","+target.method);
 
 			if(target.sticky)
 			{
@@ -184,7 +165,7 @@ public class MsgBus
 		map.remove(obj);
 	}
 
-	public static void unregisterClass(Class clazz)
+	public static void unregisterClass(Class<?> clazz)
 	{
 		if(clazz!=null)
 		{
@@ -192,7 +173,7 @@ public class MsgBus
 		}
 	}
 
-	public static void send(final MsgEvent event)
+	public static void send(final MsgEvent<?> event)
 	{
 		POOL.submit(()->asyncSend(event));
 	}
@@ -203,7 +184,7 @@ public class MsgBus
 		send(event);
 	}
 
-	private static void asyncSend(MsgEvent event)
+	private static void asyncSend(MsgEvent<?> event)
 	{
 		MsgBean msg=getMsgById(event.id);
 		if(msg==null||msg.targets.size()<=0)
@@ -218,19 +199,18 @@ public class MsgBus
 			setEventState(queue,true);
 			eventState.put(event,queue);
 		}
-		//Log.e("xulei","msg.targets.size()->"+msg.targets.size());
+
 		List<MsgTarget> targets=msg.getTargets();
 		for(MsgTarget target : targets)
 		{
 			boolean state=getEventState(queue);
-			//Log.e("xulei","target"+target+",state->"+state);
+
 			if(state)
 			{
 				dispatch(target,event);
 			}
 			else
 			{
-				//Log.e("xulei","事件取消");
 				break;
 			}
 		}
@@ -241,7 +221,7 @@ public class MsgBus
 	{
 		POOL.submit(()->
 		{
-			for(MsgEvent event : MsgBus.stickyEvent)
+			for(MsgEvent<?> event : MsgBus.stickyEvent)
 			{
 				if(event.id==target.id)
 				{
@@ -251,7 +231,7 @@ public class MsgBus
 		});
 	}
 
-	private static void dispatch(final MsgTarget target,final MsgEvent event)
+	private static void dispatch(final MsgTarget target,final MsgEvent<?> event)
 	{
 		switch(target.threadType)
 		{
@@ -262,10 +242,7 @@ public class MsgBus
 					exec(target,event);
 					return;
 				}
-				Message message=Message.obtain();
-				message.what=1;
-				message.obj=new Object[]{target,event};
-				handler.sendMessage(message);
+				MAIN_HANDLER.post(()->exec(target,event));
 			}
 			break;
 
@@ -283,7 +260,7 @@ public class MsgBus
 		}
 	}
 
-	private static void exec(MsgTarget target,MsgEvent event)
+	private static void exec(MsgTarget target,MsgEvent<?> event)
 	{
 		try
 		{
@@ -292,8 +269,7 @@ public class MsgBus
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
-			//CrashHandler.getInstance().uncaughtException(null,e);
+			catchException(e);
 		}
 		finally
 		{
@@ -319,7 +295,7 @@ public class MsgBus
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			catchException(e);
 		}
 	}
 
@@ -337,7 +313,7 @@ public class MsgBus
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			catchException(e);
 		}
 		return state;
 	}
@@ -347,12 +323,12 @@ public class MsgBus
 	 *
 	 * @param event 消息对象
 	 */
-	public static void cancel(MsgEvent event)
+	public static void cancel(MsgEvent<?> event)
 	{
 		setEventState(eventState.get(event),false);
 	}
 
-	public static void cancelSticky(MsgEvent event)
+	public static void cancelSticky(MsgEvent<?> event)
 	{
 		synchronized(stickyEvent)
 		{
@@ -366,7 +342,7 @@ public class MsgBus
 	 *
 	 * @param event 消息对象
 	 */
-	public static void sendSticky(MsgEvent event)
+	public static void sendSticky(MsgEvent<?> event)
 	{
 		synchronized(stickyEvent)
 		{
@@ -395,7 +371,6 @@ public class MsgBus
 			for(Method method : methods)
 			{
 				MsgReceiver receiver=method.getAnnotation(MsgReceiver.class);
-				//if(method.isAnnotationPresent(MsgReceiver.class))
 				if(receiver!=null)
 				{
 					result.add(method);
@@ -430,5 +405,17 @@ public class MsgBus
 	private static boolean isMainThread()
 	{
 		return Looper.myLooper()==Looper.getMainLooper();
+	}
+
+	private static void catchException(Exception e)
+	{
+		if(isSysCatcher)
+		{
+			e.printStackTrace();
+		}
+		else
+		{
+			defCatcher.uncaughtException(Thread.currentThread(),e);
+		}
 	}
 }

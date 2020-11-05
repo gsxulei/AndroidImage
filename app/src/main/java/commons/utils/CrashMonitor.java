@@ -13,7 +13,7 @@ import commons.halt.HaltException;
  */
 public class CrashMonitor implements Runnable,Thread.UncaughtExceptionHandler
 {
-	private static final List<OnLoopListener> lopListeners=new ArrayList<>();
+	private static final List<OnLoopListener> loopListeners=new ArrayList<>();
 	private static final List<OnCrashListener> crashListeners=new ArrayList<>();
 
 	/**
@@ -36,7 +36,7 @@ public class CrashMonitor implements Runnable,Thread.UncaughtExceptionHandler
 		{
 			try
 			{
-				for(OnLoopListener listener : lopListeners)
+				for(OnLoopListener listener : loopListeners)
 				{
 					listener.onStartLoop();
 				}
@@ -44,18 +44,13 @@ public class CrashMonitor implements Runnable,Thread.UncaughtExceptionHandler
 			}
 			catch(Exception e)
 			{
-				onCrash(Thread.currentThread(),e);
+				uncaughtException(Thread.currentThread(),e);
 			}
 		}
 	}
 
 	@Override
 	public void uncaughtException(Thread thread,Throwable ex)
-	{
-		onCrash(thread,ex);
-	}
-
-	public static void onCrash(Thread thread,Throwable ex)
 	{
 		Throwable cause=ex;
 		while(cause.getCause()!=null)
@@ -69,6 +64,7 @@ public class CrashMonitor implements Runnable,Thread.UncaughtExceptionHandler
 		}
 		else
 		{
+			ex.printStackTrace();
 			for(OnCrashListener listener : crashListeners)
 			{
 				listener.onCrash(thread,cause);
@@ -80,7 +76,7 @@ public class CrashMonitor implements Runnable,Thread.UncaughtExceptionHandler
 	{
 		if(listener!=null)
 		{
-			lopListeners.add(listener);
+			loopListeners.add(listener);
 		}
 	}
 
