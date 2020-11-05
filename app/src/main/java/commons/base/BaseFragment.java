@@ -159,27 +159,6 @@ public class BaseFragment extends Fragment implements View.OnClickListener
 		((BaseActivity)mContext).open(clazz,bundle);
 	}
 
-	/**
-	 * 显示Toast
-	 *
-	 * @param text 显示内容
-	 */
-	protected void toast(String text)
-	{
-		if(mContext instanceof BaseActivity)
-		{
-			((BaseActivity)mContext).toast(text);
-		}
-	}
-
-	protected void toast(int resId)
-	{
-		if(mContext instanceof BaseActivity)
-		{
-			((BaseActivity)mContext).toast(resId);
-		}
-	}
-
 	public List<View> getCoverView(LayoutInflater inflater,ViewGroup layout)
 	{
 		return new ArrayList<>();

@@ -7,7 +7,6 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.Toast;
 
 import commons.msgbus.MsgBus;
 
@@ -17,8 +16,6 @@ public abstract class BaseActivity extends Activity
 	public static Class<?> last;
 
 	public Activity mContext;
-
-	private Toast mToast;
 
 	private Fragment fragment;
 
@@ -120,26 +117,6 @@ public abstract class BaseActivity extends Activity
 			intent.putExtra(PAGE_PARAMS,bundle);
 		}
 		startActivity(intent);
-	}
-
-	/**
-	 * 显示Toast
-	 *
-	 * @param text 显示内容
-	 */
-	public void toast(String text)
-	{
-		if(mToast==null)
-		{
-			mToast=Toast.makeText(mContext,text,Toast.LENGTH_SHORT);
-		}
-		mToast.setText(text);
-		mToast.show();
-	}
-
-	public void toast(int resId)
-	{
-		toast(getResources().getString(resId));
 	}
 
 	/**
