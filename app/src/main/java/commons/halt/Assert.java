@@ -7,6 +7,20 @@ import android.text.TextUtils;
  */
 public class Assert
 {
+	public static void orHalt(Object... obj)
+	{
+		boolean value=false;
+		for(Object o : obj)
+		{
+			value=o==null;
+			if(value)
+			{
+				break;
+			}
+		}
+		halt(value);
+	}
+
 	public static void halt(Object obj)
 	{
 		halt(obj==null);
