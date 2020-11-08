@@ -15,7 +15,7 @@ import java.io.File;
 
 import commons.annotations.LayoutBind;
 import commons.agent.BaseAgent;
-import commons.base.ImageLoaderWrapper;
+import commons.image.ImageLoaderWrapper;
 import commons.msgbus.MsgBus;
 import commons.msgbus.MsgEvent;
 import commons.msgbus.MsgReceiver;
@@ -49,10 +49,10 @@ public class PreviewFragmentAgent extends BaseAgent implements SubsamplingScaleI
 			return;
 		}
 
-		Downloader.Options downloader=new Downloader.Options();
-		downloader.url=path;
-		downloader.successId=MsgEventId.ID_200031;
-		downloader.failId=MsgEventId.ID_200032;
+//		Downloader.Options downloader=new Downloader.Options();
+//		downloader.url=path;
+//		downloader.successId=MsgEventId.ID_200031;
+//		downloader.failId=MsgEventId.ID_200032;
 
 		ImageLoaderWrapper.Options<Context> options=new ImageLoaderWrapper.Options<>();
 		options.obj=mContext;
@@ -60,7 +60,7 @@ public class PreviewFragmentAgent extends BaseAgent implements SubsamplingScaleI
 		options.iv=mCover;
 		options.isCenterCrop=false;
 		options.placeholder=0;
-		options.downloader=downloader;
+		//options.downloader=downloader;
 		ImageLoaderWrapper.load(options);
 
 		//当图片为网络图片且未下载时不显示大图

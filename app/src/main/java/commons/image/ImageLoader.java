@@ -141,7 +141,7 @@ public class ImageLoader
 
 				int inSampleSizeW=width/imageW;
 				int inSampleSizeH=height/imageH;
-				options.inSampleSize=inSampleSizeW>inSampleSizeH?inSampleSizeW:inSampleSizeH;
+				options.inSampleSize=Math.max(inSampleSizeW,inSampleSizeH);
 				options.inJustDecodeBounds=false;
 				options.inPreferredConfig=Bitmap.Config.RGB_565;
 

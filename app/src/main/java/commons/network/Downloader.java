@@ -2,11 +2,12 @@ package commons.network;
 
 import android.text.TextUtils;
 
-import commons.utils.MsgEventId;
-
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import commons.base.BaseMsgEventId;
 import commons.msgbus.MsgBus;
 import commons.msgbus.MsgEvent;
 import commons.msgbus.MsgReceiver;
@@ -26,6 +27,7 @@ public class Downloader
 {
 	private static String downloadDir;
 	private static OkHttpClient.Builder clientBuilder=new OkHttpClient.Builder();
+	private static final List<Integer> ids=new ArrayList<>();
 
 	static
 	{
@@ -36,31 +38,30 @@ public class Downloader
 		clientBuilder.addNetworkInterceptor(interceptor);
 	}
 
-	@MsgReceiver(id=MsgEventId.ID_200030)
-	public static void download(MsgEvent<Options> event)
+	@MsgReceiver(id=BaseMsgEventId.ID_10000000)
+	public static void download(MsgEvent<String> event)
 	{
 		if(TextUtils.isEmpty(downloadDir))
 		{
-			try
-			{
-				throw new Exception("请设置下载目录");
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
+			throw new RuntimeException("请设置下载目录");
 		}
 
-		Options opt=event.t;
-		if(TextUtils.isEmpty(opt.url))
+		if(TextUtils.isEmpty(event.t))
 		{
 			return;
 		}
-		String localPath=getLocalPathByUrl(opt.url);
+		String localPath=getLocalPathByUrl(event.t);
+
+		if(new File(localPath).exists())
+		{
+			notify(event.t,localPath);
+			return;
+		}
+
 		OkHttpClient client=clientBuilder.build();
 
 		Request.Builder reqBuilder=new Request.Builder();
-		reqBuilder.url(opt.url);
+		reqBuilder.url(event.t);
 		reqBuilder.get();
 
 		try
@@ -75,10 +76,7 @@ public class Downloader
 			{
 				IOUtils.copy(body.byteStream(),fos);
 
-				MsgEvent<String> successEvent=new MsgEvent<>();
-				successEvent.id=opt.successId;
-				successEvent.t=opt.url;
-				MsgBus.send(successEvent);
+				notify(event.t,localPath);
 			}
 			else
 			{
@@ -127,10 +125,19 @@ public class Downloader
 		return file.getAbsolutePath();
 	}
 
-	public static class Options
+	private static void notify(String url,String path)
 	{
-		public String url;
-		public int successId;
-		public int failId;
+		for(Integer id : ids)
+		{
+			MsgEvent<String[]> event=new MsgEvent<>();
+			event.id=id;
+			event.t=new String[]{url,path};
+			MsgBus.send(event);
+		}
+	}
+
+	public static void addNotifyId(int id)
+	{
+		ids.add(id);
 	}
 }

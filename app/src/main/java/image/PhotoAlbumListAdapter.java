@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.x62.image.R;
 
 import commons.base.BaseListAdapter;
-import commons.base.ImageLoaderWrapper;
+import commons.image.ImageLoaderWrapper;
 
 /**
  * 相册列表
