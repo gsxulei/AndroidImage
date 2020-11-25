@@ -35,6 +35,13 @@ public class ImageLoaderWrapper
 		public int placeholder=defaultPlaceholder;
 		public int error=defaultError;
 		public boolean isCenterCrop=true;
+
+		public void set(T t,String path,ImageView iv)
+		{
+			this.obj=t;
+			this.path=path;
+			this.iv=iv;
+		}
 	}
 
 	public static void load(Options<?> options)
@@ -49,6 +56,11 @@ public class ImageLoaderWrapper
 	 */
 	private static void glideLoad(final Options<?> options)
 	{
+		if(TextUtils.isEmpty(options.path))
+		{
+			return;
+		}
+
 		RequestManager manager=null;
 		if(options.obj instanceof Activity)
 		{
@@ -97,12 +109,6 @@ public class ImageLoaderWrapper
 			reqOptions.centerCrop();
 		}
 		reqOptions.error(options.error);
-
-		if(TextUtils.isEmpty(options.path))
-		{
-			return;
-		}
-
 		manager.load(options.path).apply(reqOptions).into(options.iv);
 	}
 }

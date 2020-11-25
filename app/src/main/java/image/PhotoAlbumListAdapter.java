@@ -48,9 +48,7 @@ public class PhotoAlbumListAdapter extends BaseListAdapter<PhotoAlbumBean>
 		PhotoAlbumBean bean=data.get(position);
 
 		ImageLoaderWrapper.Options<Activity> options=new ImageLoaderWrapper.Options<>();
-		options.obj=activity;
-		options.path=bean.cover;
-		options.iv=ivAlbum;
+		options.set(activity,bean.cover,ivAlbum);
 		ImageLoaderWrapper.load(options);
 
 		tvAlbumName.setText(bean.name);
