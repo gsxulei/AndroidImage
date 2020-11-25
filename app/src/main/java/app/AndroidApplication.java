@@ -4,19 +4,15 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import apm.block.BlockMonitor;
 import commons.agent.BaseAgent;
-import commons.base.ImageLoaderWrapper;
+import commons.image.ImageLoaderWrapper;
 
-import commons.utils.CrashMonitor;
-import commons.utils.Logger;
+import apm.crash.CrashMonitor;
 import commons.utils.PatchUtils;
 import commons.widget.utils.TopActivity;
 import image.PreviewAgent;
 
-import com.github.anrwatchdog.ANRWatchDog;
-import com.github.moduth.blockcanary.BlockCanary;
-import com.github.moduth.blockcanary.BlockCanaryContext;
-import com.github.moduth.blockcanary.BlockCanaryFix;
 import com.x62.image.R;
 
 import java.util.concurrent.CountDownLatch;
@@ -51,6 +47,8 @@ public class AndroidApplication extends Application
 		//CrashHandler.getInstance().init(this,PathUtils.getCrashPath());
 		CrashMonitor.init();
 
+		BlockMonitor.init();
+
 		//设置屏幕宽度dpi
 		ScreenUtils.getInstance().setDpi();
 
@@ -61,22 +59,22 @@ public class AndroidApplication extends Application
 
 		PatchUtils.loadPatch(this);
 
-		BlockCanary.install(this,new BlockCanaryContext()).start();
-		CrashMonitor.addOnLoopListener(BlockCanaryFix::fix);
+		//BlockCanary.install(this,new BlockCanaryContext()).start();
+		//CrashMonitor.addOnLoopListener(BlockCanaryFix::fix);
 
-		ANRWatchDog watchDog=new ANRWatchDog();
-		watchDog.setANRListener((error)->
-		{
-			StringBuilder msg=new StringBuilder();
-			for(StackTraceElement element : error.getCause().getStackTrace())
-			{
-				msg.append("\t");
-				msg.append(element.toString());
-				msg.append("\n");
-			}
-			Logger.e(msg.toString());
-		});
-		watchDog.start();
+		//		ANRWatchDog watchDog=new ANRWatchDog();
+		//		watchDog.setANRListener((error)->
+		//		{
+		//			StringBuilder msg=new StringBuilder();
+		//			for(StackTraceElement element : error.getCause().getStackTrace())
+		//			{
+		//				msg.append("\t");
+		//				msg.append(element.toString());
+		//				msg.append("\n");
+		//			}
+		//			Logger.e(msg.toString());
+		//		});
+		//		watchDog.start();
 
 		//mCountDownLatch.countDown();
 		//		try

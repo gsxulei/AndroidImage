@@ -15,7 +15,7 @@
 		android:largeHeap="true"
 		android:supportsRtl="true"
 		android:theme="@style/FullScreen">
-		<activity android:name="app.MainActivity">
+		<activity android:name="app.TraceViewActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 				<action android:name="android.intent.action.MAIN"/>

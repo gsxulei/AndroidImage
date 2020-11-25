@@ -1,4 +1,4 @@
-package commons.utils;
+package apm.crash;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -18,6 +18,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
+
+import commons.utils.IOUtils;
 
 /**
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录发送错误报告.

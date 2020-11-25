@@ -52,7 +52,7 @@ ext
 	var=
 	[
 		compileSdkVersion:23,
-		minSdkVersion:17,
+		minSdkVersion:21,
 		targetSdkVersion:23,
 
 
