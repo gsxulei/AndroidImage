@@ -4,15 +4,12 @@ import android.text.TextUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import commons.base.BaseMsgEventId;
 import commons.msgbus.MsgBus;
 import commons.msgbus.MsgEvent;
 import commons.msgbus.MsgReceiver;
 import commons.utils.IOUtils;
-import commons.utils.Utils;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,7 +24,6 @@ public class Downloader
 {
 	private static String downloadDir;
 	private static OkHttpClient.Builder clientBuilder=new OkHttpClient.Builder();
-	private static final List<Integer> ids=new ArrayList<>();
 
 	static
 	{
@@ -39,29 +35,29 @@ public class Downloader
 	}
 
 	@MsgReceiver(id=BaseMsgEventId.ID_10000000)
-	public static void download(MsgEvent<String> event)
+	public static void download(MsgEvent<String[]> event)
 	{
 		if(TextUtils.isEmpty(downloadDir))
 		{
 			throw new RuntimeException("请设置下载目录");
 		}
 
-		if(TextUtils.isEmpty(event.t))
+		if(event.t==null||event.t.length==0||TextUtils.isEmpty(event.t[0]))
 		{
 			return;
 		}
-		String localPath=getLocalPathByUrl(event.t);
+		String localPath=getLocalPathByUrl(event.t[0]);
 
-		if(new File(localPath).exists())
+		if(isDownload(event.t[0]))
 		{
-			notify(event.t,localPath);
+			notify(event,localPath);
 			return;
 		}
 
 		OkHttpClient client=clientBuilder.build();
 
 		Request.Builder reqBuilder=new Request.Builder();
-		reqBuilder.url(event.t);
+		reqBuilder.url(event.t[0]);
 		reqBuilder.get();
 
 		try
@@ -76,11 +72,7 @@ public class Downloader
 			{
 				IOUtils.copy(body.byteStream(),fos);
 
-				notify(event.t,localPath);
-			}
-			else
-			{
-				throw new Exception();
+				notify(event,localPath);
 			}
 		}
 		catch(Exception e)
@@ -120,24 +112,17 @@ public class Downloader
 	 */
 	public static String getLocalPathByUrl(String url)
 	{
-		String md5=Utils.md5(url);
-		File file=new File(downloadDir,md5);
+		//TODO 理论上这里存在哈希碰撞,但概率较小,暂时或略
+		String name=url.hashCode()+"";
+		File file=new File(downloadDir,name);
 		return file.getAbsolutePath();
 	}
 
-	private static void notify(String url,String path)
+	private static void notify(MsgEvent<String[]> event,String path)
 	{
-		for(Integer id : ids)
-		{
-			MsgEvent<String[]> event=new MsgEvent<>();
-			event.id=id;
-			event.t=new String[]{url,path};
-			MsgBus.send(event);
-		}
-	}
-
-	public static void addNotifyId(int id)
-	{
-		ids.add(id);
+		MsgEvent<String[]> retEvent=new MsgEvent<>();
+		retEvent.id=Integer.parseInt(event.t[1]);
+		retEvent.t=new String[]{event.t[0],path};
+		MsgBus.send(retEvent);
 	}
 }
