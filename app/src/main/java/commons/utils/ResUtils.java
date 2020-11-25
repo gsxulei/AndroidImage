@@ -10,6 +10,7 @@ import commons.app.base.AppBase;
 public class ResUtils
 {
 	private static final Resources res=AppBase.getInstance().getContext().getResources();
+	//Resources res=Resources.getSystem();
 
 	//	/**
 	//	 * 根据ID获取字符串
