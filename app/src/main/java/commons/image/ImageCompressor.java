@@ -37,19 +37,18 @@ public class ImageCompressor
 		try
 		{
 			ExifInterface exifInterface=new ExifInterface(path);
-			int orientation=exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface
-					.ORIENTATION_NORMAL);
-			switch(orientation)
+			int orientation=exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
+			if(orientation==ExifInterface.ORIENTATION_ROTATE_90)
 			{
-				case ExifInterface.ORIENTATION_ROTATE_90:
-					degree=90;
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_180:
-					degree=180;
-					break;
-				case ExifInterface.ORIENTATION_ROTATE_270:
-					degree=270;
-					break;
+				degree=90;
+			}
+			else if(orientation==ExifInterface.ORIENTATION_ROTATE_180)
+			{
+				degree=180;
+			}
+			else if(orientation==ExifInterface.ORIENTATION_ROTATE_270)
+			{
+				degree=270;
 			}
 		}
 		catch(IOException e)
@@ -57,24 +56,6 @@ public class ImageCompressor
 			e.printStackTrace();
 		}
 		return degree;
-	}
-
-	private static float getScale(int width,int height,int max)
-	{
-		float scale;
-		if(height<width)
-		{
-			scale=((float)max)/height;
-		}
-		else
-		{
-			scale=((float)max)/width;
-		}
-		if(scale>1)
-		{
-			scale=1.0F;
-		}
-		return scale;
 	}
 
 	public static Bitmap getBitmap(String path)
@@ -93,11 +74,22 @@ public class ImageCompressor
 		System.out.println("原始h->"+height);
 		System.out.println("degree->"+degree);
 
-		float scale=getScale(width,height,max);
-
-		options.inSampleSize=(int)scale;
+		int inSampleSize=width<height?width/max:height/max;
+		if(inSampleSize<1)
+		{
+			inSampleSize=1;
+		}
+		options.inSampleSize=inSampleSize;
 		options.inJustDecodeBounds=false;
 		Bitmap bitmap=BitmapFactory.decodeFile(path,options);
+
+		width=options.outWidth;
+		height=options.outHeight;
+		float scale=width<height?((float)max)/width:((float)max)/height;
+		if(scale>1)
+		{
+			scale=1.0F;
+		}
 
 		// 创建操作图片用的matrix对象
 		Matrix matrix=new Matrix();
