@@ -32,6 +32,7 @@ public class BaseFragment extends Fragment implements View.OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		mContext=getActivity();
+		MsgBus.register(this);
 	}
 
 	@Override
@@ -48,7 +49,6 @@ public class BaseFragment extends Fragment implements View.OnClickListener
 		}
 		ViewBind.bind(this,mRootView);
 		initView();
-		MsgBus.register(this);
 
 		ViewGroup parent=(ViewGroup)mRootView.getParent();
 		if(parent!=null)

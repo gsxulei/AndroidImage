@@ -92,7 +92,7 @@ public abstract class BaseActivity extends Activity
 	 */
 	public void open(Class<? extends Fragment> clazz)
 	{
-		open(clazz,null);
+		open(clazz,new Bundle());
 	}
 
 	/**
