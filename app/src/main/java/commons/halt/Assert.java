@@ -62,6 +62,11 @@ public class Assert
 		halt(TextUtils.isEmpty(text),id);
 	}
 
+	public static void halt(Boolean value,int id)
+	{
+		halt(value!=null&&value,null,id);
+	}
+
 	public static void halt(boolean value)
 	{
 		halt(value,null,0);
