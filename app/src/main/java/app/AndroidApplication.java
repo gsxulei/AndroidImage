@@ -4,24 +4,20 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-import apm.block.BlockMonitor;
 import commons.agent.BaseAgent;
 import commons.image.ImageLoaderWrapper;
 
 import apm.crash.CrashMonitor;
+import commons.utils.DisplaySettings;
 import commons.utils.PatchUtils;
 import commons.widget.utils.TopActivity;
 import image.PreviewAgent;
 
 import com.x62.image.R;
 
-import java.util.concurrent.CountDownLatch;
-
 import commons.network.Downloader;
 
 import commons.utils.PathUtils;
-
-import commons.utils.ScreenUtils;
 
 /**
  * Created by GSXL on 2018-05-05.
@@ -29,7 +25,7 @@ import commons.utils.ScreenUtils;
 
 public class AndroidApplication extends Application
 {
-	CountDownLatch mCountDownLatch=new CountDownLatch(1);
+	//CountDownLatch mCountDownLatch=new CountDownLatch(1);
 
 	@Override
 	protected void attachBaseContext(Context base)
@@ -47,10 +43,11 @@ public class AndroidApplication extends Application
 		//CrashHandler.getInstance().init(this,PathUtils.getCrashPath());
 		CrashMonitor.init();
 
-		BlockMonitor.init();
+		//BlockMonitor.init();
 
 		//设置屏幕宽度dpi
-		ScreenUtils.getInstance().setDpi();
+		//ScreenUtils.getInstance().setDpi();
+		DisplaySettings.setDpi(this);
 
 		ImageLoaderWrapper.setDefault(R.mipmap.ic_launcher);
 		Downloader.setDownloadDir(PathUtils.getCachePath());
@@ -109,6 +106,19 @@ public class AndroidApplication extends Application
 		//Debug.stopMethodTracing();
 
 		TopActivity.init(this);
+
+		//		Thread thread=new Thread(()->
+		//		{
+		//			for(int i=0;i<200;i++)
+		//			{
+		//				StackTraceElement[] elements=Looper.getMainLooper().getThread().getStackTrace();
+		//				StackTraceElement[] traces=Arrays.copyOf(elements,elements.length);
+		//				StackTracker.add(traces,System.currentTimeMillis());
+		//				SystemClock.sleep(2);
+		//			}
+		//			StackTracker.print();
+		//		});
+		//		thread.start();
 	}
 
 	@Override
@@ -142,7 +152,7 @@ public class AndroidApplication extends Application
 	 * 是否需要处理
 	 *
 	 * @param methodName 方法名
-	 * @return
+	 * @return 是否需要处理
 	 */
 	private boolean isNeedHandle(String methodName)
 	{
