@@ -6,13 +6,14 @@ buildscript
 {
 	repositories
 	{
-		mavenCentral()
-		jcenter()
+		maven { url "https://maven.aliyun.com/repository/public/" }
+		//mavenCentral()
+		//jcenter()
 		google()
 	}
 	dependencies
 	{
-		classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.15'
+		classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.21'
 	}
 }
 

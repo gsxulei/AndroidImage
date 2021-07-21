@@ -64,3 +64,9 @@
 #-classobfuscationdictionary proguard/p0005.txt
 #指定package模糊字典
 #-packageobfuscationdictionary proguard/p0005.txt
+
+#关闭混淆，仅保留压缩和优化
+#-dontobfuscate
+
+#关闭混淆，仅保留压缩和优化
+#-dontobfuscate
