@@ -1,0 +1,13 @@
+apply plugin:'java-library'
+
+//解决中文乱码问题
+tasks.withType(JavaCompile)
+{
+	options.encoding='utf-8'
+}
+
+java
+{
+	sourceCompatibility=JavaVersion.VERSION_1_8
+	targetCompatibility=JavaVersion.VERSION_1_8
+}

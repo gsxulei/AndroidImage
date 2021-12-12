@@ -51,8 +51,8 @@ andResGuard
 
 	sevenzip
 	{
-		//artifact = 'com.tencent.mm:SevenZip:1.2.15'
-		path="D:\\ProgramFiles\\7z\\7z1805-extra\\x64\\7za"
+		artifact='com.tencent.mm:SevenZip:1.2.21'
+		//path="D:\\ProgramFiles\\7z\\7z1805-extra\\x64\\7za"
 	}
 
 	/**

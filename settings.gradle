@@ -1,1 +1,4 @@
 include ':app'
+include ':msgbus-apt'
+include ':msgbus-app'
+include ':msgbus-lib'
