@@ -57,12 +57,4 @@ public @interface MsgReceiver
 	 * @return 线程类型
 	 */
 	int threadType() default THREAD_AUTO;
-
-	/**
-	 * 是否是静态方法
-	 *
-	 * @return true - 静态方法<br/>
-	 * false - 非静态方法
-	 */
-	boolean staticMethod() default false;
 }

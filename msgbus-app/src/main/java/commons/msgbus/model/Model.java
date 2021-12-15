@@ -9,7 +9,7 @@ import commons.msgbus.utils.MsgEventId;
 
 public class Model
 {
-	@MsgReceiver(id=MsgEventId.ID_1003, staticMethod=true)
+	@MsgReceiver(id=MsgEventId.ID_1003)
 	static void getData(MsgEvent<String> event)
 	{
 		Log.e("MsgBus","Model.getData->"+Thread.currentThread());

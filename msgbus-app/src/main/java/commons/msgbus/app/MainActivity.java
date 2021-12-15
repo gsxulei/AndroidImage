@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener
 		Log.e("MsgBus","MainActivity.onSuccess->"+Thread.currentThread());
 	}
 
-	@MsgReceiver(id=MsgEventId.ID_1001, priority=100, staticMethod=true)
+	@MsgReceiver(id=MsgEventId.ID_1001, priority=100)
 	static void onHello(MsgEvent<List<String>> event)
 	{
 		Log.e("MsgBus","MainActivity.onHello->"+event.t);

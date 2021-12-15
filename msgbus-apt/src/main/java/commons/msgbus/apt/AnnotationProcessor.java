@@ -15,6 +15,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
@@ -63,7 +64,7 @@ public class AnnotationProcessor extends AbstractProcessor
 		Set<? extends Element> elements=roundEnv.getElementsAnnotatedWith(MsgReceiver.class);
 		for(Element element : elements)
 		{
-			//因为 Bind 的作用对象是 METHOD，因此 element 可以直接转化为 ExecutableElement
+			//因为 MsgReceiver 的作用对象是 METHOD，因此 element 可以直接转化为 ExecutableElement
 			ExecutableElement executableElement=(ExecutableElement)element;
 			TypeElement enclosingElement=(TypeElement)executableElement.getEnclosingElement();
 
@@ -77,7 +78,7 @@ public class AnnotationProcessor extends AbstractProcessor
 			mLog.printMessage(Diagnostic.Kind.NOTE,"注解类型->"+element.getKind());
 			mLog.printMessage(Diagnostic.Kind.NOTE,"包名->"+packageName);
 			mLog.printMessage(Diagnostic.Kind.NOTE,"类名->"+className);
-			mLog.printMessage(Diagnostic.Kind.NOTE,"方法名->"+methodName);
+			mLog.printMessage(Diagnostic.Kind.NOTE,"方法名->"+executableElement.getModifiers()+methodName);
 
 			JavaClassBean javaClassBean=map.get(packageName+"."+className);
 			if(javaClassBean==null)
@@ -96,7 +97,12 @@ public class AnnotationProcessor extends AbstractProcessor
 			methodBean.sticky=msgReceiver.sticky();
 			methodBean.priority=msgReceiver.priority();
 			methodBean.threadType=msgReceiver.threadType();
-			methodBean.staticMethod=msgReceiver.staticMethod();
+
+			Set<Modifier> modifiers=executableElement.getModifiers();
+			if(modifiers!=null&&modifiers.contains(Modifier.STATIC))
+			{
+				methodBean.staticMethod=true;
+			}
 
 			javaClassBean.methodBeans.add(methodBean);
 		}
