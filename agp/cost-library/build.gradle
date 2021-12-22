@@ -1,0 +1,68 @@
+apply plugin:'com.android.library'
+//apply plugin:'maven'
+apply plugin:'maven-publish'
+
+android
+{
+	compileSdkVersion 31
+
+	defaultConfig
+	{
+		minSdkVersion 21
+		targetSdkVersion 31
+
+		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+		consumerProguardFiles "consumer-rules.pro"
+	}
+
+	buildTypes
+	{
+		release
+		{
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+	}
+
+	compileOptions
+	{
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+}
+
+dependencies
+{
+}
+
+//uploadArchives
+//{
+//	repositories.mavenDeployer
+//	{
+//		//repositories.mavenLocal().url
+//		repository(url:"file://$rootDir/repo")
+//		pom.project
+//		{
+//			version '1.0.0'
+//			artifactId 'cost-sdk'
+//			groupId 'com.andhub.cost'
+//		}
+//	}
+//}
+afterEvaluate
+{
+	publishing
+	{
+		repositories.maven {url "$rootDir/repo"}
+		publications
+		{
+			aar(MavenPublication)
+			{
+				groupId 'com.cost.plugin'
+				artifactId 'cost-sdk'
+				version '1.0.0'
+				artifact bundleReleaseAar
+			}
+		}
+	}
+}

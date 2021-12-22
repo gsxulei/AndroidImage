@@ -1,0 +1,34 @@
+apply plugin:'java'
+apply plugin:'maven-publish'
+
+dependencies
+{
+	implementation gradleApi()
+	implementation 'com.android.tools.build:gradle:4.1.1'
+}
+
+//group 'com.cost.plugin'
+//version '1.0.0'
+
+publishing
+{
+	//repositories{mavenLocal()}
+	repositories.maven {url "$rootDir/repo"}
+
+	publications
+	{
+		maven(MavenPublication)
+		{
+			groupId 'com.cost.plugin'
+			artifactId 'cost-plugin'
+			version '1.0.0'
+			from components.java
+		}
+	}
+}
+
+java
+{
+	sourceCompatibility=JavaVersion.VERSION_1_8
+	targetCompatibility=JavaVersion.VERSION_1_8
+}
